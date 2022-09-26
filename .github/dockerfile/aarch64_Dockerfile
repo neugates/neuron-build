@@ -15,7 +15,7 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config alien git gcc openssl libssl-dev
+	sudo pkg-config alien git gcc openssl libssl-dev unzip
 
 RUN git clone -b v3.24.2 https://github.com/Kitware/CMake.git && \
     cd CMake && \

@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 ARG ARCH=x86_64
-ARG LIB_DIR=/opt/externs/libs/x86_64-linux-gnu
+ARG LIB_DIR=/usr/local//x86_64-linux-gnu
 ARG COMPILE=x86_64-linux-gnu
 
 ENV TZ=Asia/Shanghai \
@@ -15,7 +15,7 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config git gcc openssl libssl-dev alien
+	sudo pkg-config git gcc openssl libssl-dev alien unzip
 
 RUN git clone -b v3.24.2 https://github.com/Kitware/CMake.git && \
     cd CMake && \
