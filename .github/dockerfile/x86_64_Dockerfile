@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 
+USER root
 ARG ARCH=x86_64
 ARG LIB_DIR=/usr/local//x86_64-linux-gnu
 ARG COMPILE=x86_64-linux-gnu
@@ -15,7 +16,7 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config git gcc openssl libssl-dev alien unzip
+	sudo pkg-config git gcc openssl libssl-dev alien unzip python python3 python3-pip
 
 RUN git clone -b v3.24.2 https://github.com/Kitware/CMake.git && \
     cd CMake && \
@@ -23,12 +24,5 @@ RUN git clone -b v3.24.2 https://github.com/Kitware/CMake.git && \
 
 RUN apt-get -y install gcc g++
 
-COPY ./install.sh /tmp/
-RUN /tmp/install.sh -d $LIB_DIR -a $ARCH -c $COMPILE
-
-
-
-
-
-
-USER root
+COPY ./install.sh /library/
+RUN /library/install.sh -d $LIB_DIR -a $ARCH -c $COMPILE -b /library
