@@ -58,21 +58,17 @@ function compile_source_with_tag() {
 function build_openssl() {
     echo "Installing openssl (1.1.1)"
     cd $library
-    if [ $arch == "x86_64" ]; then
-        sudo apt-get install -y openssl libssl-dev
-    else
-        git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
-        cd openssl
-        mkdir -p ${install_dir}/openssl/ssl
-        ./Configure linux-${arch} no-asm shared \
-            --prefix=${install_dir} \
-            --openssldir=${install_dir}/openssl/ssl \
-            --cross-compile-prefix=${compile}- 
-        make clean
-        make -j4
-        make install_sw
-        make clean
-    fi
+    git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
+    cd openssl
+    mkdir -p ${install_dir}/openssl/ssl
+    ./Configure linux-${arch} no-asm shared \
+        --prefix=${install_dir} \
+        --openssldir=${install_dir}/openssl/ssl \
+        --cross-compile-prefix=${compile}- 
+    make clean
+    make -j4
+    make install_sw
+    make clean
 }
 
 function build_zlog() {
