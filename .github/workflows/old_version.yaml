@@ -43,7 +43,7 @@ jobs:
           cache-from: type=local,src=/tmp/.docker-buildx-cache,mode=max
           cache-to: type=local,dest=/tmp/.docker-buildx-cache-new,mode=max
           platforms: linux/amd64
-          tags: neugates/build_old:${{ matrix.arch[1] }}-2.2
+          tags: neugates/build_old:${{ matrix.arch[1] }}-2.3
           file: .github/old_dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
       - name: Update cache
