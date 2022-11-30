@@ -1,9 +1,6 @@
 FROM ubuntu:20.04
 
 USER root
-ARG ARCH=x86_64
-ARG LIB_DIR=/usr/local//x86_64-linux-gnu
-ARG COMPILE=x86_64-linux-gnu
 
 ENV TZ=Asia/Shanghai \
     DEBIAN_FRONTEND=noninteractive
@@ -15,14 +12,12 @@ RUN apt update \
     && dpkg-reconfigure --frontend noninteractive tzdata \
     && rm -rf /var/lib/apt/lists/*
 
+#alpine
+#RUN apk add tzdata && cp /usr/share/zoneinfo/${TZ} /etc/localtime \
+    #&& echo ${TZ} > /etc/timezone
+
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config git gcc openssl libssl-dev alien unzip python python3 python3-pip
+	sudo pkg-config git cmake
 
-RUN git clone -b v3.24.2 https://github.com/Kitware/CMake.git && \
-    cd CMake && \
-    ./bootstrap && make -j4 && sudo make install
-
-RUN apt-get -y install gcc g++
-
-COPY ./install.sh /library/
-RUN /library/install.sh -d $LIB_DIR -a $ARCH -c $COMPILE -b /library
+COPY ./cross-install.sh /library/
+RUN /library/cross-install.sh
