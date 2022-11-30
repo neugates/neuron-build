@@ -41,18 +41,7 @@ jobs:
         with:
           push: true
           pull: true
-          #cache-from: type=local,src=/tmp/.docker-buildx-cache,mode=max
-          #cache-to: type=local,dest=/tmp/.docker-buildx-cache-new,mode=max
           platforms: linux/amd64
           tags: neugates/build:${{ matrix.arch[1] }}-2.3
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
-      - name: Update cache
-        run: |
-          rm -rf /tmp/.docker-buildx-cache
-          mv /tmp/.docker-buildx-cache-new /tmp/.docker-buildx-cache
-
-
-
-      
-
