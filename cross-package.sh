@@ -39,10 +39,12 @@ mkdir -p $package_dir/config
 mkdir -p $package_dir/plugins/schema
 mkdir -p $package_dir/logs
 mkdir -p $package_dir/persistence
+mkdir -p $package_dir/certs
 
 
 cp .gitkeep $package_dir/logs/
 cp .gitkeep $package_dir/persistence/
+cp .gitkeep $package_dir/certs/
 
 download_ui
 
