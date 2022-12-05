@@ -115,7 +115,7 @@ function build_protobuf() {
     tar -xzvf protobuf-cpp-3.20.1.tar.gz
     cd protobuf-3.20.1
 
-    ./configure --prefix=$install_dir --host=$vendor --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC
+    ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC
 
     make -j4
     sudo make install
@@ -127,7 +127,7 @@ function build_protobuf-c(){
     cd protobuf-c
     ./autogen.sh
 
-    ./configure --prefix=$install_dir --host=$vendor --disable-protoc --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC PKG_CONFIG_PATH=$vendor
+    ./configure --prefix=$install_dir CC=$gcc --host=$vendor --disable-protoc --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC PKG_CONFIG_PATH=$vendor
 
     make -j4
     sudo make install
