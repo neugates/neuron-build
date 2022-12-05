@@ -103,7 +103,7 @@ function build_sqlite3() {
 
     ./configure --prefix=$install_dir \
                 --disable-shared --disable-readline \
-                --host $arch CC=$gcc \
+                --host $arch CC=$gcc  CFLAGS=-fPIC
 
     make -j4
     sudo make install
