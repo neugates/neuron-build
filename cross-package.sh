@@ -59,7 +59,6 @@ cp $neuron_dir/build/config/neuron.key \
 	$neuron_dir/build/config/*.sql \
 	$package_dir/config/
 
-cp $neuron_modules_dir/build/libmodule-base.so $package_dir/
 cp $neuron_modules_dir/default_plugins.json \
 	$neuron_modules_dir/build/config/opcua_cert.der \
  	$neuron_modules_dir/build/config/opcua_key.der \
