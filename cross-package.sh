@@ -7,8 +7,10 @@ vendor=?
 arch=?
 ui_version=2.3
 version=2.3.0
+ekuiper_version=1.7.3
+ekuiper=false
 
-while getopts ":a:v:" OPT; do
+while getopts ":a:v:e:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -16,8 +18,12 @@ while getopts ":a:v:" OPT; do
         v)
             vendor=$OPTARG
             ;;
+	e)
+	    ekuiper=true
+	    ;;
     esac
 done
+
 
 neuron_dir=$home/Program/$vendor/neuron
 neuron_modules_dir=$home/Program/$vendor/neuron-modules
@@ -26,10 +32,30 @@ library=$home/libs/$vendor
 
 function download_ui() {
 	cd $package_dir
-	wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard-lite.zip
 
-	unzip neuron-dashboard-lite.zip
-	rm -rf neuron-dashboard-lite.zip
+	if [ ekuiper ]; then
+		wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard.zip
+
+		unzip neuron-dashboard.zip
+		rm -rf neuron-dashboard.zip
+	else
+		wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard-lite.zip
+
+		unzip neuron-dashboard-lite.zip
+		rm -rf neuron-dashboard-lite.zip
+	fi
+}
+
+function download_ekuiper() {
+	cd $package_dir
+
+	if [ ekuiper ]; then
+		wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$arch.tar.gz
+
+		mkdir ekuiper
+		tar xvf kuiper-$ekuiper_version-linux-$arch.tar.gz --strip-components=1 -C ekuiper/
+		rm -rf kuiper-$ekuiper_version-linux-$arch.tar.gz
+	fi
 }
 
 rm -rf $package_dir
@@ -47,6 +73,7 @@ cp .gitkeep $package_dir/persistence/
 cp .gitkeep $package_dir/certs/
 
 download_ui
+download_ekuiper
 
 cp $library/lib/libzlog.so.1.2 $package_dir/
 
@@ -58,6 +85,8 @@ cp $neuron_dir/build/config/neuron.key \
 	$neuron_dir/build/config/dev.conf \
 	$neuron_dir/build/config/*.sql \
 	$package_dir/config/
+
+cp $neuron_modules_dir/neuron-helper.sh $package_dir/
 
 cp $neuron_modules_dir/default_plugins.json \
 	$neuron_modules_dir/build/config/opcua_cert.der \
