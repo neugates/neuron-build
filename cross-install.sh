@@ -9,8 +9,9 @@ arch=?
 gcc=?
 gxx=?
 install_dir=?
+cross=false
 
-while getopts ":a:v:" OPT; do
+while getopts ":a:v:c:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -18,11 +19,20 @@ while getopts ":a:v:" OPT; do
         v)
             vendor=$OPTARG
             ;;
+        c)
+            cross=true
+            ;;
     esac
 done
 
-gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc
-gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++
+if [ cross ]; then
+    gcc=$vendor-gcc
+    gxx=$vendor-g++
+else
+    gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc
+    gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++
+fi
+
 install_dir=$home/libs/$vendor/
 library=$home/library/$vendor/
 
@@ -70,7 +80,11 @@ function compile_source_with_tag() {
 
 function build_openssl() {
     echo "Installing openssl (1.1.1)"
-    compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-
+    if [ cross ];then
+        compile_prefix=$vendor-
+    else
+        compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-
+    fi
     cd $library
     git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
     cd openssl

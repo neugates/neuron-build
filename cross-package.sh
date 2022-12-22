@@ -127,6 +127,11 @@ cp $neuron_modules_dir/build/plugins/schema/*.json \
 
 cd $package_dir/..
 rm -rf neuron*.tar.gz
-tar czf neuron-$version-linux-$arch.tar.gz neuron
 
-echo "neuron-$version-linux-$arch.tar.gz"
+if [ ekuiper ];then
+	tar czf neuronex-$version-linux-$arch.tar.gz neuron
+	echo "neuronex-$version-linux-$arch.tar.gz"
+else
+	tar czf neuron-$version-linux-$arch.tar.gz neuron
+	echo "neuron-$version-linux-$arch.tar.gz"
+fi

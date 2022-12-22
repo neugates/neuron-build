@@ -2,8 +2,6 @@ FROM ubuntu:20.04
 
 USER root
 ARG ARCH=armv4
-ARG LIB_DIR=/opt/externs/libs/arm-linux-gnueabihf
-ARG COMPILE=arm-linux-gnueabihf
 
 ENV TZ=Asia/Shanghai \
     DEBIAN_FRONTEND=noninteractive
@@ -16,13 +14,9 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config alien git gcc openssl libssl-dev unzip python python3
+	sudo pkg-config alien git gcc openssl libssl-dev unzip python python3 wget curl
 
-RUN git clone -b v3.24.2 https://github.com/Kitware/CMake.git && \
-    cd CMake && \
-    ./bootstrap && make -j4 && sudo make install
+RUN apt-get -y install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf cmake
 
-RUN apt-get -y install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
-
-COPY ./install.sh /library/
-RUN /library/install.sh -d $LIB_DIR -a $ARCH -c $COMPILE -b /library
+COPY ./cross-install.sh /library/
+RUN /library/cross-install.sh -a $ARCH -v arm-linux-gnueabihf -c
