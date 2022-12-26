@@ -25,13 +25,16 @@ while getopts ":a:v:c:" OPT; do
     esac
 done
 
-if [ cross ]; then
-    gcc=$vendor-gcc
-    gxx=$vendor-g++
-else
-    gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc
-    gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++
-fi
+case $cross in
+    (true)  
+        echo "yy";
+        gcc=$vendor-gcc;
+        gxx=$vendor-g++;;
+    (false) 
+        echo "xx";
+        gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc;
+        gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
+esac
 
 install_dir=$home/libs/$vendor/
 library=$home/library/$vendor/
@@ -42,6 +45,16 @@ echo "gcc: "$gcc
 echo "g++: "$gxx
 echo "install dir: "$install_dir
 echo "library dir: "$library
+
+if [ $vendor == ? ];then
+    echo "need input vendor"
+    exit 1
+fi
+
+if [ $arch == ? ];then
+    echo "need input arch"
+    exit 1
+fi
 
 # $1 repo
 # $2 name
