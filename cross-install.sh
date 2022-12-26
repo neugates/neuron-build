@@ -57,7 +57,7 @@ function compile_source() {
         -DCMAKE_PREFIX_PATH=$install_dir \
         $3
     # github-hosted runners has 2 core
-    make -j4 && sudo make install
+    make -j4 && make install
 }
 
 # $1 repo
@@ -75,7 +75,7 @@ function compile_source_with_tag() {
         -DCMAKE_PREFIX_PATH=$install_dir \
         $4
     # github-hosted runners has 2 core
-    make -j4 && sudo make install
+    make -j4 && make install
 }
 
 function build_openssl() {
@@ -104,7 +104,7 @@ function build_zlog() {
     git clone -b 1.2.15 https://github.com/HardySimpson/zlog.git
     cd zlog
     make CC=$gcc
-    sudo make PREFIX=$install_dir install
+    make PREFIX=$install_dir install
 }
 
 function build_sqlite3() {
@@ -120,7 +120,7 @@ function build_sqlite3() {
                 --host $arch CC=$gcc  CFLAGS=-fPIC
 
     make -j4
-    sudo make install
+    make install
 }
 
 function build_protobuf() {
@@ -132,7 +132,7 @@ function build_protobuf() {
     ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC
 
     make -j4
-    sudo make install
+    make install
 }
 
 function build_protobuf-c(){
@@ -144,11 +144,11 @@ function build_protobuf-c(){
     ./configure --prefix=$install_dir CC=$gcc --host=$vendor --disable-protoc --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC PKG_CONFIG_PATH=$vendor
 
     make -j4
-    sudo make install
+    make install
 }
 
-sudo rm -rf $library
-sudo rm -rf $install_dir
+rm -rf $library
+rm -rf $install_dir
 mkdir -p $library
 mkdir -p $install_dir/bin
 mkdir -p $install_dir/include
