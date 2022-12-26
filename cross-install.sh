@@ -3,7 +3,7 @@
 set -e
 
 #x86_64-neuron-linux-musl
-home=/home/neuron
+home=~
 vendor=?
 arch=?
 gcc=?
