@@ -11,7 +11,7 @@ gxx=?
 install_dir=?
 cross=false
 
-while getopts ":a:v:c:" OPT; do
+while getopts ":a:v:c" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
