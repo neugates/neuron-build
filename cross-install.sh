@@ -3,7 +3,7 @@
 set -e
 
 #x86_64-neuron-linux-musl
-home=~
+home=/home/neuron
 vendor=?
 arch=?
 gcc=?
@@ -147,8 +147,8 @@ function build_protobuf-c(){
     make install
 }
 
-rm -rf $library
-rm -rf $install_dir
+sudo rm -rf $library
+sudo rm -rf $install_dir
 mkdir -p $library
 mkdir -p $install_dir/bin
 mkdir -p $install_dir/include
