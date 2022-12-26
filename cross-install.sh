@@ -27,11 +27,9 @@ done
 
 case $cross in
     (true)  
-        echo "yy";
         gcc=$vendor-gcc;
         gxx=$vendor-g++;;
     (false) 
-        echo "xx";
         gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc;
         gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
 esac
@@ -93,11 +91,12 @@ function compile_source_with_tag() {
 
 function build_openssl() {
     echo "Installing openssl (1.1.1)"
-    if [ cross ];then
-        compile_prefix=$vendor-
-    else
-        compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-
-    fi
+    case $cross in
+        (true)  
+            compile_prefix=$vendor-;;
+        (false) 
+            compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-;;
+    esac
     cd $library
     git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
     cd openssl
