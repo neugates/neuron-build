@@ -59,7 +59,7 @@ fi
 # $3 cmake option
 function compile_source() {
     cd $library
-    git clone https://github.com/$1
+    git clone git@github.com:$1
     cd $2
     mkdir build && cd build
     cmake .. -DCMAKE_C_COMPILER=$gcc \
@@ -77,7 +77,7 @@ function compile_source() {
 # $4 cmake option
 function compile_source_with_tag() {
     cd $library
-    git clone -b $3 https://github.com/$1 $2
+    git clone -b $3 git@github.com:$1 $2
     cd $2
     mkdir build && cd build
     cmake .. -DCMAKE_C_COMPILER=$gcc \
@@ -98,7 +98,7 @@ function build_openssl() {
             compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-;;
     esac
     cd $library
-    git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
+    git clone -b OpenSSL_1_1_1 git@github.com:openssl/openssl.git
     cd openssl
     mkdir -p $install_dir/openssl/ssl
     ./Configure linux-$arch no-asm no-async shared \
@@ -113,7 +113,7 @@ function build_openssl() {
 
 function build_zlog() {
     cd $library
-    git clone -b 1.2.15 https://github.com/HardySimpson/zlog.git
+    git clone -b 1.2.15 git@github.com:HardySimpson/zlog.git
     cd zlog
     make CC=$gcc
     make PREFIX=$install_dir install
@@ -137,7 +137,7 @@ function build_sqlite3() {
 
 function build_protobuf() {
     cd $library
-    wget --no-check-certificate --content-disposition https://github.com/protocolbuffers/protobuf/releases/download/v3.20.1/protobuf-cpp-3.20.1.tar.gz
+    wget --no-check-certificate --content-disposition git@github.com:protocolbuffers/protobuf/releases/download/v3.20.1/protobuf-cpp-3.20.1.tar.gz
     tar -xzvf protobuf-cpp-3.20.1.tar.gz
     cd protobuf-3.20.1
 
@@ -149,7 +149,7 @@ function build_protobuf() {
 
 function build_protobuf-c(){
     cd $library
-    git clone -b v1.4.0 https://github.com/protobuf-c/protobuf-c.git
+    git clone -b v1.4.0 git@github.com:protobuf-c/protobuf-c.git
     cd protobuf-c
     ./autogen.sh
 
