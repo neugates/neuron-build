@@ -114,7 +114,7 @@ function build_openssl() {
 function build_zlog() {
     cd $library
     git clone -b 1.2.15 git@github.com:HardySimpson/zlog.git
-   cd zlog
+    cd zlog
     make CC=$gcc
     make PREFIX=$install_dir install
 }
@@ -137,7 +137,7 @@ function build_sqlite3() {
 
 function build_protobuf() {
     cd $library
-    wget --no-check-certificate --content-disposition https://github.com/protocolbuffers/protobuf/releases/download/v3.20.1/protobuf-cpp-3.20.1.tar.gz
+    wget --no-check-certificate --content-disposition git@github.com:protocolbuffers/protobuf/releases/download/v3.20.1/protobuf-cpp-3.20.1.tar.gz
     tar -xzvf protobuf-cpp-3.20.1.tar.gz
     cd protobuf-3.20.1
 
