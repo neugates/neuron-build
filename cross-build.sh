@@ -42,6 +42,6 @@ function compile_source_with_tag() {
     fi
 }
 
-rm -rf $neuron_dir/*
+sudo rm -rf $neuron_dir/*
 compile_source_with_tag emqx/neuron.git neuron main
 compile_source_with_tag emqx/neuron-modules.git neuron-modules main
