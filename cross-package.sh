@@ -19,7 +19,7 @@ while getopts ":a:v:e:" OPT; do
             vendor=$OPTARG
             ;;
 	e)
-	    ekuiper=true
+	    ekuiper=$OPTARG
 	    ;;
     esac
 done
@@ -33,29 +33,31 @@ library=$home/libs/$vendor
 function download_ui() {
 	cd $package_dir
 
-	if [ ekuiper ]; then
-		wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard.zip
+	case $ekuiper in
+		(true)
+			wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard.zip;
 
-		unzip neuron-dashboard.zip
-		rm -rf neuron-dashboard.zip
-	else
-		wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard-lite.zip
+			unzip neuron-dashboard.zip;
+			rm -rf neuron-dashboard.zip;;
+		(false)
+			wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard-lite.zip;
 
-		unzip neuron-dashboard-lite.zip
-		rm -rf neuron-dashboard-lite.zip
-	fi
+			unzip neuron-dashboard-lite.zip;
+			rm -rf neuron-dashboard-lite.zip;;
+	esac
 }
 
 function download_ekuiper() {
 	cd $package_dir
 
-	if [ ekuiper ]; then
-		wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$arch.tar.gz
+	case $ekuiper in
+		(true)
+			wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$arch.tar.gz;
 
-		mkdir ekuiper
-		tar xvf kuiper-$ekuiper_version-linux-$arch.tar.gz --strip-components=1 -C ekuiper/
-		rm -rf kuiper-$ekuiper_version-linux-$arch.tar.gz
-	fi
+			mkdir ekuiper;
+			tar xvf kuiper-$ekuiper_version-linux-$arch.tar.gz --strip-components=1 -C ekuiper/;
+			rm -rf kuiper-$ekuiper_version-linux-$arch.tar.gz;;
+	esac
 }
 
 rm -rf $package_dir
