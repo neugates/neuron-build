@@ -20,11 +20,12 @@ args = parse_args()
 home = '/home/neuron'
 package_dir = home + '/Program/' + args.vendor + '/package'
 if args.with_ekuiper:
-    package_dir = package_dir + '/neuron'
-else:
     package_dir = package_dir + '/neuronex'
-
+else:
+    package_dir = package_dir + '/neuron'
 rules = []
+
+exit
 
 rules.append(mkdeb.FileMap("deb/conffiles", "/DEBIAN/", "r", "conffiles"))
 rules.append(mkdeb.FileMap("deb/postinst", "/DEBIAN/", "r", "postinst"))
