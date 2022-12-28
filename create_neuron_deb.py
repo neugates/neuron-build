@@ -10,8 +10,8 @@ def parse_args():
     parser.add_argument("-v", "--version", type=str, help="version")
     parser.add_argument("-p", "--arch", type=str, help="arch")
     parser.add_argument("-o", "--vendor", type=str, help="vendor")
-    parser.add_argument("-e", "--with_ekuiper",
-                        action='store_true', help="package with ekuiper")
+    parser.add_argument("-e", "--with_ekuiper", type=bool,
+                         help="package with ekuiper")
     return parser.parse_args()
 
 
