@@ -136,7 +136,8 @@ rm -rf neuron*.tar.gz
 
 case $ekuiper in
 	(true)
-		tar czf neuronex-$version-linux-$arch.tar.gz neuron
+		mv neuron neuronex
+		tar czf neuronex-$version-linux-$arch.tar.gz neuronex
 		echo "neuronex-$version-linux-$arch.tar.gz";;
 	(false)
 		tar czf neuron-$version-linux-$arch.tar.gz neuron
