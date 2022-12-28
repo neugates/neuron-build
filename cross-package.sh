@@ -8,9 +8,10 @@ arch=?
 ui_version=2.3
 version=2.3.0
 ekuiper_version=1.7.3
+ekuiper_arch=?
 ekuiper=false
 
-while getopts ":a:v:e:" OPT; do
+while getopts ":a:v:e:k:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -20,6 +21,9 @@ while getopts ":a:v:e:" OPT; do
             ;;
 	e)
 	    ekuiper=$OPTARG
+	    ;;
+	k)
+	    ekuiper_arch=$OPTARG
 	    ;;
     esac
 done
@@ -52,11 +56,11 @@ function download_ekuiper() {
 
 	case $ekuiper in
 		(true)
-			wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$arch.tar.gz;
+			wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;
 
 			mkdir ekuiper;
-			tar xvf kuiper-$ekuiper_version-linux-$arch.tar.gz --strip-components=1 -C ekuiper/;
-			rm -rf kuiper-$ekuiper_version-linux-$arch.tar.gz;;
+			tar xvf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz --strip-components=1 -C ekuiper/;
+			rm -rf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;;
 	esac
 }
 
@@ -130,10 +134,11 @@ cp $neuron_modules_dir/build/plugins/schema/*.json \
 cd $package_dir/..
 rm -rf neuron*.tar.gz
 
-if [ ekuiper ];then
-	tar czf neuronex-$version-linux-$arch.tar.gz neuron
-	echo "neuronex-$version-linux-$arch.tar.gz"
-else
-	tar czf neuron-$version-linux-$arch.tar.gz neuron
-	echo "neuron-$version-linux-$arch.tar.gz"
-fi
+case $ekuiper in
+	(true)
+		tar czf neuronex-$version-linux-$arch.tar.gz neuron
+		echo "neuronex-$version-linux-$arch.tar.gz";;
+	(false)
+		tar czf neuron-$version-linux-$arch.tar.gz neuron
+		echo "neuron-$version-linux-$arch.tar.gz";;
+esac
