@@ -8,7 +8,7 @@ def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", type=str, help="version")
-    parser.add_argument("-p", "--arch", type=str, help="arch")
+    parser.add_argument("-a", "--arch", type=str, help="arch")
     parser.add_argument("-o", "--vendor", type=str, help="vendor")
     parser.add_argument("-e", "--with_ekuiper", type=bool,
                          help="package with ekuiper")
@@ -18,7 +18,7 @@ def parse_args():
 args = parse_args()
 
 home = '/home/neuron'
-package_dir = home + '/Program' + args.vendor + '/package'
+package_dir = home + '/Program/' + args.vendor + '/package'
 if args.with_ekuiper:
     package_dir = package_dir + '/neuron'
 else:
@@ -52,7 +52,7 @@ mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/dist', '/opt/neuron/')
 
 if args.with_ekuiper:
-    mkdeb.copy_dir('../build/ekuiper', '/opt/neuron/')
+    mkdeb.copy_dir(package_dir + '/ekuiper', '/opt/neuron/')
     rules.append(mkdeb.FileMap("ekuiper.sh", "/opt/neuron/ekuiper/", "x"))
     rules.append(mkdeb.FileMap(
         "neuron.ekuiper.service", "/etc/systemd/system/"))

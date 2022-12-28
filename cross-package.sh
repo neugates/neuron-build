@@ -5,18 +5,18 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.3
-version=2.3.0
+ui_version=2.3.1
+version=?
 ekuiper_version=1.7.3
 ekuiper_arch=?
 ekuiper=false
 
-while getopts ":a:v:e:k:" OPT; do
+while getopts ":a:v:e:k:o:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
             ;;
-        v)
+        o)
             vendor=$OPTARG
             ;;
 	e)
@@ -24,6 +24,9 @@ while getopts ":a:v:e:k:" OPT; do
 	    ;;
 	k)
 	    ekuiper_arch=$OPTARG
+	    ;;
+	v)
+	    version=$OPTARG
 	    ;;
     esac
 done
