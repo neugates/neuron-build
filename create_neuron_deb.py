@@ -48,7 +48,7 @@ mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/dist', '/opt/neuron/')
 
-if args.with_ekuiper:
+if args.with_ekuiper == True:
     mkdeb.copy_dir(package_dir + '/ekuiper', '/opt/neuron/')
     rules.append(mkdeb.FileMap("ekuiper.sh", "/opt/neuron/ekuiper/", "x"))
     rules.append(mkdeb.FileMap(
@@ -56,7 +56,7 @@ if args.with_ekuiper:
 
 mkdeb.create_deb_file(rules)
 
-if args.with_ekuiper:
+if args.with_ekuiper == True:
     mkdeb.create_control("neuronex", args.version,
                          args.arch, "neuron plus ekuiper", "")
     cmd = 'dpkg-deb -b tmp/ ' + 'neuronex' + '-' + \
