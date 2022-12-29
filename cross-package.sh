@@ -131,6 +131,8 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-plus-tcp.so \
 	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
     	$package_dir/plugins/
 
+cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 ${package_name}/
+
 cp $neuron_modules_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
