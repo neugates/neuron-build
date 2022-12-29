@@ -7,8 +7,9 @@ library=$home/libs
 vendor=?
 arch=?
 branch=?
+cross=false
 
-while getopts ":a:v:b:" OPT; do
+while getopts ":a:v:b:c" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -19,11 +20,20 @@ while getopts ":a:v:b:" OPT; do
         b)
             branch=$OPTARG
             ;;
+        c)
+            cross=true
+            ;;
     esac
 done
 
 neuron_dir=$home/Program/$vendor
-tool_dir=$home/buildroot/$vendor/output/host/bin
+
+case $cross in
+    (true)
+        tool_dir=/usr/bin;;
+    (false)
+        tool_dir=$home/buildroot/$vendor/output/host/bin;;
+esac
 
 # $1 repo
 # $2 name
