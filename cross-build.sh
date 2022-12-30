@@ -9,7 +9,7 @@ arch=?
 branch=?
 cross=false
 
-while getopts ":a:v:b:c" OPT; do
+while getopts ":a:v:b:c:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -21,7 +21,7 @@ while getopts ":a:v:b:c" OPT; do
             branch=$OPTARG
             ;;
         c)
-            cross=true
+            cross=$OPTARG
             ;;
     esac
 done

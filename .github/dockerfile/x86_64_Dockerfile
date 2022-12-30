@@ -19,4 +19,4 @@ RUN apt-get -y update && apt-get -y install \
 RUN apt-get -y install gcc g++ cmake
 
 COPY ./cross-install.sh /library/
-RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c
+RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c true

@@ -19,4 +19,4 @@ RUN apt-get -y update && apt-get -y install \
 RUN apt-get -y install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf cmake
 
 COPY ./cross-install.sh /library/
-RUN /library/cross-install.sh -a $ARCH -v arm-linux-gnueabihf -c
+RUN /library/cross-install.sh -a $ARCH -v arm-linux-gnueabihf -c true
