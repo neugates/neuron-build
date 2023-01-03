@@ -129,6 +129,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-plus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so\
     	$neuron_modules_dir/build/plugins/libplugin-focas.so \
     	$neuron_modules_dir/build/plugins/libplugin-a1e.so\
+    	$neuron_modules_dir/build/plugins/libplugin-websocket.so\
 	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
     	$package_dir/plugins/
 
