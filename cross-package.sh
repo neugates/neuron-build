@@ -106,6 +106,7 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 	$neuron_dir/build/plugins/libplugin-ekuiper.so \
 	$neuron_dir/build/plugins/libplugin-modbus-tcp.so \
 	$neuron_dir/build/plugins/libplugin-file.so \
+	$neuron_dir/build/plugins/libplugin-monitor.so \
 	$package_dir/plugins/
 
 cp $neuron_dir/build/plugins/schema/*.json \
