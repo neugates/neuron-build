@@ -4,18 +4,26 @@ set -e
 
 home=/home/neuron
 library=$home/libs
+neuron_repo=emqx/neuron.git
+module_repo=emqx/neuron-module.git
 vendor=?
 arch=?
 branch=?
 cross=false
 
-while getopts ":a:v:b:c:" OPT; do
+while getopts ":a:v:m:n:b:c:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
             ;;
         v)
             vendor=$OPTARG
+            ;;
+        m)
+            module_repo=$OPTARG
+            ;;
+        n)
+            neuron_repo=$OPTARG
             ;;
         b)
             branch=$OPTARG
@@ -58,5 +66,5 @@ function compile_source_with_tag() {
 
 sudo rm -rf $neuron_dir/*
 mkdir -p $neuron_dir
-compile_source_with_tag emqx/neuron.git neuron $branch
-compile_source_with_tag emqx/neuron-modules.git neuron-modules $branch
+compile_source_with_tag $neuron_repo neuron $branch
+compile_source_with_tag $module_repo neuron-modules $branch
