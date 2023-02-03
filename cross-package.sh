@@ -5,7 +5,7 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.3.1
+ui_version=2.3.4
 version=?
 ekuiper_version=1.7.3
 ekuiper_arch=?
