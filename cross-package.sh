@@ -104,7 +104,7 @@ cp $neuron_modules_dir/default_plugins.json \
 
 cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 	$neuron_dir/build/plugins/libplugin-ekuiper.so \
-	$neuron_dir/build/plugins/libplugin-modbus-tcp.so \
+	$neuron_dir/build/plugins/libplugin-modbus-tcp-comm.so \
 	$neuron_dir/build/plugins/libplugin-file.so \
 	$neuron_dir/build/plugins/libplugin-monitor.so \
 	$package_dir/plugins/
@@ -112,7 +112,7 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 cp $neuron_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
-cp $neuron_modules_dir/build/plugins/libplugin-modbus-plus-tcp.so \
+cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-modbus-rtu.so \
 	$neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
