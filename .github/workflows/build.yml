@@ -42,6 +42,6 @@ jobs:
           push: true
           pull: true
           platforms: linux/amd64
-          tags: neugates/build:${{ matrix.arch[1] }}-2.3
+          tags: neugates/build:${{ matrix.arch[1] }}-main
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
