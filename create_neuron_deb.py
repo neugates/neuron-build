@@ -40,9 +40,9 @@ rules.append(mkdeb.FileMap(package_dir + '/neuron', "/opt/neuron/", "x"))
 rules.append(mkdeb.FileMap(
      package_dir + "/libfwlib32.so.1", "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
-    package_dir + '/libneuron-base.so', "/usr/local/lib/"))
+    package_dir + '/libneuron-base.so', "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
-     package_dir + "/libzlog.so.1.2", "/usr/local/lib/"))
+     package_dir + "/libzlog.so.1.2", "/opt/neuron/"))
 
 mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
