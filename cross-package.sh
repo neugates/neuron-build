@@ -106,6 +106,7 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 	$neuron_dir/build/plugins/libplugin-ekuiper.so \
 	$neuron_dir/build/plugins/libplugin-modbus-tcp.so \
 	$neuron_dir/build/plugins/libplugin-file.so \
+	$neuron_dir/build/plugins/libplugin-monitor.so \
 	$package_dir/plugins/
 
 cp $neuron_dir/build/plugins/schema/*.json \
@@ -129,6 +130,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-plus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so\
     	$neuron_modules_dir/build/plugins/libplugin-focas.so \
     	$neuron_modules_dir/build/plugins/libplugin-a1e.so\
+    	$neuron_modules_dir/build/plugins/libplugin-websocket.so\
 	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
     	$package_dir/plugins/
 
