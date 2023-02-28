@@ -137,6 +137,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-a1e.so\
     	$neuron_modules_dir/build/plugins/libplugin-websocket.so\
 	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
+	$neuron_modules_dir/build/plugins/libplugin-df1.so \
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
