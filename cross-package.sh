@@ -119,7 +119,7 @@ cp $neuron_dir/build/plugins/schema/*.json \
 
 cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-modbus-rtu.so \
-	$neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
+    	$neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
@@ -136,8 +136,10 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-focas.so \
     	$neuron_modules_dir/build/plugins/libplugin-a1e.so\
     	$neuron_modules_dir/build/plugins/libplugin-websocket.so\
-	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
-	$neuron_modules_dir/build/plugins/libplugin-df1.so \
+    	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
+    	$neuron_modules_dir/build/plugins/libplugin-df1.so \
+    	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so\
+    	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
