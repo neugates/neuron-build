@@ -123,7 +123,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
-    	$neuron_modules_dir/build/plugins/libplugin-fins.so \
+    	$neuron_modules_dir/build/plugins/libplugin-fins-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-qna3e.so \
     	$neuron_modules_dir/build/plugins/libplugin-iec104.so \
     	$neuron_modules_dir/build/plugins/libplugin-bacnet.so \
