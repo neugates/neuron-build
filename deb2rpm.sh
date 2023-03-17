@@ -53,6 +53,7 @@ Requires: perl-interpreter
 # filter out dependencies
 sed -i '/\%description/i \
 %global privlibs libneuron-base\
+%global privlibs %{privlibs}|liblicense\
 %global privlibs %{privlibs}|libfwlib32\
 %global privlibs %{privlibs}|libzlog\
 %global __requires_exclude ^(%{privlibs})\\.so\
