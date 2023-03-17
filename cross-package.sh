@@ -87,6 +87,8 @@ download_ekuiper
 cp $library/lib/libzlog.so.1.2 $package_dir/
 
 cp $neuron_dir/build/libneuron-base.so $package_dir/
+cp $neuron_modules_dir/build/liblicense.so $package_dir/
+
 cp $neuron_dir/build/neuron $package_dir/
 cp $neuron_dir/build/config/neuron.key \
 	$neuron_dir/build/config/neuron.pem \
