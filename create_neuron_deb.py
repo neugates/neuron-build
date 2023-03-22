@@ -26,6 +26,7 @@ rules.append(mkdeb.FileMap("deb/postinst", "/DEBIAN/", "r", "postinst"))
 rules.append(mkdeb.FileMap("deb/preinst", "/DEBIAN/", "r", "preinst"))
 rules.append(mkdeb.FileMap("deb/prerm", "/DEBIAN/", "r", "prerm"))
 
+rules.append(mkdeb.FileMap(package_dir + '/LICENSE', '/opt/neuron')
 rules.append(mkdeb.FileMap("neuron.service", "/etc/systemd/system/"))
 
 rules.append(mkdeb.FileMap("neuron.sh", "/opt/neuron/", "x"))
