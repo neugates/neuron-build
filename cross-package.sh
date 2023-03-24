@@ -99,8 +99,8 @@ cp $neuron_dir/build/config/neuron.key \
 	$package_dir/config/
 
 if [ "$ekuiper" == true ]; then
-		cp $neuron_dir/persistence/0004_2.4.0_ekuiper_node.sql.ex \
-			$package_dir/config/0004_2.4.0_ekuiper_node.sql
+		cp $neuron_dir/persistence/0030_2.4.0_ekuiper_node.sql.ex \
+			$package_dir/config/0030_2.4.0_ekuiper_node.sql
 fi
 
 cp $neuron_modules_dir/neuron-helper.sh $package_dir/
