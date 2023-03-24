@@ -84,9 +84,11 @@ cp .gitkeep $package_dir/certs/
 download_ui
 download_ekuiper
 
+cp $neuron_dir/LICENSE $package_dir/config
+cp $neuron_modules_dir/config/protobuf-LICENSE $package_dir/config/
+cp $neuron_modules_dir/config/protobuf-c-LICENSE $package_dir/config/
+
 cp $library/lib/libzlog.so.1.2 $package_dir/
-cp $library/protobuf-LICENSE $package_dir/config/
-cp $library/protobuf-c-LICENSE $package_dir/config/
 
 cp $neuron_dir/LICENSE $package_dir/
 cp $neuron_dir/build/libneuron-base.so $package_dir/
