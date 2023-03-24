@@ -145,6 +145,8 @@ function build_protobuf() {
 
     make -j4
     make install
+
+    cp ./LICENSE $install_dir/protobuf-LICENSE
 }
 
 function build_protobuf-c(){
@@ -157,6 +159,8 @@ function build_protobuf-c(){
 
     make -j4
     make install
+
+    cp ./LICENSE $install_dir/protobuf-c-LICENSE
 }
 
 sudo rm -rf $library
