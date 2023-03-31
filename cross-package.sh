@@ -147,6 +147,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-df1.so \
     	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so\
     	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
+	$neuron_modules_dir/build/plugins/libplugin-comli.so\
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
