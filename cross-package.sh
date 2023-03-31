@@ -36,6 +36,7 @@ neuron_dir=$home/Program/$vendor/neuron
 neuron_modules_dir=$home/Program/$vendor/neuron-modules
 package_dir=$home/Program/$vendor/package/neuron
 library=$home/libs/$vendor
+script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
 
 function download_ui() {
 	cd $package_dir
@@ -60,9 +61,9 @@ function download_ekuiper() {
 	case $ekuiper in
 		(true)
 			wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;
-
 			mkdir ekuiper;
 			tar xvf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz --strip-components=1 -C ekuiper/;
+			cp $script_dir/ekuiper_init.json ekuiper/data/init.json
 			rm -rf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;;
 	esac
 }
