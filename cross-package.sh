@@ -5,9 +5,9 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.3.1
+ui_version=2.4.0
 version=?
-ekuiper_version=1.7.3
+ekuiper_version=1.9.0
 ekuiper_arch=?
 ekuiper=false
 
@@ -147,6 +147,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-df1.so \
     	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so\
     	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
+	$neuron_modules_dir/build/plugins/libplugin-comli.so\
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
