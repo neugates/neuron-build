@@ -40,13 +40,14 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64
+          load: true
           tags: zhouxiangbetter/build:${{ matrix.arch[1] }}-main
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
       - name: Push image to docker hub
         run: |
           docker images
-          docker push docker.io/zhouxiangbetter/build:${{ matrix.arch[1] }}-main
+          docker push zhouxiangbetter/build:${{ matrix.arch[1] }}-main
       - name: Docker tag ghcr.io image
         run: |
           docker images
