@@ -46,7 +46,7 @@ jobs:
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
       - name : Docker tag ghcr.io image
-        run : docker tag  zhouxiangbetter/build:${{ matrix.arch[1] }}-main ghcr.io/zhoubox/build:${{ matrix.arch[1] }}-main
+        run : docker tag  docker.io/zhouxiangbetter/build:${{ matrix.arch[1] }}-main ghcr.io/zhoubox/build:${{ matrix.arch[1] }}-main
       - name : Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
