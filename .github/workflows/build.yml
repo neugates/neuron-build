@@ -44,7 +44,9 @@ jobs:
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
       - name: Push image to docker hub
-        run: docker push zhouxiangbetter/build:${{ matrix.arch[1] }}-main
+        run: |
+          docker images
+          docker push docker.io/zhouxiangbetter/build:${{ matrix.arch[1] }}-main
       - name: Docker tag ghcr.io image
         run: |
           docker images
