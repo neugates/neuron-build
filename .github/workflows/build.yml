@@ -59,4 +59,4 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name : Push docker image to ghcr.io
-        run : docker push ghcr.io/zhouxiang/build:${{ matrix.arch[1] }}-main
+        run : docker push ghcr.io/zhoubox/build:${{ matrix.arch[1] }}-main
