@@ -39,17 +39,17 @@ jobs:
       - name: Build base image
         uses: docker/build-push-action@v2
         with:
-          push: true
-          pull: true
           platforms: linux/amd64
           tags: zhouxiangbetter/build:${{ matrix.arch[1] }}-main
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
-      - name : Docker tag ghcr.io image
-        run : |
+      - name: Push image to docker hub
+        run: dock push zhouxiangbetter/build:${{ matrix.arch[1] }}-main
+      - name: Docker tag ghcr.io image
+        run: |
           docker images
           docker tag  docker.io/zhouxiangbetter/build:${{ matrix.arch[1] }}-main ghcr.io/zhoubox/build:${{ matrix.arch[1] }}-main
-      - name : Login to GitHub Container Registry
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
