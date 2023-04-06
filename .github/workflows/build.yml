@@ -39,8 +39,8 @@ jobs:
       - name: Build base image
         uses: docker/build-push-action@v2
         with:
-          push: true
-          pull: true
+          push: false
+          pull: false
           platforms: linux/amd64
           tags: neugates/build:${{ matrix.arch[1] }}-main
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
