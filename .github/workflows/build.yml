@@ -53,5 +53,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name : Push docker image to ghcr.io
         run : |
-          docker tag  neugates/build:${{ matrix.arch[1] }}-main ghcr.io/ZhouBox/build:${{ matrix.arch[1] }}-main
-          docker push ghcr.io/ZhouBox/build:${{ matrix.arch[1] }}-main
+          docker tag  neugates/build:${{ matrix.arch[1] }}-main ghcr.io/zhoubox/build:${{ matrix.arch[1] }}-main
+          docker push ghcr.io/zhoubox/build:${{ matrix.arch[1] }}-main
