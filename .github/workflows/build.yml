@@ -34,6 +34,6 @@ jobs:
           push: true
           pull: true
           platforms: linux/amd64
-          tags: ghcr.io/neugates/build:${{ matrix.arch[1] }}-${{ github.ref_name }}
+          tags: ghcr.io/neugates/neuron-build:${{ matrix.arch[1] }}-${{ github.ref_name }}
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
