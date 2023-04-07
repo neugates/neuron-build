@@ -22,37 +22,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: /tmp/.docker-buildx-cache
-          key: docker-buildx
       - uses: docker/setup-buildx-action@v1
       - uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ghcr.io/neuron/${{ matrix.arch[1] }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
       - name: Build base image
         uses: docker/build-push-action@v2
         with:
+          push: true
+          pull: true
           platforms: linux/amd64
-          load: true
-          tags: neugates/build:${{ matrix.arch[1] }}-main
+          tags: ghcr.io/neugates/build:${{ matrix.arch[1] }}-${{ github.ref_name }}
           file: .github/dockerfile/${{ matrix.arch[1] }}_Dockerfile
           context: .
-      - name: Push image to docker hub
-        run: docker push neugates/build:${{ matrix.arch[1] }}-main
-      - name: Docker tag ghcr.io image
-        run: docker tag neugates/build:${{ matrix.arch[1] }}-main ghcr.io/neugates/build:${{ matrix.arch[1] }}-main
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name : Push docker image to ghcr.io
-        run : docker push ghcr.io/neugates/build:${{ matrix.arch[1] }}-main
