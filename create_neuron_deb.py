@@ -50,6 +50,7 @@ rules.append(mkdeb.FileMap(
 mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/dist', '/opt/neuron/')
+mkdeb.copy_dir(package_dir + '/simulator', '/opt/neuron/')
 
 if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
     mkdeb.copy_dir(package_dir + '/ekuiper', '/opt/neuron/')
