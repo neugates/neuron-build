@@ -118,7 +118,9 @@ cp $neuron_modules_dir/default_plugins.json \
 
 cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 	$neuron_dir/build/plugins/libplugin-ekuiper.so \
-	$neuron_dir/build/plugins/libplugin-modbus-tcp-comm.so \
+	$neuron_dir/build/plugins/libplugin-modbus-tcp.so \
+	$neuron_dir/build/plugins/libplugin-modbus-rtu.so \
+	$neuron_dir/build/plugins/libplugin-modbus-qh-tcp.so \
 	$neuron_dir/build/plugins/libplugin-file.so \
 	$neuron_dir/build/plugins/libplugin-monitor.so \
 	$package_dir/plugins/
@@ -126,10 +128,7 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 cp $neuron_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
-cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
-    	$neuron_modules_dir/build/plugins/libplugin-modbus-rtu.so \
-    	$neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
-    	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
+cp $neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
     	$neuron_modules_dir/build/plugins/libplugin-fins-tcp.so \
@@ -158,8 +157,10 @@ cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
 cp $neuron_modules_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
-cp $neuron_modules_dir/build/simulator/modbus_simulator \
-	$neuron_modules_dir/build/simulator/opcua_simulator \
+cp $neuron_dir/build/simulator/modbus_simulator \
+	$package_dir/simulator/
+
+cp $neuron_modules_dir/build/simulator/opcua_simulator \
 	$neuron_modules_dir/build/simulator/hj_simulator \
 	$neuron_modules_dir/build/simulator/comli_simulator \
 	$package_dir/simulator/
