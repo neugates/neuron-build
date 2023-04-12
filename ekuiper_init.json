@@ -1,6 +1,6 @@
 {
   "streams": {
-    "neuronStream": "CREATE STREAM neuronStream() WITH (TYPE=\"neuron\",FORMAT=\"json\",SHARED=\"true\");"
+    "neuronStream": "CREATE STREAM neuronStream() WITH (TYPE=\"neuron\",FORMAT=\"json\",CONF_KEY=\"default\",SHARED=\"TRUE\");"
   },
   "tables": {},
   "rules": {}
