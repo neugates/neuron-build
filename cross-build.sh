@@ -8,8 +8,9 @@ vendor=?
 arch=?
 branch=?
 cross=false
+user=emqx
 
-while getopts ":a:v:b:c:" OPT; do
+while getopts ":a:v:b:c:u:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -23,6 +24,9 @@ while getopts ":a:v:b:c:" OPT; do
         c)
             cross=$OPTARG
             ;;
+        u)
+            user=$OPTARG
+            ;;
     esac
 done
 
@@ -35,13 +39,14 @@ case $cross in
         tool_dir=$home/buildroot/$vendor/output/host/bin;;
 esac
 
-# $1 repo
-# $2 name
-# $3 tag
 function compile_source_with_tag() {
+    local user=$1
+    local repo=$2
+    local branch=$3
+
     cd $neuron_dir
-    git clone -b $3 git@github.com:$1
-    cd $2
+    git clone -b $branch git@github.com:${user}/${repo}.git
+    cd $repo
     git submodule update --init
     mkdir build && cd build
     cmake .. -DCMAKE_BUILD_TYPE=Release -DDISABLE_UT=ON \
@@ -51,12 +56,12 @@ function compile_source_with_tag() {
 
     make -j4 
 
-    if [ $2 == "neuron" ]; then
+    if [ $repo == "neuron" ]; then
     	sudo make install
     fi
 }
 
 sudo rm -rf $neuron_dir/*
 mkdir -p $neuron_dir
-compile_source_with_tag emqx/neuron.git neuron $branch
-compile_source_with_tag emqx/neuron-modules.git neuron-modules $branch
+compile_source_with_tag $user neuron $branch
+compile_source_with_tag $user neuron-modules $branch
