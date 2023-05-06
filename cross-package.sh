@@ -166,6 +166,9 @@ cp $neuron_modules_dir/build/simulator/modbus_simulator \
 	$neuron_modules_dir/build/simulator/comli_simulator \
 	$package_dir/simulator/
 
+if [ $arch == mips32 ];then
+	cp $home/buildroot/$vendor/output/host/usr/$vendor/sysroot/lib/libatomic.so.1.1.0 $package_dir/libatomic.so.1
+fi
 
 cd $package_dir/..
 rm -rf neuron*.tar.gz
