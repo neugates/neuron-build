@@ -152,6 +152,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
 	$neuron_modules_dir/build/plugins/libplugin-comli.so\
 	$neuron_modules_dir/build/plugins/libplugin-HJ212.so\
+	$neuron_modules_dir/build/plugins/libplugin-mewtocol.so\
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
@@ -165,6 +166,7 @@ cp $neuron_dir/build/simulator/modbus_simulator \
 cp $neuron_modules_dir/build/simulator/opcua_simulator \
 	$neuron_modules_dir/build/simulator/hj_simulator \
 	$neuron_modules_dir/build/simulator/comli_simulator \
+	$neuron_modules_dir/build/simulator/mewtocol_simulator \
 	$package_dir/simulator/
 
 
