@@ -10,6 +10,7 @@ version=?
 ekuiper_version=1.9.0
 ekuiper_arch=?
 ekuiper=false
+ui_path=https://github.com/emqx/neuron-dashboard/releases/download
 
 while getopts ":a:v:e:k:o:" OPT; do
     case ${OPT} in
@@ -28,6 +29,9 @@ while getopts ":a:v:e:k:o:" OPT; do
 	v)
 	    version=$OPTARG
 	    ;;
+	u)
+	    ui_path=$OPTARG
+	    ;;
     esac
 done
 
@@ -43,12 +47,12 @@ function download_ui() {
 
 	case $ekuiper in
 		(true)
-			wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard.zip;
+			wget $ui_path/$ui_version/neuron-dashboard.zip;
 
 			unzip neuron-dashboard.zip;
 			rm -rf neuron-dashboard.zip;;
 		(false)
-			wget https://github.com/emqx/neuron-dashboard/releases/download/$ui_version/neuron-dashboard-lite.zip;
+			wget $ui_path/$ui_version/neuron-dashboard-lite.zip;
 
 			unzip neuron-dashboard-lite.zip;
 			rm -rf neuron-dashboard-lite.zip;;
