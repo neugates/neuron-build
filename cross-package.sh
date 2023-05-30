@@ -32,9 +32,6 @@ while getopts ":a:v:e:k:o:" OPT; do
 	u)
 	    ui_path=$OPTARG
 	    ;;
-	i)
-	    ui_version=$OPTARG
-	    ;;
     esac
 done
 
