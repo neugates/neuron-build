@@ -153,9 +153,10 @@ cp $neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-df1.so \
     	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so\
     	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
-	$neuron_modules_dir/build/plugins/libplugin-comli.so\
-	$neuron_modules_dir/build/plugins/libplugin-HJ212.so\
-	$neuron_modules_dir/build/plugins/libplugin-mewtocol.so\
+		$neuron_modules_dir/build/plugins/libplugin-comli.so\
+		$neuron_modules_dir/build/plugins/libplugin-HJ212.so\
+		$neuron_modules_dir/build/plugins/libplugin-mewtocol.so\
+		$neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so\
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
