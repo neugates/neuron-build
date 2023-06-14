@@ -133,29 +133,34 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 cp $neuron_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
-cp $neuron_modules_dir/build/plugins/libplugin-opcua.so \
+cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
+    	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so \
+    	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
+    	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
+    	$neuron_modules_dir/build/plugins/libplugin-Profinet.so \
+    	$neuron_modules_dir/build/plugins/libplugin-qna3e.so \
+    	$neuron_modules_dir/build/plugins/libplugin-a1e.so \
+    	$neuron_modules_dir/build/plugins/libplugin-fx.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm.so \
     	$neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
+    	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so \
     	$neuron_modules_dir/build/plugins/libplugin-fins-tcp.so \
-    	$neuron_modules_dir/build/plugins/libplugin-qna3e.so \
-    	$neuron_modules_dir/build/plugins/libplugin-iec104.so \
-    	$neuron_modules_dir/build/plugins/libplugin-bacnet.so \
-    	$neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so\
-    	$neuron_modules_dir/build/plugins/libplugin-knx.so\
-    	$neuron_modules_dir/build/plugins/libplugin-nona11.so\
-    	$neuron_modules_dir/build/plugins/libplugin-ads.so\
-    	$neuron_modules_dir/build/plugins/libplugin-license-server.so\
-    	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so\
-    	$neuron_modules_dir/build/plugins/libplugin-focas.so \
-    	$neuron_modules_dir/build/plugins/libplugin-a1e.so\
-    	$neuron_modules_dir/build/plugins/libplugin-websocket.so\
-    	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so\
+    	$neuron_modules_dir/build/plugins/libplugin-fins-udp.so \
+    	$neuron_modules_dir/build/plugins/libplugin-ads.so \
     	$neuron_modules_dir/build/plugins/libplugin-df1.so \
-    	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so\
-    	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
-	$neuron_modules_dir/build/plugins/libplugin-comli.so\
-	$neuron_modules_dir/build/plugins/libplugin-HJ212.so\
-	$neuron_modules_dir/build/plugins/libplugin-mewtocol.so\
+    	$neuron_modules_dir/build/plugins/libplugin-comli.so \
+    	$neuron_modules_dir/build/plugins/libplugin-mewtocol.so \
+    	$neuron_modules_dir/build/plugins/libplugin-iec104.so \
+    	$neuron_modules_dir/build/plugins/libplugin-iec61850.so \
+    	$neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so \
+    	$neuron_modules_dir/build/plugins/libplugin-dlt645-1997.so \
+    	$neuron_modules_dir/build/plugins/libplugin-bacnet.so \
+    	$neuron_modules_dir/build/plugins/libplugin-knx.so \
+    	$neuron_modules_dir/build/plugins/libplugin-focas.so \
+    	$neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
+    	$neuron_modules_dir/build/plugins/libplugin-HJ212.so \
+    	$neuron_modules_dir/build/plugins/libplugin-nona11.so \
+    	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
