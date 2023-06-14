@@ -160,7 +160,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
     	$neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
     	$neuron_modules_dir/build/plugins/libplugin-HJ212.so \
     	$neuron_modules_dir/build/plugins/libplugin-nona11.so \
-    	$neuron_modules_dir/build/plugins/libplugin-license-server.so
+    	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
     	$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
