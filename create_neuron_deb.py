@@ -10,6 +10,7 @@ def parse_args():
     parser.add_argument("-v", "--version", type=str, help="version")
     parser.add_argument("-a", "--arch", type=str, help="arch")
     parser.add_argument("-o", "--vendor", type=str, help="vendor")
+    parser.add_argument("-n", "--name", type=str, help="name")
     parser.add_argument("-e", "--with_ekuiper", type=str,
                           help="package with ekuiper")
     return parser.parse_args()
@@ -60,14 +61,20 @@ if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
 
 mkdeb.create_deb_file(rules)
 
-if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
-    mkdeb.create_control("neuronex", args.version,
-                         args.arch, "neuron plus ekuiper", "")
-    cmd = 'dpkg-deb -b tmp/ ' + 'neuronex' + '-' + \
+if len(args.name) != 0:
+    mkdeb.create_control(args.name, args.version,
+                        args.arch, "ECP Edge", "")
+    cmd = 'dpkg-deb -b tmp/ ' + args.name + '-' + \
         args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 else:
-    mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
-    cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
-        args.version + '-' + 'linux' + '-' + args.arch + ".deb"
+    if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
+        mkdeb.create_control("neuronex", args.version,
+                            args.arch, "neuron plus ekuiper", "")
+        cmd = 'dpkg-deb -b tmp/ ' + 'neuronex' + '-' + \
+            args.version + '-' + 'linux' + '-' + args.arch + ".deb"
+    else:
+        mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
+        cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
+            args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 
 os.system(cmd)
