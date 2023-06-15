@@ -5,14 +5,12 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.4.6
+ui_version=2.5.0_pre
 version=?
-ekuiper_version=1.9.0
-ekuiper_arch=?
-ekuiper=false
 ui_path=https://github.com/emqx/neuron-dashboard/releases/download
+language=cn
 
-while getopts ":a:v:e:k:o:u:" OPT; do
+while getopts ":a:v:o:u:l:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -20,17 +18,14 @@ while getopts ":a:v:e:k:o:u:" OPT; do
         o)
             vendor=$OPTARG
             ;;
-	e)
-	    ekuiper=$OPTARG
-	    ;;
-	k)
-	    ekuiper_arch=$OPTARG
-	    ;;
 	v)
 	    version=$OPTARG
 	    ;;
 	u)
 	    ui_path=$OPTARG
+	    ;;
+	l)
+	    language=$OPTARG
 	    ;;
     esac
 done
@@ -44,32 +39,20 @@ script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
 function download_ui() {
 	cd $package_dir
 
-	case $ekuiper in
-		(true)
+	case $language in
+		(cn)
+			wget $ui_path/$ui_version/neuron-dashboard-cn.zip;
+
+			unzip neuron-dashboard-cn.zip;
+			rm -rf neuron-dashboard-cn.zip;;
+		(en)
 			wget $ui_path/$ui_version/neuron-dashboard.zip;
 
 			unzip neuron-dashboard.zip;
 			rm -rf neuron-dashboard.zip;;
-		(false)
-			wget $ui_path/$ui_version/neuron-dashboard-lite.zip;
-
-			unzip neuron-dashboard-lite.zip;
-			rm -rf neuron-dashboard-lite.zip;;
 	esac
 }
 
-function download_ekuiper() {
-	cd $package_dir
-
-	case $ekuiper in
-		(true)
-			wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;
-			mkdir ekuiper;
-			tar xvf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz --strip-components=1 -C ekuiper/;
-			cp $script_dir/ekuiper_init.json ekuiper/data/init.json
-			rm -rf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;;
-	esac
-}
 
 rm -rf $package_dir
 
@@ -87,7 +70,6 @@ cp .gitkeep $package_dir/persistence/
 cp .gitkeep $package_dir/certs/
 
 download_ui
-download_ekuiper
 
 cp $neuron_dir/LICENSE $package_dir/config
 cp $neuron_modules_dir/config/protobuf-LICENSE $package_dir/config/
@@ -106,15 +88,6 @@ cp $neuron_dir/build/config/neuron.key \
 	$neuron_dir/build/config/dev.conf \
 	$neuron_dir/build/config/*.sql \
 	$package_dir/config/
-
-if [ "$ekuiper" == true ]; then
-		cp $neuron_dir/persistence/0030_2.4.0_ekuiper_node.sql.ex \
-			$package_dir/config/0030_2.4.0_ekuiper_node.sql
-		cp $neuron_dir/persistence/0031_2.4.2_ekuiper_node.sql.ex \
-			$package_dir/config/0031_2.4.2_ekuiper_node.sql
-fi
-
-cp $neuron_modules_dir/neuron-helper.sh $package_dir/
 
 cp $neuron_modules_dir/default_plugins.json \
 	$neuron_modules_dir/build/config/opcua_cert.der \
@@ -181,11 +154,11 @@ cp $neuron_modules_dir/build/simulator/opcua_simulator \
 cd $package_dir/..
 rm -rf neuron*.tar.gz
 
-case $ekuiper in
-	(true)
-		tar czf neuronex-$version-linux-$arch.tar.gz neuron
-		echo "neuronex-$version-linux-$arch.tar.gz";;
-	(false)
+case $language in
+	(cn)
+		tar czf neuron-$version-linux-$arch-cn.tar.gz neuron
+		echo "neuron-$version-linux-$arch-cn.tar.gz";;
+	(en)
 		tar czf neuron-$version-linux-$arch.tar.gz neuron
 		echo "neuron-$version-linux-$arch.tar.gz";;
 esac

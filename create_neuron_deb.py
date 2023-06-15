@@ -10,8 +10,8 @@ def parse_args():
     parser.add_argument("-v", "--version", type=str, help="version")
     parser.add_argument("-a", "--arch", type=str, help="arch")
     parser.add_argument("-o", "--vendor", type=str, help="vendor")
-    parser.add_argument("-e", "--with_ekuiper", type=str,
-                          help="package with ekuiper")
+    parser.add_argument("-l", "--language", type=str, default="cn",
+                          help="package language")
     return parser.parse_args()
 
 
@@ -52,19 +52,13 @@ mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/dist', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/simulator', '/opt/neuron/')
 
-if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
-    mkdeb.copy_dir(package_dir + '/ekuiper', '/opt/neuron/')
-    rules.append(mkdeb.FileMap("ekuiper.sh", "/opt/neuron/ekuiper/", "x"))
-    rules.append(mkdeb.FileMap(
-        "neuron.ekuiper.service", "/etc/systemd/system/"))
-
 mkdeb.create_deb_file(rules)
 
-if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
-    mkdeb.create_control("neuronex", args.version,
-                         args.arch, "neuron plus ekuiper", "")
-    cmd = 'dpkg-deb -b tmp/ ' + 'neuronex' + '-' + \
-        args.version + '-' + 'linux' + '-' + args.arch + ".deb"
+if args.language == 'cn':
+    mkdeb.create_control("neuron", args.version,
+                         args.arch, "neuron cn package", "")
+    cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
+        args.version + '-' + 'linux' + '-' + args.arch + "-cn.deb"
 else:
     mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
     cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
