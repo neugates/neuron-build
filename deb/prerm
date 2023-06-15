@@ -2,10 +2,8 @@
 
 echo "prerm"
 
-if [ -e "/etc/systemd/system/neuron.ekuiper.service" ]; then
-  systemctl disable neuron.ekuiper
-  systemctl stop neuron.ekuiper
-fi
-
 systemctl disable neuron
 systemctl stop neuron
+
+rm -rf /opt/neuron/core
+rm -rf /opt/neuron/logs
