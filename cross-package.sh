@@ -5,7 +5,7 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.5.0_pre
+ui_version=2.5.0
 version=?
 ui_path=https://github.com/emqx/neuron-dashboard/releases/download
 language=cn
