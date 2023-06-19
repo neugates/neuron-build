@@ -41,15 +41,15 @@ function download_ui() {
 
 	case $language in
 		(cn)
-			wget $ui_path/$ui_version/neuron-dashboard-cn.zip;
-
-			unzip neuron-dashboard-cn.zip;
-			rm -rf neuron-dashboard-cn.zip;;
-		(en)
 			wget $ui_path/$ui_version/neuron-dashboard.zip;
 
 			unzip neuron-dashboard.zip;
 			rm -rf neuron-dashboard.zip;;
+		(en)
+			wget $ui_path/$ui_version/neuron-dashboard-en.zip;
+
+			unzip neuron-dashboard-en.zip;
+			rm -rf neuron-dashboard-en.zip;;
 	esac
 }
 
@@ -156,9 +156,9 @@ rm -rf neuron*.tar.gz
 
 case $language in
 	(cn)
-		tar czf neuron-$version-linux-$arch-cn.tar.gz neuron
-		echo "neuron-$version-linux-$arch-cn.tar.gz";;
-	(en)
 		tar czf neuron-$version-linux-$arch.tar.gz neuron
 		echo "neuron-$version-linux-$arch.tar.gz";;
+	(en)
+		tar czf neuron-$version-linux-$arch-en.tar.gz neuron
+		echo "neuron-$version-linux-$arch-en.tar.gz";;
 esac
