@@ -12,7 +12,7 @@ ekuiper_arch=?
 ekuiper=false
 ui_path=https://github.com/emqx/neuron-dashboard/releases/download
 
-while getopts ":a:v:e:k:o:u:" OPT; do
+while getopts ":a:v:e:k:o:u:i:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -31,6 +31,9 @@ while getopts ":a:v:e:k:o:u:" OPT; do
 	    ;;
 	u)
 	    ui_path=$OPTARG
+	    ;;
+        i)
+	    ui_version=$OPTARG
 	    ;;
     esac
 done
