@@ -99,7 +99,6 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 	$neuron_dir/build/plugins/libplugin-modbus-tcp.so \
 	$neuron_dir/build/plugins/libplugin-modbus-rtu.so \
 	$neuron_dir/build/plugins/libplugin-modbus-qh-tcp.so \
-	$neuron_dir/build/plugins/libplugin-file.so \
 	$neuron_dir/build/plugins/libplugin-monitor.so \
 	$package_dir/plugins/
 
@@ -129,8 +128,6 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
     	$neuron_modules_dir/build/plugins/libplugin-dlt645-1997.so \
     	$neuron_modules_dir/build/plugins/libplugin-bacnet.so \
     	$neuron_modules_dir/build/plugins/libplugin-knx.so \
-    	$neuron_modules_dir/build/plugins/libplugin-focas.so \
-    	$neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
     	$neuron_modules_dir/build/plugins/libplugin-HJ212.so \
     	$neuron_modules_dir/build/plugins/libplugin-nona11.so \
     	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
