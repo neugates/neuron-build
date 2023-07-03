@@ -5,12 +5,12 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.5.0
+ui_version=?
 version=?
 ui_path=https://github.com/emqx/neuron-dashboard/releases/download
 language=cn
 
-while getopts ":a:v:o:u:l:" OPT; do
+while getopts ":a:v:o:u:l:i:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -23,6 +23,9 @@ while getopts ":a:v:o:u:l:" OPT; do
 	    ;;
 	u)
 	    ui_path=$OPTARG
+	    ;;
+	i)
+	    ui_version=$OPTARG
 	    ;;
 	l)
 	    language=$OPTARG
