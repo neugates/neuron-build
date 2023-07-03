@@ -38,8 +38,8 @@ rules.append(mkdeb.FileMap(".gitkeep", "/opt/neuron/persistence/"))
 rules.append(mkdeb.FileMap(".gitkeep", "/opt/neuron/certs/"))
 
 rules.append(mkdeb.FileMap(package_dir + '/neuron', "/opt/neuron/", "x"))
-rules.append(mkdeb.FileMap(
-     package_dir + "/libfwlib32.so.1", "/opt/neuron/"))
+# rules.append(mkdeb.FileMap(
+#      package_dir + "/libfwlib32.so.1", "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
     package_dir + '/libneuron-base.so', "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
