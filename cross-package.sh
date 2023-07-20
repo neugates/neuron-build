@@ -5,7 +5,7 @@ set -e
 home=/home/neuron
 vendor=?
 arch=?
-ui_version=2.4.7
+ui_version=?
 version=?
 ekuiper_version=1.9.0
 ekuiper_arch=?
@@ -32,7 +32,7 @@ while getopts ":a:v:e:k:o:u:i:" OPT; do
 	u)
 	    ui_path=$OPTARG
 	    ;;
-        i)
+    i)
 	    ui_version=$OPTARG
 	    ;;
     esac
