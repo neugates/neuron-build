@@ -163,6 +163,18 @@ function build_protobuf-c(){
     cp ./LICENSE $install_dir/protobuf-c-LICENSE 
 }
 
+function build_libxml2(){
+    cd $library
+    git clone -b v2.9.14 https://github.com/GNOME/libxml2
+    cd libxml2
+    ./autogen.sh
+
+    ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no --with-http=no --with-python=no --with-lzma=no --with-zlib=no CFLAGS='-O2 -fno-semantic-interposition -fPIC' PKG_CONFIG_PATH=$vendor
+
+    make -j4
+    make install
+}
+
 sudo rm -rf $library
 sudo rm -rf $install_dir
 mkdir -p $library
@@ -175,6 +187,7 @@ build_openssl
 build_sqlite3
 build_protobuf
 build_protobuf-c
+build_libxml2
 
 compile_source neugates/jansson.git jansson "-DJANSSON_BUILD_DOCS=OFF -DJANSSON_EXAMPLES=OFF"
 compile_source_with_tag google/googletest.git googletest release-1.11.0
