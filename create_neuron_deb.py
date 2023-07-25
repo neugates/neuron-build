@@ -64,17 +64,17 @@ mkdeb.create_deb_file(rules)
 if len(args.name) != 0:
     mkdeb.create_control(args.name, args.version,
                         args.arch, "ECP Edge", "")
-    cmd = 'dpkg-deb -b tmp/ ' + args.name + '-' + \
+    cmd = 'dpkg-deb -Zxz -b tmp/ ' + args.name + '-' + \
         args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 else:
     if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
         mkdeb.create_control("neuronex", args.version,
                             args.arch, "neuron plus ekuiper", "")
-        cmd = 'dpkg-deb -b tmp/ ' + 'neuronex' + '-' + \
+        cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuronex' + '-' + \
             args.version + '-' + 'linux' + '-' + args.arch + ".deb"
     else:
         mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
-        cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
+        cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
             args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 
 os.system(cmd)
