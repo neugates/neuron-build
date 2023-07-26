@@ -2,13 +2,13 @@
 
 echo "postinst"
 ldconfig
+systemctl daemon-reload
+systemctl enable neuron
+systemctl start neuron
 (
 sleep 3
 apt-mark hold neuron
 ) &
-systemctl daemon-reload
-systemctl enable neuron
-systemctl start neuron
 
 if [ -e "/etc/systemd/system/neuron.ekuiper.service" ]; then
   systemctl enable neuron.ekuiper
