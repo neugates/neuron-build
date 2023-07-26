@@ -57,11 +57,11 @@ mkdeb.create_deb_file(rules)
 if args.language == 'cn':
     mkdeb.create_control("neuron", args.version,
                          args.arch, "neuron cn package", "")
-    cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
+    cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
         args.version + '-' + 'linux' + '-' + args.arch + "-cn.deb"
 else:
     mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
-    cmd = 'dpkg-deb -b tmp/ ' + 'neuron' + '-' + \
+    cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
         args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 
 os.system(cmd)
