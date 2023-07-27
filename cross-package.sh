@@ -110,6 +110,9 @@ cp $neuron_dir/build/config/neuron.key \
 	$neuron_dir/build/config/*.sql \
 	$package_dir/config/
 
+cp $neuron_dir/build/config/neuron-default.lic \
+	$package_dir/config/
+
 if [ "$ekuiper" == true ]; then
 		cp $neuron_dir/persistence/0030_2.4.0_ekuiper_node.sql.ex \
 			$package_dir/config/0030_2.4.0_ekuiper_node.sql
