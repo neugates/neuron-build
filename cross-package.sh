@@ -109,6 +109,7 @@ cp $neuron_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
 cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
+    	$neuron_modules_dir/build/plugins/libplugin-gewu.so \
     	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so \
     	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
