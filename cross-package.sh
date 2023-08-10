@@ -3,6 +3,7 @@
 set -e
 
 home=/home/neuron
+branch=main
 vendor=?
 arch=?
 ui_version=?
@@ -33,10 +34,10 @@ while getopts ":a:v:o:u:l:i:" OPT; do
     esac
 done
 
-neuron_dir=$home/Program/$vendor/neuron
-neuron_modules_dir=$home/Program/$vendor/neuron-modules
-package_dir=$home/Program/$vendor/package/neuron
-library=$home/libs/$vendor
+neuron_dir=$home/$branch/Program/$vendor/neuron
+neuron_modules_dir=$home/$branch/Program/$vendor/neuron-modules
+package_dir=$home/$branch/Program/$vendor/package/neuron
+library=$home/$branch/libs/$vendor
 script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
 
 function download_ui() {
@@ -44,15 +45,15 @@ function download_ui() {
 
 	case $language in
 		(cn)
-			wget $ui_path/$ui_version/neuron-dashboard-cn.zip;
-
-			unzip neuron-dashboard-cn.zip;
-			rm -rf neuron-dashboard-cn.zip;;
-		(en)
 			wget $ui_path/$ui_version/neuron-dashboard.zip;
 
 			unzip neuron-dashboard.zip;
 			rm -rf neuron-dashboard.zip;;
+		(en)
+			wget $ui_path/$ui_version/neuron-dashboard-en.zip;
+
+			unzip neuron-dashboard-en.zip;
+			rm -rf neuron-dashboard-en.zip;;
 	esac
 }
 
@@ -109,6 +110,7 @@ cp $neuron_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
 
 cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
+    	$neuron_modules_dir/build/plugins/libplugin-gewu.so \
     	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so \
     	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
@@ -161,9 +163,9 @@ rm -rf neuron*.tar.gz
 
 case $language in
 	(cn)
-		tar czf neuron-$version-linux-$arch-cn.tar.gz neuron
-		echo "neuron-$version-linux-$arch-cn.tar.gz";;
-	(en)
 		tar czf neuron-$version-linux-$arch.tar.gz neuron
 		echo "neuron-$version-linux-$arch.tar.gz";;
+	(en)
+		tar czf neuron-$version-linux-$arch-en.tar.gz neuron
+		echo "neuron-$version-linux-$arch-en.tar.gz";;
 esac

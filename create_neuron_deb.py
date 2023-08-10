@@ -18,7 +18,8 @@ def parse_args():
 args = parse_args()
 
 home = '/home/neuron'
-package_dir = home + '/Program/' + args.vendor + '/package/neuron'
+branch = '/main'
+package_dir = home + branch + '/Program/' + args.vendor + '/package/neuron'
 rules = []
 
 rules.append(mkdeb.FileMap("deb/conffiles", "/DEBIAN/", "r", "conffiles"))
@@ -58,10 +59,10 @@ if args.language == 'cn':
     mkdeb.create_control("neuron", args.version,
                          args.arch, "neuron cn package", "")
     cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
-        args.version + '-' + 'linux' + '-' + args.arch + "-cn.deb"
+        args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 else:
     mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
     cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
-        args.version + '-' + 'linux' + '-' + args.arch + ".deb"
+        args.version + '-' + 'linux' + '-' + args.arch + "-en.deb"
 
 os.system(cmd)
