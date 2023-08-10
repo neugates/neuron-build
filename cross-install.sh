@@ -4,6 +4,7 @@ set -e
 
 #x86_64-neuron-linux-musl
 home=/home/neuron
+branch=main
 vendor=?
 arch=?
 gcc=?
@@ -34,8 +35,8 @@ case $cross in
         gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
 esac
 
-install_dir=$home/libs/$vendor/
-library=$home/library/$vendor/
+install_dir=$home/$branch/libs/$vendor/
+library=$home/$branch/library/$vendor/
 
 echo "arch: "$arch
 echo "vendor: "$vendor

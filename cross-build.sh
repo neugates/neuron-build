@@ -3,7 +3,8 @@
 set -e
 
 home=/home/neuron
-library=$home/libs
+bdb=main
+library=$home/$bdb/libs
 vendor=?
 arch=?
 branch=?
@@ -34,7 +35,7 @@ while getopts ":a:v:b:c:u:s:" OPT; do
     esac
 done
 
-neuron_dir=$home/Program/$vendor
+neuron_dir=$home/$bdb/Program/$vendor
 
 case $cross in
     (true)

@@ -3,6 +3,7 @@
 set -e
 
 home=/home/neuron
+branch=main
 vendor=?
 arch=?
 ui_version=?
@@ -33,10 +34,10 @@ while getopts ":a:v:o:u:l:i:" OPT; do
     esac
 done
 
-neuron_dir=$home/Program/$vendor/neuron
-neuron_modules_dir=$home/Program/$vendor/neuron-modules
-package_dir=$home/Program/$vendor/package/neuron
-library=$home/libs/$vendor
+neuron_dir=$home/$branch/Program/$vendor/neuron
+neuron_modules_dir=$home/$branch/Program/$vendor/neuron-modules
+package_dir=$home/$branch/Program/$vendor/package/neuron
+library=$home/$branch/libs/$vendor
 script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
 
 function download_ui() {
