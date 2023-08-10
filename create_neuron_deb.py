@@ -18,7 +18,8 @@ def parse_args():
 args = parse_args()
 
 home = '/home/neuron'
-package_dir = home + '/Program/' + args.vendor + '/package/neuron'
+branch = '/main'
+package_dir = home + branch + '/Program/' + args.vendor + '/package/neuron'
 rules = []
 
 rules.append(mkdeb.FileMap("deb/conffiles", "/DEBIAN/", "r", "conffiles"))
