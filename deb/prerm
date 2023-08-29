@@ -10,5 +10,5 @@ fi
 systemctl disable neuron
 systemctl stop neuron
 
-rm -rf /opt/neuron/core
-rm -rf /opt/neuron/logs
+rm -rf /opt/neuron/core/*
+rm -rf /opt/neuron/logs/*
