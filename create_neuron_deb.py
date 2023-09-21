@@ -51,6 +51,7 @@ mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/dist', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/simulator', '/opt/neuron/')
+mkdeb.copy_dir(package_dir + '/persistence', '/opt/neuron/')
 
 mkdeb.create_deb_file(rules)
 
