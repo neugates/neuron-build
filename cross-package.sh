@@ -93,7 +93,7 @@ cp $neuron_dir/build/config/neuron.key \
 	$package_dir/config/
 
 cp $neuron_modules_dir/build/config/neuron-default.lic \
-	$package_dir/config/
+	$package_dir/persistence/neuron.lic
 
 cp $neuron_modules_dir/default_plugins.json \
 	$neuron_modules_dir/build/config/opcua_cert.der \
