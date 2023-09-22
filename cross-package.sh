@@ -143,6 +143,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
 	$neuron_modules_dir/build/plugins/libplugin-kuka.so \
     	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-1400.so \
+    	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-5500.so \
     	$package_dir/plugins/
 
 # cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
