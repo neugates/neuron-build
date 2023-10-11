@@ -11,8 +11,9 @@ ekuiper_version=1.9.0
 ekuiper_arch=?
 ekuiper=false
 ui_path=https://github.com/emqx/neuron-dashboard/releases/download
+kuiper_path=https://github.com/lf-edge/ekuiper/releases/download
 
-while getopts ":a:v:e:k:o:u:i:" OPT; do
+while getopts ":a:v:e:k:o:u:i:g:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -32,8 +33,11 @@ while getopts ":a:v:e:k:o:u:i:" OPT; do
 	u)
 	    ui_path=$OPTARG
 	    ;;
-    i)
+    	i)
 	    ui_version=$OPTARG
+	    ;;
+    	g)
+	    kuiper_path=$OPTARG
 	    ;;
     esac
 done
@@ -66,7 +70,7 @@ function download_ekuiper() {
 
 	case $ekuiper in
 		(true)
-			wget https://github.com/lf-edge/ekuiper/releases/download/$ekuiper_version/kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;
+			wget $kuiper_path/$ekuiper_version/kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz;
 			mkdir ekuiper;
 			tar xvf kuiper-$ekuiper_version-linux-$ekuiper_arch.tar.gz --strip-components=1 -C ekuiper/;
 			cp $script_dir/ekuiper_init.json ekuiper/data/init.json
