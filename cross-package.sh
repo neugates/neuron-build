@@ -45,12 +45,12 @@ function download_ui() {
 
 	case $language in
 		(cn)
-			wget $ui_path/$ui_version/neuron-dashboard.zip;
+			wget $ui_path/$ui_version/neuron-dashboard.zip -e "https_proxy=http://192.168.10.10:1080";
 
 			unzip neuron-dashboard.zip;
 			rm -rf neuron-dashboard.zip;;
 		(en)
-			wget $ui_path/$ui_version/neuron-dashboard-en.zip;
+			wget $ui_path/$ui_version/neuron-dashboard-en.zip -e "https_proxy=http://192.168.10.10:1080";
 
 			unzip neuron-dashboard-en.zip;
 			rm -rf neuron-dashboard-en.zip;;
