@@ -6,12 +6,9 @@ home=/home/neuron
 branch=main
 vendor=?
 arch=?
-ui_version=?
 version=?
-ui_path=https://github.com/emqx/neuron-dashboard/releases/download
-language=cn
 
-while getopts ":a:v:o:u:l:i:" OPT; do
+while getopts ":a:v:o:l:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -19,18 +16,9 @@ while getopts ":a:v:o:u:l:i:" OPT; do
         o)
             vendor=$OPTARG
             ;;
-	v)
-	    version=$OPTARG
-	    ;;
-	u)
-	    ui_path=$OPTARG
-	    ;;
-	i)
-	    ui_version=$OPTARG
-	    ;;
-	l)
-	    language=$OPTARG
-	    ;;
+		v)
+	    	version=$OPTARG
+	    	;;
     esac
 done
 
@@ -39,23 +27,6 @@ neuron_modules_dir=$home/$branch/Program/$vendor/neuron-modules
 package_dir=$home/$branch/Program/$vendor/package/neuron
 library=$home/$branch/libs/$vendor
 script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
-
-function download_ui() {
-	cd $package_dir
-
-	case $language in
-		(cn)
-			wget $ui_path/$ui_version/neuron-dashboard.zip;
-
-			unzip neuron-dashboard.zip;
-			rm -rf neuron-dashboard.zip;;
-		(en)
-			wget $ui_path/$ui_version/neuron-dashboard-en.zip;
-
-			unzip neuron-dashboard-en.zip;
-			rm -rf neuron-dashboard-en.zip;;
-	esac
-}
 
 
 rm -rf $package_dir
@@ -72,8 +43,6 @@ mkdir -p $package_dir/simulator
 cp .gitkeep $package_dir/logs/
 cp .gitkeep $package_dir/persistence/
 cp .gitkeep $package_dir/certs/
-
-download_ui
 
 cp $neuron_dir/LICENSE $package_dir/config
 cp $neuron_modules_dir/config/protobuf-LICENSE $package_dir/config/
@@ -164,11 +133,5 @@ cp $neuron_modules_dir/build/simulator/opcua_simulator \
 cd $package_dir/..
 rm -rf neuron*.tar.gz
 
-case $language in
-	(cn)
-		tar czf neuron-$version-linux-$arch.tar.gz neuron
-		echo "neuron-$version-linux-$arch.tar.gz";;
-	(en)
-		tar czf neuron-$version-linux-$arch-en.tar.gz neuron
-		echo "neuron-$version-linux-$arch-en.tar.gz";;
-esac
+tar czf neuron-$version-linux-$arch.tar.gz neuron
+echo "neuron-$version-linux-$arch.tar.gz";;
