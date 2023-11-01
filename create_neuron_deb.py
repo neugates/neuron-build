@@ -10,8 +10,6 @@ def parse_args():
     parser.add_argument("-v", "--version", type=str, help="version")
     parser.add_argument("-a", "--arch", type=str, help="arch")
     parser.add_argument("-o", "--vendor", type=str, help="vendor")
-    parser.add_argument("-l", "--language", type=str, default="cn",
-                          help="package language")
     return parser.parse_args()
 
 
@@ -46,7 +44,7 @@ rules.append(mkdeb.FileMap(
 rules.append(mkdeb.FileMap(
     package_dir + '/liblicense.so', "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
-     package_dir + "/libzlog.so.1.2", "/opt/neuron/"))
+    package_dir + "/libzlog.so.1.2", "/opt/neuron/"))
 
 mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
@@ -56,14 +54,9 @@ mkdeb.copy_dir(package_dir + '/persistence', '/opt/neuron/')
 
 mkdeb.create_deb_file(rules)
 
-if args.language == 'cn':
-    mkdeb.create_control("neuron", args.version,
-                         args.arch, "neuron cn package", "")
-    cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
-        args.version + '-' + 'linux' + '-' + args.arch + ".deb"
-else:
-    mkdeb.create_control("neuron", args.version, args.arch, "neuron", "")
-    cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
-        args.version + '-' + 'linux' + '-' + args.arch + "-en.deb"
+mkdeb.create_control("neuron", args.version,
+                     args.arch, "neuron cn package", "")
+cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuron' + '-' + \
+    args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 
 os.system(cmd)
