@@ -11,8 +11,9 @@ branch=?
 cross=false
 user=emqx
 smart=false
+clib=glibc
 
-while getopts ":a:v:b:c:u:s:" OPT; do
+while getopts ":a:v:b:c:u:s:l:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -31,6 +32,9 @@ while getopts ":a:v:b:c:u:s:" OPT; do
             ;;
         s)
             smart=$OPTARG
+            ;;
+        l)
+            clib=$OPTARG
             ;;
     esac
 done
@@ -70,6 +74,17 @@ function compile_source_with_tag() {
             -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
             -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
             -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;;
+    esac
+
+    case $clib in
+        (glibc)
+            ;;
+        (*)
+            cmake .. -DCMAKE_BUILD_TYPE=Release -DDISABLE_UT=ON \
+            -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
+            -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
+            -DCLIB=\'\"$clib\"\' \
+            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;; 
     esac
 
     make -j4 
