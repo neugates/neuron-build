@@ -140,4 +140,4 @@ cd $package_dir/..
 rm -rf neuron*.tar.gz
 
 tar czf neuron-$version-linux-$arch.tar.gz neuron
-echo "neuron-$version-linux-$arch.tar.gz";;
+echo "neuron-$version-linux-$arch.tar.gz"
