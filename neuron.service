@@ -11,7 +11,7 @@ RestartSec=5
 Group=root
 LimitCORE=infinity
 ExecStartPre=-/opt/neuron/neuron.sh
-LimitNOFILE=10240
+LimitNOFILE=infinity
 
 [Install]
 WantedBy=multi-user.target
