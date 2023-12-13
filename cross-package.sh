@@ -144,8 +144,6 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
     	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-1400.so \
     	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-5500.so \
-    	$neuron_modules_dir/build/plugins/libplugin-rk512.so \
-    	$neuron_modules_dir/build/plugins/libplugin-hostlink-cmode.so \
     	$package_dir/plugins/
 
 #cp $neuron_modules_dir/build/plugins/libplugin-gewu2.so \
