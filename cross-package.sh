@@ -37,7 +37,6 @@ mkdir -p $package_dir/plugins/schema
 mkdir -p $package_dir/logs
 mkdir -p $package_dir/persistence
 mkdir -p $package_dir/certs
-mkdir -p $package_dir/simulator
 
 
 cp .gitkeep $package_dir/logs/
@@ -126,15 +125,6 @@ cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
-
-cp $neuron_dir/build/simulator/modbus_simulator \
-	$package_dir/simulator/
-
-cp $neuron_modules_dir/build/simulator/opcua_simulator \
-	$neuron_modules_dir/build/simulator/hj_simulator \
-	$neuron_modules_dir/build/simulator/comli_simulator \
-	$neuron_modules_dir/build/simulator/mewtocol_simulator \
-	$package_dir/simulator/
 
 
 cd $package_dir/..
