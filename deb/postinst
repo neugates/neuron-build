@@ -7,7 +7,9 @@ systemctl enable neuron
 systemctl start neuron
 (
 sleep 3
-apt-mark hold neuron
+if command -v apt-mark >/dev/null 2>&1; then  
+    apt-mark hold neuron 
+fi
 ) &
 
 if [ -e "/etc/systemd/system/neuron.ekuiper.service" ]; then
