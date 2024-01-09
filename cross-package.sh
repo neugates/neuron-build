@@ -140,7 +140,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
     	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
     	$package_dir/plugins/
 
-# cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
+cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
 	$package_dir/plugins/schema/
