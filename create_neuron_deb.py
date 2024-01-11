@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument("-o", "--vendor", type=str, help="vendor")
     parser.add_argument("-n", "--name", type=str, help="name", default="")
     parser.add_argument("-e", "--with_ekuiper", type=str,
-                          help="package with ekuiper")
+                        help="package with ekuiper")
     return parser.parse_args()
 
 
@@ -40,13 +40,13 @@ rules.append(mkdeb.FileMap(".gitkeep", "/opt/neuron/certs/"))
 
 rules.append(mkdeb.FileMap(package_dir + '/neuron', "/opt/neuron/", "x"))
 rules.append(mkdeb.FileMap(
-     package_dir + "/libfwlib32.so.1", "/opt/neuron/"))
+    package_dir + "/libfocas32.so.1", "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
     package_dir + '/libneuron-base.so', "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
     package_dir + '/liblicense.so', "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
-     package_dir + "/libzlog.so.1.2", "/opt/neuron/"))
+    package_dir + "/libzlog.so.1.2", "/opt/neuron/"))
 
 mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
@@ -63,13 +63,13 @@ mkdeb.create_deb_file(rules)
 
 if len(args.name) != 0:
     mkdeb.create_control(args.name, args.version,
-                        args.arch, "ECP Edge", "")
+                         args.arch, "ECP Edge", "")
     cmd = 'dpkg-deb -Zxz -b tmp/ ' + args.name + '-' + \
         args.version + '-' + 'linux' + '-' + args.arch + ".deb"
 else:
     if args.with_ekuiper == 'true' or args.with_ekuiper == 'True':
         mkdeb.create_control("neuronex", args.version,
-                            args.arch, "neuron plus ekuiper", "")
+                             args.arch, "neuron plus ekuiper", "")
         cmd = 'dpkg-deb -Zxz -b tmp/ ' + 'neuronex' + '-' + \
             args.version + '-' + 'linux' + '-' + args.arch + ".deb"
     else:
