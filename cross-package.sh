@@ -116,10 +116,10 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
 		$neuron_modules_dir/build/plugins/libplugin-srtp.so \
     	$package_dir/plugins/
 
-#cp $neuron_modules_dir/build/plugins/libplugin-gewu2.so \
-        #$neuron_modules_dir/build/plugins/libplugin-s7comm-for-un.so \
-		#$neuron_modules_dir/build/plugins/libplugin-focas.so \
-   		#$package_dir/plugins/
+cp $neuron_modules_dir/build/plugins/libplugin-gewu2.so \
+        $neuron_modules_dir/build/plugins/libplugin-s7comm-for-un.so \
+		$neuron_modules_dir/build/plugins/libplugin-focas.so \
+   		$package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/
 
