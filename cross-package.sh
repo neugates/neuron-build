@@ -131,7 +131,7 @@ cp $neuron_modules_dir/build/plugins/schema/*.json \
 case $cnc in 
     (true)
         cp	$neuron_modules_dir/build/plugins/libplugin-focas.so \
-            $neuron_modules_dir/build/plugins/libplugn-mitsubishi_cnc.so \
+            $neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
             $package_dir/plugins/;
 
         cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/;;
