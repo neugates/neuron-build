@@ -7,8 +7,10 @@ branch=main
 vendor=?
 arch=?
 version=?
+cnc=false
+custom=default
 
-while getopts ":a:v:o:l:" OPT; do
+while getopts ":a:v:o:c:n:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -16,9 +18,15 @@ while getopts ":a:v:o:l:" OPT; do
         o)
             vendor=$OPTARG
             ;;
-		v)
-	    	version=$OPTARG
-	    	;;
+        v)
+            version=$OPTARG
+            ;;
+        c)
+            custom=$OPTARG
+            ;;
+        n)
+            cnc=$OPTARG
+            ;;
     esac
 done
 
@@ -55,77 +63,90 @@ cp $neuron_modules_dir/build/liblicense.so $package_dir/
 
 cp $neuron_dir/build/neuron $package_dir/
 cp $neuron_dir/build/config/neuron.key \
-	$neuron_dir/build/config/neuron.pem \
+    $neuron_dir/build/config/neuron.pem \
     $neuron_dir/build/config/neuron.json \
-	$neuron_dir/build/config/zlog.conf \
-	$neuron_dir/build/config/dev.conf \
-	$neuron_dir/build/config/*.sql \
-	$package_dir/config/
+    $neuron_dir/build/config/zlog.conf \
+    $neuron_dir/build/config/dev.conf \
+    $neuron_dir/build/config/*.sql \
+    $package_dir/config/
 
 cp $neuron_modules_dir/build/config/neuron-default.lic \
-	$package_dir/persistence/
+    $package_dir/persistence/
 
 cp $neuron_modules_dir/default_plugins.json \
-	$neuron_modules_dir/build/config/opcua_cert.der \
- 	$neuron_modules_dir/build/config/opcua_key.der \
-	$package_dir/config/
+    $neuron_modules_dir/build/config/opcua_cert.der \
+     $neuron_modules_dir/build/config/opcua_key.der \
+    $package_dir/config/
 
 cp $neuron_dir/build/plugins/libplugin-mqtt.so \
-	$neuron_dir/build/plugins/libplugin-ekuiper.so \
-	$package_dir/plugins/
+    $neuron_dir/build/plugins/libplugin-ekuiper.so \
+    $package_dir/plugins/
 
 cp $neuron_dir/build/plugins/schema/*.json \
-	$package_dir/plugins/schema/
+    $package_dir/plugins/schema/
 
 cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
-    	$neuron_modules_dir/build/plugins/libplugin-gewu.so \
-    	$neuron_modules_dir/build/plugins/libplugin-sparkplugb.so \
-    	$neuron_modules_dir/build/plugins/libplugin-opcua.so \
-    	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
-    	$neuron_modules_dir/build/plugins/libplugin-Profinet.so \
-    	$neuron_modules_dir/build/plugins/libplugin-qna3e.so \
-    	$neuron_modules_dir/build/plugins/libplugin-a1e.so \
-    	$neuron_modules_dir/build/plugins/libplugin-fx.so \
-    	$neuron_modules_dir/build/plugins/libplugin-s7comm.so \
-    	$neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
-    	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so \
-    	$neuron_modules_dir/build/plugins/libplugin-fins-tcp.so \
-    	$neuron_modules_dir/build/plugins/libplugin-fins-udp.so \
-    	$neuron_modules_dir/build/plugins/libplugin-hostlink-cmode.so \
-    	$neuron_modules_dir/build/plugins/libplugin-ads.so \
-    	$neuron_modules_dir/build/plugins/libplugin-df1.so \
-    	$neuron_modules_dir/build/plugins/libplugin-comli.so \
-    	$neuron_modules_dir/build/plugins/libplugin-mewtocol.so \
-    	$neuron_modules_dir/build/plugins/libplugin-iec104.so \
-    	$neuron_modules_dir/build/plugins/libplugin-iec61850.so \
-    	$neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so \
-    	$neuron_modules_dir/build/plugins/libplugin-dlt645-1997.so \
-    	$neuron_modules_dir/build/plugins/libplugin-bacnet.so \
-    	$neuron_modules_dir/build/plugins/libplugin-knx.so \
-    	$neuron_modules_dir/build/plugins/libplugin-HJ212.so \
-    	$neuron_modules_dir/build/plugins/libplugin-nona11.so \
-		$neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
-		$neuron_modules_dir/build/plugins/libplugin-modbus-rtu.so \
-		$neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
-		$neuron_modules_dir/build/plugins/libplugin-inovance-modbus-tcp.so \
-		$neuron_modules_dir/build/plugins/libplugin-hsms.so \
-		$neuron_modules_dir/build/plugins/libplugin-kuka.so \
-    	$neuron_modules_dir/build/plugins/libplugin-license-server.so \
-    	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-1400.so \
-    	$neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-5500.so \
-		$neuron_modules_dir/build/plugins/libplugin-srtp.so \
-    	$package_dir/plugins/
-
-#cp $neuron_modules_dir/build/plugins/libplugin-gewu2.so \
-        #$neuron_modules_dir/build/plugins/libplugin-s7comm-for-un.so \
-		#$neuron_modules_dir/build/plugins/libplugin-focas.so \
-    	#$package_dir/plugins/
-
-cp $neuron_modules_dir/build/plugins/focas/libfwlib32.so.1 $package_dir/
+        $neuron_modules_dir/build/plugins/libplugin-gewu.so \
+        $neuron_modules_dir/build/plugins/libplugin-sparkplugb.so \
+        $neuron_modules_dir/build/plugins/libplugin-opcua.so \
+        $neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
+        $neuron_modules_dir/build/plugins/libplugin-Profinet.so \
+        $neuron_modules_dir/build/plugins/libplugin-qna3e.so \
+        $neuron_modules_dir/build/plugins/libplugin-a1e.so \
+        $neuron_modules_dir/build/plugins/libplugin-fx.so \
+        $neuron_modules_dir/build/plugins/libplugin-s7comm.so \
+        $neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
+        $neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so \
+        $neuron_modules_dir/build/plugins/libplugin-fins-tcp.so \
+        $neuron_modules_dir/build/plugins/libplugin-fins-udp.so \
+        $neuron_modules_dir/build/plugins/libplugin-hostlink-cmode.so \
+        $neuron_modules_dir/build/plugins/libplugin-ads.so \
+        $neuron_modules_dir/build/plugins/libplugin-df1.so \
+        $neuron_modules_dir/build/plugins/libplugin-comli.so \
+        $neuron_modules_dir/build/plugins/libplugin-mewtocol.so \
+        $neuron_modules_dir/build/plugins/libplugin-iec104.so \
+        $neuron_modules_dir/build/plugins/libplugin-iec61850.so \
+        $neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so \
+        $neuron_modules_dir/build/plugins/libplugin-dlt645-1997.so \
+        $neuron_modules_dir/build/plugins/libplugin-bacnet.so \
+        $neuron_modules_dir/build/plugins/libplugin-knx.so \
+        $neuron_modules_dir/build/plugins/libplugin-HJ212.so \
+        $neuron_modules_dir/build/plugins/libplugin-nona11.so \
+        $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
+        $neuron_modules_dir/build/plugins/libplugin-modbus-rtu.so \
+        $neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
+        $neuron_modules_dir/build/plugins/libplugin-inovance-modbus-tcp.so \
+        $neuron_modules_dir/build/plugins/libplugin-hsms.so \
+        $neuron_modules_dir/build/plugins/libplugin-kuka.so \
+        $neuron_modules_dir/build/plugins/libplugin-license-server.so \
+        $neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-1400.so \
+        $neuron_modules_dir/build/plugins/libplugin-EtherNet-IP-5500.so \
+        $neuron_modules_dir/build/plugins/libplugin-srtp.so \
+        $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
-	$package_dir/plugins/schema/
+    $package_dir/plugins/schema/
 
+case $cnc in 
+    (true)
+        cp	$neuron_modules_dir/build/plugins/libplugin-focas.so \
+            $neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
+            $neuron_modules_dir/build/plugins/libplugin-heidenhain_cnc.so \
+            $package_dir/plugins/;
+
+        cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/;;
+    (false)
+        echo "no cnc";;
+esac 
+
+case $custom in
+    (cun)
+        cp 	$neuron_modules_dir/build/plugins/libplugin-gewu2.so \
+            $neuron_modules_dir/build/plugins/libplugin-s7comm-for-un.so \
+            $package_dir/plugins/;;
+    (default)
+        echo "no custom";;
+esac
 
 
 cd $package_dir/..
