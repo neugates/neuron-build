@@ -102,7 +102,11 @@ function build_openssl() {
     git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
     cd openssl
     mkdir -p $install_dir/openssl/ssl
-    ./Configure linux-$arch no-asm no-async shared \
+    platform=linux-$arch
+    if [[ $arch == "riscv64" ]]; then
+      platform=linux-generic64
+    fi
+    ./Configure $platform no-asm no-async shared \
         --prefix=$install_dir \
         --openssldir=$install_dir/openssl/ssl \
         --cross-compile-prefix=$compile_prefix
