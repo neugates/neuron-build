@@ -103,7 +103,7 @@ function build_openssl() {
     cd openssl
     mkdir -p $install_dir/openssl/ssl
     platform=linux-$arch
-    if [[ "arch" == "riscv64" ]]; then
+    if [[ $arch == "riscv64" ]]; then
       platform=linux-generic64
     fi
     ./Configure $platform no-asm no-async shared \
