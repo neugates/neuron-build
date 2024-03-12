@@ -97,6 +97,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-s7comm.so \
         $neuron_modules_dir/build/plugins/libplugin-s7comm-for-300.so \
         $neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so \
+        $neuron_modules_dir/build/plugins/libplugin-mpi.so \
         $neuron_modules_dir/build/plugins/libplugin-fins-tcp.so \
         $neuron_modules_dir/build/plugins/libplugin-fins-udp.so \
         $neuron_modules_dir/build/plugins/libplugin-hostlink-cmode.so \
