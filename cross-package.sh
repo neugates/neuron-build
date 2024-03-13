@@ -45,6 +45,7 @@ mkdir -p $package_dir/plugins/schema
 mkdir -p $package_dir/logs
 mkdir -p $package_dir/persistence
 mkdir -p $package_dir/certs
+mkdir -p $package_dir/simulator
 
 
 cp .gitkeep $package_dir/logs/
@@ -128,6 +129,9 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
     $package_dir/plugins/schema/
+
+cp $neuron_modules_dir/build/simulator/opcua_simulator \
+	$package_dir/simulator/
 
 case $cnc in 
     (true)
