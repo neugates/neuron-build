@@ -9,8 +9,9 @@ arch=?
 version=?
 cnc=false
 custom=default
+build_type=Release
 
-while getopts ":a:v:o:c:n:" OPT; do
+while getopts ":a:v:o:c:n:d:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -27,12 +28,25 @@ while getopts ":a:v:o:c:n:" OPT; do
         n)
             cnc=$OPTARG
             ;;
+        d)
+            build_type=$OPTARG
+            ;;
     esac
 done
 
-neuron_dir=$home/$branch/Program/$vendor/neuron
-neuron_modules_dir=$home/$branch/Program/$vendor/neuron-modules
-package_dir=$home/$branch/Program/$vendor/package/neuron
+
+case $build_type in
+    (Release)
+        neuron_dir=$home/$branch/Program/$vendor/neuron;
+        neuron_modules_dir=$home/$branch/Program/$vendor/neuron-modules;
+        package_dir=$home/$branch/Program/$vendor/package/neuron;;
+    (Debug)
+        neuron_dir=$home/$branch/Program_Debug/$vendor/neuron; 
+        neuron_modules_dir=$home/$branch/Program_Debug/$vendor/neuron-modules;
+        package_dir=$home/$branch/Program_Debug/$vendor/package/neuron;;
+esac
+
+
 library=$home/$branch/libs/$vendor
 script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
 
@@ -151,9 +165,29 @@ case $custom in
         echo "no custom";;
 esac
 
+case $build_type in
+    (Debug)
+        if [ $vendor == "x86_64-neuron-linux-gnu" ]; then
+    	    cp /home/neuron/buildroot/$vendor/output/host/usr/$vendor/lib64/libasan.so.2.0.0 $package_dir/
+            cd $package_dir
+            ln -s ./libasan.so.2.0.0 libasan.so.2
+        fi;; 
+    (Release)
+        echo "release";;
+esac
+
 
 cd $package_dir/..
 rm -rf neuron*.tar.gz
 
-tar czf neuron-$version-linux-$arch.tar.gz neuron
-echo "neuron-$version-linux-$arch.tar.gz"
+
+case $build_type in
+    (Release)
+        tar czf neuron-$version-linux-$arch.tar.gz neuron;
+        echo "neuron-$version-linux-$arch.tar.gz";;
+    (Debug)
+        tar czf neuron-$version-debug-linux-$arch.tar.gz neuron;
+        echo "neuron-$version-debug-linux-$arch.tar.gz";;
+esac
+
+
