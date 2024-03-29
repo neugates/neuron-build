@@ -74,7 +74,7 @@ cp .gitkeep $package_dir/certs/
 
 download_ui
 
-cp $neuron_dir/LICENSE $package_dir/config
+#cp $neuron_dir/LICENSE $package_dir/config
 cp $neuron_modules_dir/config/protobuf-LICENSE $package_dir/config/
 cp $neuron_modules_dir/config/protobuf-c-LICENSE $package_dir/config/
 
