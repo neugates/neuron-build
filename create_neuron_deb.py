@@ -16,7 +16,7 @@ def parse_args():
 args = parse_args()
 
 home = '/home/neuron'
-branch = '/main'
+branch = '/v2.9'
 package_dir = home + branch + '/Program/' + args.vendor + '/package/neuron'
 rules = []
 
