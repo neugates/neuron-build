@@ -162,6 +162,9 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-df1.so \
     	$neuron_modules_dir/build/plugins/libplugin-s5fetch-write.so\
     	$neuron_modules_dir/build/plugins/libplugin-iec61850.so\
+    	$neuron_modules_dir/build/plugins/libplugin-Profinet.so\
+    	$neuron_modules_dir/build/plugins/libplugin-plc2.so\
+    	$neuron_modules_dir/build/plugins/libplugin-plc5.so\
 	$neuron_modules_dir/build/plugins/libplugin-comli.so\
 	$neuron_modules_dir/build/plugins/libplugin-HJ212.so\
     	$package_dir/plugins/
