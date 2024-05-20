@@ -94,6 +94,7 @@ cp $neuron_modules_dir/default_plugins.json \
     $package_dir/config/
 
 cp $neuron_dir/build/plugins/libplugin-mqtt.so \
+    $neuron_dir/build/plugins/libplugin-mqtt-xinao.so \
     $neuron_dir/build/plugins/libplugin-ekuiper.so \
     $package_dir/plugins/
 
