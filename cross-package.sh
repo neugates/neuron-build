@@ -3,7 +3,7 @@
 set -e
 
 home=/home/neuron
-branch=v2.8
+branch=v2.8-batch
 vendor=?
 arch=?
 version=?

@@ -3,7 +3,7 @@
 set -e
 
 home=/home/neuron
-bdb=v2.8
+bdb=v2.8-batch
 library=$home/$bdb/libs
 vendor=?
 arch=?
