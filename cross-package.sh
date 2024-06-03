@@ -121,7 +121,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-df1.so \
         $neuron_modules_dir/build/plugins/libplugin-comli.so \
         $neuron_modules_dir/build/plugins/libplugin-mewtocol.so \
-        $neuron_modules_dir/build/plugins/libplugin-iec104.so \
+        $neuron_modules_dir/build/plugins/libplugin-iec104-standard.so \
         $neuron_modules_dir/build/plugins/libplugin-iec102.so \
         $neuron_modules_dir/build/plugins/libplugin-iec103.so \
         $neuron_modules_dir/build/plugins/libplugin-iec101.so \
@@ -165,6 +165,9 @@ case $custom in
     (cun)
         cp 	$neuron_modules_dir/build/plugins/libplugin-gewu2.so \
             $neuron_modules_dir/build/plugins/libplugin-s7comm-for-un.so \
+            $package_dir/plugins/;;
+    (hr)
+        cp  $neuron_modules_dir/build/plugins/libplugin-iec104.so \
             $package_dir/plugins/;;
     (default)
         echo "no custom";;
