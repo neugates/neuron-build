@@ -155,7 +155,7 @@ case $cnc in
             $neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
             $neuron_modules_dir/build/plugins/libplugin-heidenhain_cnc.so \
             $package_dir/plugins/;
-
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-mitsubishi_cnc.so,libplugin-heidenhain_cnc.so";
         cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/;;
     (false)
         echo "no cnc";;
@@ -165,10 +165,12 @@ case $custom in
     (cun)
         cp 	$neuron_modules_dir/build/plugins/libplugin-gewu2.so \
             $neuron_modules_dir/build/plugins/libplugin-s7comm-for-un.so \
-            $package_dir/plugins/;;
+            $package_dir/plugins/;
+            python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-gewu2.so,libplugin-s7comm-for-un.so";;
     (hr)
         cp  $neuron_modules_dir/build/plugins/libplugin-iec104.so \
-            $package_dir/plugins/;;
+            $package_dir/plugins/;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-iec104.so";;
     (default)
         echo "no custom";;
 esac
