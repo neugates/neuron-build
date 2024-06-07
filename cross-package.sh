@@ -136,6 +136,8 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-modbus-rtu.so \
         $neuron_modules_dir/build/plugins/libplugin-modbus-qh-tcp.so \
         $neuron_modules_dir/build/plugins/libplugin-inovance-modbus-tcp.so \
+        $neuron_modules_dir/build/plugins/libplugin-modbus-ascii.so \
+        $neuron_modules_dir/build/plugins/libplugin-xinjie-modbus-rtu.so \
         $neuron_modules_dir/build/plugins/libplugin-hsms.so \
         $neuron_modules_dir/build/plugins/libplugin-kuka.so \
         $neuron_modules_dir/build/plugins/libplugin-license-server.so \
