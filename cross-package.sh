@@ -120,6 +120,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-comli.so \
         $neuron_modules_dir/build/plugins/libplugin-mewtocol.so \
         $neuron_modules_dir/build/plugins/libplugin-iec104.so \
+        $neuron_modules_dir/build/plugins/libplugin-iec104-standard.so \
         $neuron_modules_dir/build/plugins/libplugin-iec61850.so \
         $neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so \
         $neuron_modules_dir/build/plugins/libplugin-dlt645-1997.so \
