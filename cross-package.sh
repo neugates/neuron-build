@@ -126,6 +126,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-iec103.so \
         $neuron_modules_dir/build/plugins/libplugin-iec101.so \
         $neuron_modules_dir/build/plugins/libplugin-iec61850.so \
+        $neuron_modules_dir/build/plugins/libplugin-iec61850-browse.so \
         $neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so \
         $neuron_modules_dir/build/plugins/libplugin-dlt645-1997.so \
         $neuron_modules_dir/build/plugins/libplugin-bacnet.so \
