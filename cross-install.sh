@@ -174,7 +174,7 @@ function build_libxml2(){
     cd libxml2
     ./autogen.sh
 
-    ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no --with-http=no --with-python=no --with-lzma=no --with-zlib=no CFLAGS='-O2 -fno-semantic-interposition -fPIC' PKG_CONFIG_PATH=$vendor
+    ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no --with-http=no --with-python=no --with-lzma=no --with-zlib=no CFLAGS='-O2 -fPIC' PKG_CONFIG_PATH=$vendor
 
     make -j4
     make install
