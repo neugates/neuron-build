@@ -149,6 +149,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-modbus-tcp.so \
     	$neuron_modules_dir/build/plugins/libplugin-qna3e.so \
     	$neuron_modules_dir/build/plugins/libplugin-iec104.so \
     	$neuron_modules_dir/build/plugins/libplugin-bacnet.so \
+		$neuron_modules_dir/build/plugins/libplugin-bacnet-comac.so \
     	$neuron_modules_dir/build/plugins/libplugin-dlt645-2007.so\
     	$neuron_modules_dir/build/plugins/libplugin-knx.so\
     	$neuron_modules_dir/build/plugins/libplugin-nona11.so\
