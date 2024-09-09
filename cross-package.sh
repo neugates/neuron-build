@@ -205,5 +205,3 @@ case $build_type in
         tar czf neuron-$version-debug-linux-$arch.tar.gz neuron;
         echo "neuron-$version-debug-linux-$arch.tar.gz";;
 esac
-
-
