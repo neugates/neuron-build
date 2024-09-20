@@ -96,7 +96,6 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
     $neuron_dir/build/plugins/libplugin-ekuiper.so \
     $neuron_dir/build/plugins/libplugin-aws-iot.so \
     $neuron_dir/build/plugins/libplugin-azure-iot.so \
-    $neuron_dir/build/plugins/libplugin-file.so \
     $package_dir/plugins/
 
 cp $neuron_dir/build/plugins/schema/*.json \
