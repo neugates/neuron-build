@@ -139,6 +139,8 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-inovance-modbus-tcp.so \
         $neuron_modules_dir/build/plugins/libplugin-modbus-ascii.so \
         $neuron_modules_dir/build/plugins/libplugin-xinje-modbus-rtu.so \
+        $neuron_modules_dir/build/plugins/libplugin-hollysys-modbus-rtu \
+        $neuron_modules_dir/build/plugins/libplugin-hollysys-modbus-tcp \
         $neuron_modules_dir/build/plugins/libplugin-hsms.so \
         $neuron_modules_dir/build/plugins/libplugin-kuka.so \
         $neuron_modules_dir/build/plugins/libplugin-license-server.so \
@@ -149,6 +151,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-codesys3.so \
         $neuron_modules_dir/build/plugins/libplugin-ab5000.so \
         $neuron_modules_dir/build/plugins/libplugin-omron-cip.so \
+        $neuron_modules_dir/build/plugins/libplugin-dnp3 \
         $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
