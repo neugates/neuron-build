@@ -179,6 +179,10 @@ case $custom in
         cp  $neuron_modules_dir/build/plugins/libplugin-iec104.so \
             $package_dir/plugins/;
         python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-iec104.so";;
+    (dft)
+        cp  $neuron_modules_dir/build/plugins/libplugin-ethercat.so \
+            $package_dir/plugins/;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-ethercat.so";;
     (default)
         echo "no custom";;
 esac
