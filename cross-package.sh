@@ -10,8 +10,9 @@ version=?
 cnc=false
 custom=default
 build_type=Release
+simulator=false
 
-while getopts ":a:v:o:c:n:d:" OPT; do
+while getopts ":a:v:o:c:n:d:s:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -30,6 +31,9 @@ while getopts ":a:v:o:c:n:d:" OPT; do
             ;;
         d)
             build_type=$OPTARG
+            ;;
+        s)
+            simulator=$OPTARG
             ;;
     esac
 done
@@ -155,6 +159,16 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
     $package_dir/plugins/schema/
+
+case $simulator in 
+    (true)
+        mkdir -p $package_dir/simulator
+        cp	$neuron_modules_dir/build/simulator/*_simulator \
+            $package_dir/simulator/
+        echo "package simulator";
+    (false)
+        echo "no simulator";;
+esac 
 
 case $cnc in 
     (true)
