@@ -182,7 +182,9 @@ case $custom in
     (dft)
         cp  $neuron_modules_dir/build/plugins/libplugin-ethercat.so \
             $package_dir/plugins/;
-        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-ethercat.so";;
+        cp  $neuron_modules_dir/build/plugins/libplugin-profibus.so \
+            $package_dir/plugins/;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-ethercat.so,libplugin-profibus.so";;
     (default)
         echo "no custom";;
 esac
