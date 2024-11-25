@@ -163,9 +163,9 @@ cp $neuron_modules_dir/build/plugins/schema/*.json \
 case $simulator in 
     (true)
         mkdir -p $package_dir/simulator
-        cp	$neuron_modules_dir/build/simulator/dlt645_simulator \
+        cp	$neuron_modules_dir/build/simulator/*_simulator \
             $package_dir/simulator/
-        echo "package simulator";
+        echo "package simulator";;
     (false)
         echo "no simulator";;
 esac 
@@ -197,7 +197,7 @@ case $custom in
         cp  $neuron_modules_dir/build/plugins/libplugin-ethercat.so \
             $neuron_modules_dir/build/plugins/libplugin-profibus.so \
             $package_dir/plugins/;
-        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-profibus.so";;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-ethercat.so,libplugin-profibus.so";;
     (default)
         echo "no custom";;
 esac
