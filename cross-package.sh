@@ -173,8 +173,9 @@ case $cnc in
         cp	$neuron_modules_dir/build/plugins/libplugin-focas.so \
             $neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
             $neuron_modules_dir/build/plugins/libplugin-heidenhain_cnc.so \
+            $neuron_modules_dir/build/plugins/libplugin-knd.so \
             $package_dir/plugins/;
-        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-mitsubishi_cnc.so,libplugin-heidenhain_cnc.so";;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-mitsubishi_cnc.so,libplugin-heidenhain_cnc.so,libplugin-knd.so";;
     (false)
         echo "no cnc";;
 esac 
