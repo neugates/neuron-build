@@ -110,6 +110,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
         $neuron_modules_dir/build/plugins/libplugin-Profinet.so \
         $neuron_modules_dir/build/plugins/libplugin-qna3e.so \
+        $neuron_modules_dir/build/plugins/libplugin-qna4e.so \
         $neuron_modules_dir/build/plugins/libplugin-a1e.so \
         $neuron_modules_dir/build/plugins/libplugin-fx.so \
         $neuron_modules_dir/build/plugins/libplugin-s7comm.so \
