@@ -108,7 +108,6 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-sparkplugb.so \
         $neuron_modules_dir/build/plugins/libplugin-opcua.so \
         $neuron_modules_dir/build/plugins/libplugin-EtherNet-IP.so \
-        $neuron_modules_dir/build/plugins/libplugin-Profinet.so \
         $neuron_modules_dir/build/plugins/libplugin-qna3e.so \
         $neuron_modules_dir/build/plugins/libplugin-qna4e.so \
         $neuron_modules_dir/build/plugins/libplugin-a1e.so \
