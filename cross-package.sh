@@ -178,7 +178,7 @@ case $cnc in
             $neuron_modules_dir/build/plugins/libplugin-mitsubishi_cnc.so \
             $neuron_modules_dir/build/plugins/libplugin-heidenhain_cnc.so \
             $neuron_modules_dir/build/plugins/libplugin-knd.so \
-            $neuron_modules_dir/build/plugins/libplugin-syntec.so \           
+            $neuron_modules_dir/build/plugins/libplugin-syntec.so \
             $package_dir/plugins/;
         python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-mitsubishi_cnc.so,libplugin-heidenhain_cnc.so,libplugin-knd.so,libplugin-syntec.so";;
     (false)
@@ -187,11 +187,11 @@ esac
 
 case $monitor in 
     (true)
-        cp	$neuron_dir/build/plugins/libplugin-monitor.so \     
+        cp	$neuron_dir/build/plugins/libplugin-monitor.so \
             $package_dir/plugins/;
         python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-monitor.so";;
     (false)
-        echo "no cnc";;
+        echo "no monitor";;
 esac 
 
 cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/
