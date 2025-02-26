@@ -188,6 +188,7 @@ esac
 case $monitor in 
     (true)
         cp	$neuron_dir/build/plugins/libplugin-monitor.so \
+            $neuron_dir/build/plugins/libplugin-file.so \
             $package_dir/plugins/;
         python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-monitor.so";;
     (false)
