@@ -13,8 +13,9 @@ user=emqx
 smart=false
 clib=glibc
 build_type=Release
+custom=""
 
-while getopts ":a:v:b:c:u:s:l:d:" OPT; do
+while getopts ":a:v:b:c:u:s:l:d:z:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -40,6 +41,9 @@ while getopts ":a:v:b:c:u:s:l:d:" OPT; do
         d)
             build_type=$OPTARG
             ;;
+        z)
+            custom=$OPTARG
+            ;;
     esac
 done
 
@@ -50,12 +54,16 @@ case $build_type in
         neuron_dir=$home/$bdb/Program_Debug/$vendor;; 
 esac
 
-case $cross in
-    (true)
-        tool_dir=/usr/bin;;
-    (false)
-        tool_dir=$home/buildroot/$vendor/output/host/bin;;
-esac
+if [ "$custom" == "zhzk" ]; then
+    tool_dir=/opt/gcc-linaro-5.3.1-2016.05-x86_64_arm-linux-gnueabihf/bin
+else
+    case $cross in
+        (true)
+            tool_dir=/usr/bin;;
+        (false)
+            tool_dir=$home/buildroot/$vendor/output/host/bin;;
+    esac
+fi
 
 function compile_source_with_tag() {
     local user=$1
@@ -72,29 +80,29 @@ function compile_source_with_tag() {
 	-DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
 	-DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake
 
-    case $smart in
-        (true)
-            cmake .. -DSMART_LINK=1 -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
+    if [ "$custom" == "zhzk" ]; then
+        cmake_cmd="cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
             -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
             -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
-            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;;
-        (false)
-            cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
+            -DCMAKE_C_COMPILER=$tool_dir/$vendor-gcc \
+            -DCMAKE_CXX_COMPILER=$tool_dir/$vendor-g++ \
+            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake"
+    else
+        cmake_cmd="cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
             -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
             -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
-            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;;
-    esac
+            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake"
+    fi
 
-    case $clib in
-        (glibc)
-            ;;
-        (*)
-            cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
-            -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
-            -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
-            -DCLIB=\'\"$clib\"\' \
-            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;; 
-    esac
+    if [ "$smart" == "true" ]; then
+        cmake_cmd="$cmake_cmd -DSMART_LINK=1"
+    fi
+
+    if [ "$clib" != "glibc" ]; then
+        cmake_cmd="$cmake_cmd -DCLIB='\"$clib\"'"
+    fi
+
+    eval $cmake_cmd
 
     make -j4 
 
