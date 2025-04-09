@@ -194,7 +194,7 @@ function install_ninja() {
 function build_arrow() {
     cd $library
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
-    tar -xzf apache-arrow-19.0.1.tar.gz
+    tar -xzvf apache-arrow-19.0.1.tar.gz
     cd apache-arrow-19.0.1/cpp
     mkdir -p build && cd build
 
@@ -214,8 +214,8 @@ function build_arrow() {
       -DARROW_FLIGHT_SQL=ON \
       -DARROW_WITH_GRPC=ON \
       -DARROW_PROTOBUF_USE_SHARED=ON \
-      -DProtobuf_ROOT=$install_dir \
-      -DgRPC_ROOT=$install_dir \
+      -DProtobuf_ROOT=/usr \
+      -DgRPC_ROOT=/usr \
       -GNinja
 
     ninja
