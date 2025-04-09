@@ -180,43 +180,41 @@ function build_libxml2(){
     make install
 }
 
-function install_ninja() {
-    if ! command -v ninja &> /dev/null; then
-        cd /tmp
-        wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
-        unzip ninja-linux.zip
-        chmod +x ninja
-        mv ninja /usr/local/bin/
-        rm -f ninja-linux.zip
-    fi
-}
-
 function build_arrow() {
+    apt-get update && apt-get install -y \
+        pkg-config ninja-build \
+        libgrpc++-dev libgrpc-dev \
+        protobuf-compiler libprotobuf-dev libprotoc-dev \
+        thrift-compiler libthrift-dev \
+        libboost-all-dev
+
     cd $library
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
     tar -xzvf apache-arrow-19.0.1.tar.gz
     cd apache-arrow-19.0.1/cpp
+
     mkdir -p build && cd build
 
     cmake .. \
-      -DCMAKE_C_COMPILER=$gcc \
-      -DCMAKE_CXX_COMPILER=$gxx \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_STAGING_PREFIX=$install_dir \
-      -DCMAKE_PREFIX_PATH=$install_dir \
-      -DARROW_BUILD_SHARED=ON \
-      -DARROW_COMPUTE=ON \
-      -DARROW_CSV=ON \
-      -DARROW_JSON=ON \
-      -DARROW_PARQUET=ON \
-      -DARROW_DATASET=ON \
-      -DARROW_FLIGHT=ON \
-      -DARROW_FLIGHT_SQL=ON \
-      -DARROW_WITH_GRPC=ON \
-      -DARROW_PROTOBUF_USE_SHARED=ON \
-      -DProtobuf_ROOT=/usr \
-      -DgRPC_ROOT=/usr \
-      -GNinja
+        -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DARROW_BUILD_SHARED=ON \
+        -DARROW_COMPUTE=ON \
+        -DARROW_CSV=ON \
+        -DARROW_JSON=ON \
+        -DARROW_PARQUET=ON \
+        -DARROW_DATASET=ON \
+        -DARROW_FLIGHT=ON \
+        -DARROW_FLIGHT_SQL=ON \
+        -DARROW_WITH_GRPC=ON \
+        -DARROW_PROTOBUF_USE_SHARED=ON \
+        -DProtobuf_ROOT=/usr \
+        -DgRPC_ROOT=/usr \
+        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+        -GNinja
 
     ninja
     ninja install
@@ -235,7 +233,6 @@ build_sqlite3
 build_protobuf
 build_protobuf-c
 build_libxml2
-install_ninja
 build_arrow
 
 compile_source neugates/jansson.git jansson "-DJANSSON_BUILD_DOCS=OFF -DJANSSON_EXAMPLES=OFF"

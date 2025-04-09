@@ -19,12 +19,5 @@ RUN apt-get -y update && apt-get -y install \
 
 RUN apt-get -y install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu cmake
 
-RUN apt-get update && apt-get install -y \
-    sudo pkg-config ninja-build \
-    libgrpc++-dev libgrpc-dev grpc-proto \
-    protobuf-compiler libprotobuf-dev libprotoc-dev \
-    thrift-compiler libthrift-dev \
-    libboost-all-dev
-
 COPY ./cross-install.sh /library/
 RUN /library/cross-install.sh -a $ARCH -v aarch64-linux-gnu -c true
