@@ -15,9 +15,12 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config alien git gcc openssl libssl-dev unzip python python3 wget curl
-
-RUN apt-get -y install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu cmake
+    sudo pkg-config git gcc g++ cmake ninja-build \
+    openssl libssl-dev unzip wget curl \
+    python3 python3-pip python-is-python3 \
+    libprotobuf-dev protobuf-compiler \
+    libgrpc++-dev libgrpc-dev \
+    gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
 COPY ./cross-install.sh /library/
 RUN /library/cross-install.sh -a $ARCH -v aarch64-linux-gnu -c true
