@@ -104,6 +104,10 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
     $neuron_dir/build/plugins/libplugin-azure-iot.so \
     $package_dir/plugins/
 
+if [ -f "$neuron_dir/build/plugins/libplugin-datalayers.so" ]; then
+    cp "$neuron_dir/build/plugins/libplugin-datalayers.so" "$package_dir/plugins/"
+fi
+
 cp $neuron_dir/build/plugins/schema/*.json \
     $package_dir/plugins/schema/
 
