@@ -14,9 +14,36 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -y update && apt-get -y install \
-	sudo pkg-config git gcc openssl libssl-dev alien unzip python python3 python3-pip wget curl
+    sudo pkg-config git gcc g++ cmake ninja-build \
+    openssl libssl-dev unzip wget curl \
+    python3 python3-pip python-is-python3 \
+    libprotobuf-dev protobuf-compiler \
+    libgrpc++-dev libgrpc-dev
 
-RUN apt-get -y install gcc g++ cmake
+RUN mkdir -p /opt/arrow && cd /opt/arrow && \
+    wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz && \
+    tar -xzf apache-arrow-19.0.1.tar.gz && \
+    cd apache-arrow-19.0.1/cpp && \
+    mkdir build && cd build && \
+    cmake .. \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DARROW_BUILD_SHARED=ON \
+      -DARROW_COMPUTE=ON \
+      -DARROW_CSV=ON \
+      -DARROW_JSON=ON \
+      -DARROW_PARQUET=ON \
+      -DARROW_DATASET=ON \
+      -DARROW_FLIGHT=ON \
+      -DARROW_FLIGHT_SQL=ON \
+      -DARROW_WITH_GRPC=ON \
+      -DARROW_PROTOBUF_USE_SHARED=ON \
+      -DProtobuf_ROOT=/usr \
+      -DgRPC_ROOT=/usr \
+      -GNinja && \
+    ninja && \
+    ninja install
+
+RUN rm -rf /opt/arrow
 
 COPY ./cross-install.sh /library/
 RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c true
