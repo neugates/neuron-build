@@ -181,8 +181,8 @@ function build_libxml2(){
 }
 
 function build_arrow() {
-    apt-get update && apt-get install -y \
-        pkg-config ninja-build \
+    apt-get install -y \
+        ninja-build \
         libgrpc++-dev libgrpc-dev \
         protobuf-compiler libprotobuf-dev libprotoc-dev \
         thrift-compiler libthrift-dev \
@@ -227,12 +227,13 @@ mkdir -p $install_dir/bin
 mkdir -p $install_dir/include
 mkdir -p $install_dir/lib
 
-build_arrow
-build_zlog
 build_openssl 
-build_sqlite3
 build_protobuf
 build_protobuf-c
+build_arrow
+
+build_zlog
+build_sqlite3
 build_libxml2
 
 compile_source neugates/jansson.git jansson "-DJANSSON_BUILD_DOCS=OFF -DJANSSON_EXAMPLES=OFF"
