@@ -227,13 +227,13 @@ mkdir -p $install_dir/bin
 mkdir -p $install_dir/include
 mkdir -p $install_dir/lib
 
+build_arrow
 build_zlog
 build_openssl 
 build_sqlite3
 build_protobuf
 build_protobuf-c
 build_libxml2
-build_arrow
 
 compile_source neugates/jansson.git jansson "-DJANSSON_BUILD_DOCS=OFF -DJANSSON_EXAMPLES=OFF"
 compile_source_with_tag google/googletest.git googletest release-1.11.0
