@@ -126,7 +126,7 @@ function build_zlog() {
 
 function build_sqlite3() {
     cd $library
-    curl https://www.sqlite.org/2022/sqlite-autoconf-3390000.tar.gz \
+    curl -L -A "Mozilla/5.0" https://www.sqlite.org/2022/sqlite-autoconf-3390000.tar.gz \
       --output sqlite3.tar.gz
     mkdir -p sqlite3
     tar xzf sqlite3.tar.gz --strip-components=1 -C sqlite3
@@ -134,7 +134,7 @@ function build_sqlite3() {
 
     ./configure --prefix=$install_dir \
                 --disable-shared --disable-readline \
-                --host $arch CC=$gcc  CFLAGS=-fPIC
+                CC=$gcc  CFLAGS=-fPIC
 
     make -j4
     make install
@@ -180,13 +180,73 @@ function build_libxml2(){
     make install
 }
 
+function build_grpc() {
+    cd $library
+    git clone -b v1.56.0 --recurse-submodules https://github.com/grpc/grpc.git
+    cd grpc
+    mkdir -p cmake/build && cd cmake/build
+
+    cmake ../.. \
+        -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_CXX_STANDARD=17 \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DgRPC_INSTALL=ON \
+        -DgRPC_BUILD_TESTS=OFF \
+        -DgRPC_PROTOBUF_PROVIDER=module \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+
+    make -j4
+    make install
+}
+
+function build_bison() {
+    cd $library
+    wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+    tar -xvzf bison-3.8.2.tar.gz
+    cd bison-3.8.2
+    ./configure --prefix=$install_dir CC=$gcc CXX=$gxx --host=$vendor
+    make -j$(nproc)
+    sudo make install
+}
+
+function build_flex() {
+    cd $library
+    wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xvzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+    ./configure --prefix=$install_dir CC=$gcc CXX=$gxx --host=$vendor
+    make -j$(nproc)
+    sudo make install
+}
+
+function build_thrift() {
+    #sudo apt-get install -y flex bison
+    cd $library
+    git clone -b 0.21.0 https://github.com/apache/thrift.git
+    cd thrift
+    export PATH=$install_dir/bin:$PATH
+    ./bootstrap.sh
+    ./configure --prefix=$install_dir CC=$gcc CXX=$gxx --host=$vendor --with-python=no
+    make -j4
+    make install
+}
+
+function build_boost() {
+    cd $library
+    wget https://github.com/boostorg/boost/releases/download/boost-1.81.0/boost-1.81.0.tar.gz
+    tar -xvzf boost-1.81.0.tar.gz
+    cd boost-1.81.0.tar.gz
+
+    ./bootstrap.sh --prefix=$install_dir
+    ./b2 toolset=$(basename $gcc) cxxflags="-fPIC" link=static runtime-link=static --with-system --with-thread --with-filesystem --with-locale --with-date_time --with-iostreams install
+}
+
 function build_arrow() {
-    apt-get install -y \
-        ninja-build \
-        libgrpc++-dev libgrpc-dev \
-        protobuf-compiler libprotobuf-dev libprotoc-dev \
-        thrift-compiler libthrift-dev \
-        libboost-all-dev
+    apt-get install -y ninja-build
+    #thrift-compiler libthrift-dev libboost-all-dev
 
     cd $library
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
@@ -210,10 +270,12 @@ function build_arrow() {
         -DARROW_FLIGHT=ON \
         -DARROW_FLIGHT_SQL=ON \
         -DARROW_WITH_GRPC=ON \
-        -DARROW_PROTOBUF_USE_SHARED=ON \
-        -DProtobuf_ROOT=/usr \
-        -DgRPC_ROOT=/usr \
+        -DARROW_PROTOBUF_USE_SHARED=OFF \
         -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+        -DProtobuf_PROTOC_EXECUTABLE=$install_dir/bin/protoc \
+        -DProtobuf_INCLUDE_DIR=$install_dir/include \
+        -DProtobuf_LIBRARY=$install_dir/lib/libprotobuf.a \
+        -DgRPC_DIR=$install_dir/lib/cmake/grpc \
         -GNinja
 
     ninja
@@ -230,6 +292,11 @@ mkdir -p $install_dir/lib
 build_openssl 
 build_protobuf
 build_protobuf-c
+build_grpc
+build_bison
+build_flex
+build_thrift
+build_boost
 build_arrow
 
 build_zlog
