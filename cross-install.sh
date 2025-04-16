@@ -182,7 +182,8 @@ function build_libxml2(){
 
 function build_grpc() {
     cd $library
-    git clone -b v1.56.0 --recurse-submodules https://github.com/grpc/grpc.git
+    #git clone -b v1.56.0 --recurse-submodules https://github.com/grpc/grpc.git
+    cp -r /home/neuron/third_party/grpc ./
     cd grpc
     mkdir -p cmake/build && cd cmake/build
 
@@ -195,8 +196,10 @@ function build_grpc() {
         -DCMAKE_BUILD_TYPE=Release \
         -DgRPC_INSTALL=ON \
         -DgRPC_BUILD_TESTS=OFF \
-        -DgRPC_PROTOBUF_PROVIDER=module \
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -Dprotobuf_BUILD_PROTOC_BINARIES=off \
+        -DgRPC_BUILD_CODEGEN=off \
+        -DProtobuf_PROTOC_EXECUTABLE=/home/neuron/third_party/protoc-23.1.0 \
+        -DgRPC_CPP_PLUGIN_EXECUTABLE=/home/neuron/third_party/grpc_cpp_plugin
 
     make -j4
     make install
@@ -207,7 +210,7 @@ function build_bison() {
     wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
     tar -xvzf bison-3.8.2.tar.gz
     cd bison-3.8.2
-    ./configure --prefix=$install_dir CC=$gcc CXX=$gxx --host=$vendor
+    ./configure --prefix=$install_dir
     make -j$(nproc)
     sudo make install
 }
@@ -217,7 +220,7 @@ function build_flex() {
     wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
     tar -xvzf flex-2.6.4.tar.gz
     cd flex-2.6.4
-    ./configure --prefix=$install_dir CC=$gcc CXX=$gxx --host=$vendor
+    ./configure --prefix=$install_dir
     make -j$(nproc)
     sudo make install
 }
@@ -227,9 +230,21 @@ function build_thrift() {
     cd $library
     git clone -b 0.21.0 https://github.com/apache/thrift.git
     cd thrift
-    export PATH=$install_dir/bin:$PATH
-    ./bootstrap.sh
-    ./configure --prefix=$install_dir CC=$gcc CXX=$gxx --host=$vendor --with-python=no
+    mkdir -p build/cmake/build && cd build/cmake/build
+
+    cmake ../../.. \
+        -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DTHRIFT_COMPILER=/home/neuron/third_party/thrift \
+        -DBUILD_NODEJS=OFF \
+        -DBUILD_PYTHON=OFF \
+        -DBUILD_JAVA=OFF \
+        -DBUILD_JAVASCRIPT=OFF \
+        -DBUILD_KOTLIN=OFF \
+        -DBUILD_TESTING=OFF
+
     make -j4
     make install
 }
@@ -238,10 +253,44 @@ function build_boost() {
     cd $library
     wget https://github.com/boostorg/boost/releases/download/boost-1.81.0/boost-1.81.0.tar.gz
     tar -xvzf boost-1.81.0.tar.gz
-    cd boost-1.81.0.tar.gz
+    cd boost-1.81.0
 
-    ./bootstrap.sh --prefix=$install_dir
-    ./b2 toolset=$(basename $gcc) cxxflags="-fPIC" link=static runtime-link=static --with-system --with-thread --with-filesystem --with-locale --with-date_time --with-iostreams install
+    mkdir build && cd build
+
+    system_processor=""
+    case "$arch" in
+        x86_64)
+            system_processor="x86_64"
+            ;;
+        armv7 | armv4)
+            system_processor="arm"
+            ;;
+        aarch64)
+            system_processor="aarch64"
+            ;;
+        riscv64)
+            system_processor="riscv64"
+            ;;
+        mips)
+            system_processor="mips"
+            ;;
+        *)
+            echo "Unknown architecture: $arch"
+            exit 1
+            ;;
+    esac
+
+    cmake .. \
+        -DCMAKE_SYSTEM_NAME=Linux \
+        -DCMAKE_SYSTEM_PROCESSOR=$system_processor \
+        -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DWITH_CONTEXT=OFF
+
+    make -j4
+    make install
 }
 
 function build_arrow() {
@@ -289,16 +338,15 @@ mkdir -p $install_dir/bin
 mkdir -p $install_dir/include
 mkdir -p $install_dir/lib
 
-build_openssl 
-build_protobuf
-build_protobuf-c
-build_grpc
+build_openssl
 build_bison
 build_flex
 build_thrift
 build_boost
+build_grpc 
+build_protobuf
+build_protobuf-c
 build_arrow
-
 build_zlog
 build_sqlite3
 build_libxml2
