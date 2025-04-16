@@ -19,5 +19,8 @@ RUN apt-get -y update && apt-get -y install \
 
 RUN apt-get -y install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu cmake
 
+RUN apt-get -y install \
+    libboost-dev libboost-filesystem-dev libboost-system-dev libthrift-dev
+
 COPY ./cross-install.sh /library/
 RUN /library/cross-install.sh -a $ARCH -v aarch64-linux-gnu -c true

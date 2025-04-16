@@ -341,8 +341,8 @@ mkdir -p $install_dir/lib
 build_openssl
 build_bison
 build_flex
-build_thrift
 build_boost
+build_thrift
 build_grpc 
 build_protobuf
 build_protobuf-c
