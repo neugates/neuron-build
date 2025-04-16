@@ -11,6 +11,7 @@ gcc=?
 gxx=?
 install_dir=?
 cross=false
+cp=false
 
 while getopts ":a:v:c:" OPT; do
     case ${OPT} in
@@ -22,6 +23,9 @@ while getopts ":a:v:c:" OPT; do
             ;;
         c)
             cross=$OPTARG
+            ;;
+        p)
+            cp=$OPTARG
             ;;
     esac
 done
@@ -183,8 +187,19 @@ function build_libxml2(){
 function build_grpc() {
     cd $library
     #git clone -b v1.56.0 --recurse-submodules https://github.com/grpc/grpc.git
-    cp -r /home/neuron/third_party/grpc ./
+    #cp -r /home/neuron/third_party/grpc ./
+
+    if [ "$cp" = true ]; then
+        echo "Copying grpc from /home/neuron/third_party"
+        cp -r /home/neuron/third_party/grpc ./
+    else
+        echo "Cloning grpc repository"
+        git clone -b v1.56.0 --recurse-submodules https://github.com/grpc/grpc.git
+        cp /library/third_party/GENERATED_AbseilCopts.cmake grpc/third_party/abseil-cpp/absl/copts/GENERATED_AbseilCopts.cmake
+    fi
+
     cd grpc
+
     mkdir -p cmake/build && cd cmake/build
 
     cmake ../.. \
@@ -198,8 +213,8 @@ function build_grpc() {
         -DgRPC_BUILD_TESTS=OFF \
         -Dprotobuf_BUILD_PROTOC_BINARIES=off \
         -DgRPC_BUILD_CODEGEN=off \
-        -DProtobuf_PROTOC_EXECUTABLE=/home/neuron/third_party/protoc-23.1.0 \
-        -DgRPC_CPP_PLUGIN_EXECUTABLE=/home/neuron/third_party/grpc_cpp_plugin
+        -DProtobuf_PROTOC_EXECUTABLE=/library/third_party/protoc-23.1.0 \
+        -DgRPC_CPP_PLUGIN_EXECUTABLE=/library/third_party/grpc_cpp_plugin
 
     make -j4
     make install
@@ -237,7 +252,7 @@ function build_thrift() {
         -DCMAKE_CXX_COMPILER=$gxx \
         -DCMAKE_STAGING_PREFIX=$install_dir \
         -DCMAKE_PREFIX_PATH=$install_dir \
-        -DTHRIFT_COMPILER=/home/neuron/third_party/thrift \
+        -DTHRIFT_COMPILER=/library/third_party/thrift \
         -DBUILD_NODEJS=OFF \
         -DBUILD_PYTHON=OFF \
         -DBUILD_JAVA=OFF \
