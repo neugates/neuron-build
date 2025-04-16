@@ -147,7 +147,7 @@ function build_sqlite3() {
 function build_protobuf() {
     cd $library
     wget --no-check-certificate --content-disposition https://github.com/protocolbuffers/protobuf/releases/download/v3.20.1/protobuf-cpp-3.20.1.tar.gz
-    tar -xzvf protobuf-cpp-3.20.1.tar.gz
+    tar -xzf protobuf-cpp-3.20.1.tar.gz
     cd protobuf-3.20.1
 
     ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC
@@ -223,7 +223,7 @@ function build_grpc() {
 function build_bison() {
     cd $library
     wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
-    tar -xvzf bison-3.8.2.tar.gz
+    tar -xzf bison-3.8.2.tar.gz
     cd bison-3.8.2
     ./configure --prefix=$install_dir
     make -j$(nproc)
@@ -233,7 +233,7 @@ function build_bison() {
 function build_flex() {
     cd $library
     wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-    tar -xvzf flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
     cd flex-2.6.4
     ./configure --prefix=$install_dir
     make -j$(nproc)
@@ -267,7 +267,7 @@ function build_thrift() {
 function build_boost() {
     cd $library
     wget https://github.com/boostorg/boost/releases/download/boost-1.81.0/boost-1.81.0.tar.gz
-    tar -xvzf boost-1.81.0.tar.gz
+    tar -xzf boost-1.81.0.tar.gz
     cd boost-1.81.0
 
     mkdir build && cd build
@@ -314,7 +314,7 @@ function build_arrow() {
 
     cd $library
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
-    tar -xzvf apache-arrow-19.0.1.tar.gz
+    tar -xzf apache-arrow-19.0.1.tar.gz
     cd apache-arrow-19.0.1/cpp
 
     mkdir -p build && cd build
