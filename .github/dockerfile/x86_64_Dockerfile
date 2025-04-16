@@ -25,4 +25,4 @@ COPY ./cross-install.sh /library/
 
 COPY ./third_party /library/
 
-RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c true
+RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c true 
