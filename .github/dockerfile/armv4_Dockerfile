@@ -23,6 +23,6 @@ RUN apt-get -y install \
 
 COPY ./cross-install.sh /library/
 
-COPY ./third_party /library/
+COPY ./third_party /library/third_party
 
 RUN /library/cross-install.sh -a $ARCH -v arm-linux-gnueabihf -c true
