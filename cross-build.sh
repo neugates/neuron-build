@@ -54,7 +54,7 @@ case $cross in
     (true)
         tool_dir=/usr/bin;;
     (false)
-        tool_dir=$home/buildroot/$vendor/output/host/bin;;
+        tool_dir=$home/buildroot_datalayers/$vendor/output/host/bin;;
 esac
 
 function compile_source_with_tag() {

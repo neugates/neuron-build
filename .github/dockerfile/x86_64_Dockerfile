@@ -18,9 +18,6 @@ RUN apt-get -y update && apt-get -y install \
 
 RUN apt-get -y install gcc g++ cmake
 
-RUN apt-get -y install \
-    libboost-dev libboost-filesystem-dev libboost-system-dev libthrift-dev libgflags-dev
-
 COPY ./cross-install.sh /library/
 
 COPY ./third_party /library/third_party

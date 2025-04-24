@@ -13,7 +13,7 @@ install_dir=?
 cross=false
 cp=false
 
-while getopts ":a:v:c:" OPT; do
+while getopts ":a:v:c:p:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -35,8 +35,8 @@ case $cross in
         gcc=$vendor-gcc;
         gxx=$vendor-g++;;
     (false) 
-        gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc;
-        gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
+        gcc=/home/neuron/buildroot_datalayers/$vendor/output/host/bin/$vendor-gcc;
+        gxx=/home/neuron/buildroot_datalayers/$vendor/output/host/bin/$vendor-g++;;
 esac
 
 install_dir=$home/$branch/libs/$vendor/
@@ -100,7 +100,7 @@ function build_openssl() {
         (true)  
             compile_prefix=$vendor-;;
         (false) 
-            compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-;;
+            compile_prefix=/home/neuron/buildroot_datalayers/$vendor/output/host/bin/$vendor-;;
     esac
     cd $library
     git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
@@ -138,6 +138,7 @@ function build_sqlite3() {
 
     ./configure --prefix=$install_dir \
                 --disable-shared --disable-readline \
+                --host=$vendor \
                 CC=$gcc  CFLAGS=-fPIC
 
     make -j4
@@ -187,7 +188,6 @@ function build_libxml2(){
 function build_grpc() {
     cd $library
     #git clone -b v1.56.0 --recurse-submodules https://github.com/grpc/grpc.git
-    #cp -r /home/neuron/third_party/grpc ./
 
     if [ "$cp" = true ]; then
         echo "Copying grpc from /home/neuron/third_party"
@@ -199,7 +199,6 @@ function build_grpc() {
     fi
 
     cd grpc
-
     mkdir -p cmake/build && cd cmake/build
 
     cmake ../.. \
@@ -209,13 +208,23 @@ function build_grpc() {
         -DCMAKE_STAGING_PREFIX=$install_dir \
         -DCMAKE_PREFIX_PATH=$install_dir \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
         -DgRPC_INSTALL=ON \
         -DgRPC_BUILD_TESTS=OFF \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DgRPC_ABSL_PROVIDER=module \
+        -DgRPC_CARES_PROVIDER=module \
+        -DgRPC_PROTOBUF_PROVIDER=module \
+        -DgRPC_RE2_PROVIDER=module \
+        -DgRPC_SSL_PROVIDER=package \
+        -DgRPC_ZLIB_PROVIDER=package \
+        -DABSL_PROPAGATE_CXX_STD=ON \
+        -DABSL_BUILD_DLL=OFF \
         -Dprotobuf_BUILD_PROTOC_BINARIES=off \
         -DgRPC_BUILD_CODEGEN=off \
         -DProtobuf_PROTOC_EXECUTABLE=/library/third_party/protoc-23.1.0 \
         -DgRPC_CPP_PLUGIN_EXECUTABLE=/library/third_party/grpc_cpp_plugin
-
     make -j4
     make install
 }
@@ -225,7 +234,7 @@ function build_bison() {
     wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
     tar -xzf bison-3.8.2.tar.gz
     cd bison-3.8.2
-    ./configure --prefix=$install_dir
+    ./configure --prefix=$install_dir --disable-shared --enable-static
     make -j$(nproc)
     sudo make install
 }
@@ -235,7 +244,7 @@ function build_flex() {
     wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
     tar -xzf flex-2.6.4.tar.gz
     cd flex-2.6.4
-    ./configure --prefix=$install_dir
+    ./configure --prefix=$install_dir --disable-shared --enable-static
     make -j$(nproc)
     sudo make install
 }
@@ -250,9 +259,15 @@ function build_thrift() {
     cmake ../../.. \
         -DCMAKE_C_COMPILER=$gcc \
         -DCMAKE_CXX_COMPILER=$gxx \
-        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DZLIB_INCLUDE_DIR=/usr/local/include \
+        -DCMAKE_INSTALL_PREFIX=$install_dir \
         -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_FIND_ROOT_PATH=$install_dir \
         -DTHRIFT_COMPILER=/library/third_party/thrift \
+        -DCMAKE_FIND_USE_CMAKE_PATH=ON \
+        -DCMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY=OFF \
+        -DBUILD_SHARED_LIBS=OFF \
         -DBUILD_NODEJS=OFF \
         -DBUILD_PYTHON=OFF \
         -DBUILD_JAVA=OFF \
@@ -308,14 +323,49 @@ function build_boost() {
     make install
 }
 
-function build_arrow() {
-    apt-get install -y ninja-build
-    #thrift-compiler libthrift-dev libboost-all-dev
+function build_gflags() {
+    cd $library
+    git clone https://github.com/gflags/gflags.git
+    cd gflags
+    mkdir -p build && cd build
 
+    cmake .. \
+        -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_INSTALL_PREFIX=$install_dir \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+
+    make -j$(nproc)
+    make install
+}
+
+function build_zlib() {
+    cd $library
+    wget https://zlib.net/zlib-1.3.1.tar.gz
+    tar -xzf zlib-1.3.1.tar.gz
+    cd zlib-1.3.1
+
+    CHOST=$vendor
+
+    export CFLAGS="-fPIC"
+    export CXXFLAGS="-fPIC"
+
+    CC=$gcc ./configure \
+        --prefix=$install_dir \
+        --static
+
+    make -j4
+    make install
+}
+
+function build_arrow() {
     cd $library
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
     tar -xzf apache-arrow-19.0.1.tar.gz
     cd apache-arrow-19.0.1/cpp
+
+    cp /library/third_party/gRPCConfig.cmake $install_dir/lib/cmake/grpc/
 
     mkdir -p build && cd build
 
@@ -325,21 +375,32 @@ function build_arrow() {
         -DCMAKE_STAGING_PREFIX=$install_dir \
         -DCMAKE_PREFIX_PATH=$install_dir \
         -DCMAKE_BUILD_TYPE=Release \
-        -DARROW_BUILD_SHARED=ON \
+        -DARROW_BUILD_SHARED=OFF \
+        -DARROW_BUILD_STATIC=ON \
         -DARROW_COMPUTE=ON \
         -DARROW_CSV=ON \
-        -DARROW_JSON=ON \
+        -DARROW_JSON=OFF \
         -DARROW_PARQUET=ON \
         -DARROW_DATASET=ON \
         -DARROW_FLIGHT=ON \
         -DARROW_FLIGHT_SQL=ON \
         -DARROW_WITH_GRPC=ON \
+        -DARROW_WITH_UTF8PROC=OFF \
         -DARROW_PROTOBUF_USE_SHARED=OFF \
+        -DProtobuf_ROOT=$install_dir \
+        -DARROW_gRPC_USE_SHARED=OFF \
+        -DCMAKE_INSTALL_PREFIX=$install_dir \
         -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
-        -DProtobuf_PROTOC_EXECUTABLE=$install_dir/bin/protoc \
-        -DProtobuf_INCLUDE_DIR=$install_dir/include \
-        -DProtobuf_LIBRARY=$install_dir/lib/libprotobuf.a \
+        -DCMAKE_C_FLAGS="-fPIC" \
+        -DCMAKE_CXX_FLAGS="-fPIC" \
+        -DARROW_SIMD_LEVEL=NONE \
+        -DARROW_RUNTIME_SIMD_LEVEL=NONE \
+        -DgRPC_ROOT=$install_dir \
         -DgRPC_DIR=$install_dir/lib/cmake/grpc \
+        -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin \
+        -DPROTOBUF_PROTOC_EXECUTABLE="/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc" \
+        -DPROTOBUF_INCLUDE_DIR="$install_dir/include" \
+        -DPROTOBUF_LIBRARY="$install_dir/lib/libprotobuf.a" \
         -GNinja
 
     ninja
@@ -353,15 +414,19 @@ mkdir -p $install_dir/bin
 mkdir -p $install_dir/include
 mkdir -p $install_dir/lib
 
-build_openssl
+build_openssl 
+build_protobuf
+build_protobuf-c
+
+build_zlib
+build_grpc
 build_bison
 build_flex
 build_boost
 build_thrift
-build_grpc 
-build_protobuf
-build_protobuf-c
+build_gflags
 build_arrow
+
 build_zlog
 build_sqlite3
 build_libxml2
