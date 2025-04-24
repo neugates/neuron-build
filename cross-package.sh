@@ -161,6 +161,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-ab5000.so \
         $neuron_modules_dir/build/plugins/libplugin-omron-cip.so \
         $neuron_modules_dir/build/plugins/libplugin-dnp3.so \
+		$neuron_modules_dir/build/plugins/libplugin-neuhub.so \
         $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
