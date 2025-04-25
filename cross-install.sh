@@ -405,6 +405,7 @@ function build_arrow() {
         -DgRPC_ROOT=$install_dir \
         -DgRPC_DIR=$install_dir/lib/cmake/grpc \
         -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin \
+        -DProtobuf_ROOT=$install_dir \
         -GNinja
 
     ninja
