@@ -376,47 +376,39 @@ function build_arrow() {
 
     mkdir -p build && cd build
 
-    local cmake_args="
-        -DCMAKE_C_COMPILER=$gcc
-        -DCMAKE_CXX_COMPILER=$gxx
-        -DCMAKE_STAGING_PREFIX=$install_dir
-        -DCMAKE_PREFIX_PATH=$install_dir
-        -DCMAKE_BUILD_TYPE=Release
-        -DARROW_BUILD_SHARED=OFF
-        -DARROW_BUILD_STATIC=ON
-        -DARROW_COMPUTE=ON
-        -DARROW_CSV=ON
-        -DARROW_JSON=OFF
-        -DARROW_PARQUET=ON
-        -DARROW_DATASET=ON
-        -DARROW_FLIGHT=ON
-        -DARROW_FLIGHT_SQL=ON
-        -DARROW_WITH_GRPC=ON
-        -DARROW_WITH_UTF8PROC=OFF
-        -DARROW_PROTOBUF_USE_SHARED=OFF
-        -DProtobuf_ROOT=$install_dir
-        -DARROW_gRPC_USE_SHARED=OFF
-        -DCMAKE_INSTALL_PREFIX=$install_dir
-        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
-        -DCMAKE_C_FLAGS=\"-fPIC\"
-        -DCMAKE_CXX_FLAGS=\"-fPIC\"
-        -DARROW_SIMD_LEVEL=NONE
-        -DARROW_RUNTIME_SIMD_LEVEL=NONE
-        -DgRPC_ROOT=$install_dir
-        -DgRPC_DIR=$install_dir/lib/cmake/grpc
-        -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin
-        -DPROTOBUF_PROTOC_EXECUTABLE=\"/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc\"
-        -DPROTOBUF_INCLUDE_DIR=\"$install_dir/include\"
-        -DPROTOBUF_LIBRARY=\"$install_dir/lib/libprotobuf.a\"
-    "
-
-    if [ "$arch" != "x86_64" ]; then
-        cmake_args="$cmake_args
-            -DCMAKE_SYSTEM_PROCESSOR=$arch
-            -DCMAKE_CROSSCOMPILING=TRUE"
-    fi
-
-    cmake .. $cmake_args -GNinja
+    cmake .. \
+        -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DARROW_BUILD_SHARED=OFF \
+        -DARROW_BUILD_STATIC=ON \
+        -DARROW_COMPUTE=ON \
+        -DARROW_CSV=ON \
+        -DARROW_JSON=OFF \
+        -DARROW_PARQUET=ON \
+        -DARROW_DATASET=ON \
+        -DARROW_FLIGHT=ON \
+        -DARROW_FLIGHT_SQL=ON \
+        -DARROW_WITH_GRPC=ON \
+        -DARROW_WITH_UTF8PROC=OFF \
+        -DARROW_PROTOBUF_USE_SHARED=OFF \
+        -DProtobuf_ROOT=$install_dir \
+        -DARROW_gRPC_USE_SHARED=OFF \
+        -DCMAKE_INSTALL_PREFIX=$install_dir \
+        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+        -DCMAKE_C_FLAGS="-fPIC" \
+        -DCMAKE_CXX_FLAGS="-fPIC" \
+        -DARROW_SIMD_LEVEL=NONE \
+        -DARROW_RUNTIME_SIMD_LEVEL=NONE \
+        -DgRPC_ROOT=$install_dir \
+        -DgRPC_DIR=$install_dir/lib/cmake/grpc \
+        -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin \
+        -DPROTOBUF_PROTOC_EXECUTABLE="/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc" \
+        -DPROTOBUF_INCLUDE_DIR="$install_dir/include" \
+        -DPROTOBUF_LIBRARY="$install_dir/lib/libprotobuf.a" \
+        -GNinja
 
     ninja
     ninja install
