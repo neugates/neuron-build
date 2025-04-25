@@ -201,30 +201,37 @@ function build_grpc() {
     cd grpc
     mkdir -p cmake/build && cd cmake/build
 
-    cmake ../.. \
-        -DCMAKE_C_COMPILER=$gcc \
-        -DCMAKE_CXX_COMPILER=$gxx \
-        -DCMAKE_CXX_STANDARD=17 \
-        -DCMAKE_STAGING_PREFIX=$install_dir \
-        -DCMAKE_PREFIX_PATH=$install_dir \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-        -DgRPC_INSTALL=ON \
-        -DgRPC_BUILD_TESTS=OFF \
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-        -DBUILD_SHARED_LIBS=OFF \
-        -DgRPC_ABSL_PROVIDER=module \
-        -DgRPC_CARES_PROVIDER=module \
-        -DgRPC_PROTOBUF_PROVIDER=module \
-        -DgRPC_RE2_PROVIDER=module \
-        -DgRPC_SSL_PROVIDER=package \
-        -DgRPC_ZLIB_PROVIDER=package \
-        -DABSL_PROPAGATE_CXX_STD=ON \
-        -DABSL_BUILD_DLL=OFF \
-        -Dprotobuf_BUILD_PROTOC_BINARIES=off \
-        -DgRPC_BUILD_CODEGEN=off \
-        -DProtobuf_PROTOC_EXECUTABLE=/library/third_party/protoc-23.1.0 \
+    local cmake_args="
+        -DCMAKE_C_COMPILER=$gcc
+        -DCMAKE_CXX_COMPILER=$gxx
+        -DCMAKE_CXX_STANDARD=17
+        -DCMAKE_STAGING_PREFIX=$install_dir
+        -DCMAKE_PREFIX_PATH=$install_dir
+        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+        -DgRPC_INSTALL=ON
+        -DgRPC_BUILD_TESTS=OFF
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        -DBUILD_SHARED_LIBS=OFF
+        -DgRPC_ABSL_PROVIDER=module
+        -DgRPC_CARES_PROVIDER=module
+        -DgRPC_PROTOBUF_PROVIDER=module
+        -DgRPC_RE2_PROVIDER=module
+        -DgRPC_SSL_PROVIDER=package
+        -DgRPC_ZLIB_PROVIDER=package
+        -DABSL_PROPAGATE_CXX_STD=ON
+        -DABSL_BUILD_DLL=OFF
+        -Dprotobuf_BUILD_PROTOC_BINARIES=off
+        -DgRPC_BUILD_CODEGEN=off
+        -DProtobuf_PROTOC_EXECUTABLE=/library/third_party/protoc-23.1.0
         -DgRPC_CPP_PLUGIN_EXECUTABLE=/library/third_party/grpc_cpp_plugin
+    "
+
+    if [ "$arch" != "x86_64" ]; then
+        cmake_args="$cmake_args -DCMAKE_CROSSCOMPILING=TRUE"
+    fi
+
+    cmake ../.. $cmake_args
     make -j4
     make install
 }
@@ -361,6 +368,7 @@ function build_zlib() {
 
 function build_arrow() {
     cd $library
+    apt-get install -y ninja-build
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
     tar -xzf apache-arrow-19.0.1.tar.gz
     cd apache-arrow-19.0.1/cpp
@@ -369,39 +377,47 @@ function build_arrow() {
 
     mkdir -p build && cd build
 
-    cmake .. \
-        -DCMAKE_C_COMPILER=$gcc \
-        -DCMAKE_CXX_COMPILER=$gxx \
-        -DCMAKE_STAGING_PREFIX=$install_dir \
-        -DCMAKE_PREFIX_PATH=$install_dir \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DARROW_BUILD_SHARED=OFF \
-        -DARROW_BUILD_STATIC=ON \
-        -DARROW_COMPUTE=ON \
-        -DARROW_CSV=ON \
-        -DARROW_JSON=OFF \
-        -DARROW_PARQUET=ON \
-        -DARROW_DATASET=ON \
-        -DARROW_FLIGHT=ON \
-        -DARROW_FLIGHT_SQL=ON \
-        -DARROW_WITH_GRPC=ON \
-        -DARROW_WITH_UTF8PROC=OFF \
-        -DARROW_PROTOBUF_USE_SHARED=OFF \
-        -DProtobuf_ROOT=$install_dir \
-        -DARROW_gRPC_USE_SHARED=OFF \
-        -DCMAKE_INSTALL_PREFIX=$install_dir \
-        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
-        -DCMAKE_C_FLAGS="-fPIC" \
-        -DCMAKE_CXX_FLAGS="-fPIC" \
-        -DARROW_SIMD_LEVEL=NONE \
-        -DARROW_RUNTIME_SIMD_LEVEL=NONE \
-        -DgRPC_ROOT=$install_dir \
-        -DgRPC_DIR=$install_dir/lib/cmake/grpc \
-        -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin \
-        -DPROTOBUF_PROTOC_EXECUTABLE="/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc" \
-        -DPROTOBUF_INCLUDE_DIR="$install_dir/include" \
-        -DPROTOBUF_LIBRARY="$install_dir/lib/libprotobuf.a" \
-        -GNinja
+    local cmake_args="
+        -DCMAKE_C_COMPILER=$gcc
+        -DCMAKE_CXX_COMPILER=$gxx
+        -DCMAKE_STAGING_PREFIX=$install_dir
+        -DCMAKE_PREFIX_PATH=$install_dir
+        -DCMAKE_BUILD_TYPE=Release
+        -DARROW_BUILD_SHARED=OFF
+        -DARROW_BUILD_STATIC=ON
+        -DARROW_COMPUTE=ON
+        -DARROW_CSV=ON
+        -DARROW_JSON=OFF
+        -DARROW_PARQUET=ON
+        -DARROW_DATASET=ON
+        -DARROW_FLIGHT=ON
+        -DARROW_FLIGHT_SQL=ON
+        -DARROW_WITH_GRPC=ON
+        -DARROW_WITH_UTF8PROC=OFF
+        -DARROW_PROTOBUF_USE_SHARED=OFF
+        -DProtobuf_ROOT=$install_dir
+        -DARROW_gRPC_USE_SHARED=OFF
+        -DCMAKE_INSTALL_PREFIX=$install_dir
+        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
+        -DCMAKE_C_FLAGS=\"-fPIC\"
+        -DCMAKE_CXX_FLAGS=\"-fPIC\"
+        -DARROW_SIMD_LEVEL=NONE
+        -DARROW_RUNTIME_SIMD_LEVEL=NONE
+        -DgRPC_ROOT=$install_dir
+        -DgRPC_DIR=$install_dir/lib/cmake/grpc
+        -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin
+        -DPROTOBUF_PROTOC_EXECUTABLE=\"/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc\"
+        -DPROTOBUF_INCLUDE_DIR=\"$install_dir/include\"
+        -DPROTOBUF_LIBRARY=\"$install_dir/lib/libprotobuf.a\"
+    "
+
+    if [ "$arch" != "x86_64" ]; then
+        cmake_args="$cmake_args
+            -DCMAKE_SYSTEM_PROCESSOR=$arch
+            -DCMAKE_CROSSCOMPILING=TRUE"
+    fi
+
+    cmake .. $cmake_args -GNinja
 
     ninja
     ninja install
