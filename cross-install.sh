@@ -368,7 +368,6 @@ function build_zlib() {
 
 function build_arrow() {
     cd $library
-    apt-get install -y ninja-build
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
     tar -xzf apache-arrow-19.0.1.tar.gz
     cd apache-arrow-19.0.1/cpp
