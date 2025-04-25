@@ -70,6 +70,7 @@ function compile_source_with_tag() {
     cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
 	-DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
 	-DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
+ 	-DDISABLE_SIMULATOR=1 \
 	-DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake
 
     case $smart in
