@@ -18,6 +18,8 @@ RUN apt-get -y update && apt-get -y install \
 
 RUN apt-get -y install gcc g++ cmake
 
+RUN apt-get -y install ninja-build
+
 COPY ./cross-install.sh /library/
 
 COPY ./third_party /library/third_party
