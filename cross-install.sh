@@ -377,6 +377,7 @@ function build_arrow() {
     cd apache-arrow-19.0.1/cpp
 
     cp /library/third_party/gRPCConfig.cmake $install_dir/lib/cmake/grpc/
+    cp /library/third_party/protoc $install_dir/bin/
 
     mkdir -p build && cd build
 
@@ -409,7 +410,7 @@ function build_arrow() {
         -DgRPC_ROOT="$install_dir"
         -DgRPC_DIR="$install_dir/lib/cmake/grpc"
         -DARROW_GRPC_CPP_PLUGIN="/library/third_party/grpc_cpp_plugin"
-        -DPROTOBUF_PROTOC_EXECUTABLE="/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc"
+        -DPROTOBUF_PROTOC_EXECUTABLE="$install_dir/bin/protoc"
         -DPROTOBUF_INCLUDE_DIR="$install_dir/include"
         -DPROTOBUF_LIBRARY="$install_dir/lib/libprotobuf.a"
         -GNinja
@@ -428,64 +429,6 @@ function build_arrow() {
     ninja install
 }
 
-function build_re2() {
-    cd $library
-    wget https://github.com/google/re2/archive/refs/tags/2023-02-01.tar.gz
-    tar -zxf 2023-02-01.tar.gz
-    cd re2-2023-02-01
-
-    mkdir -p build && cd build
-    cmake .. \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-        -DCMAKE_INSTALL_PREFIX="/usr" \
-        -DBUILD_SHARED_LIBS=OFF
-
-    make -j$(nproc)
-    make install
-}
-
-function build_arrow_docker() {
-    cd $library
-    wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
-    tar -xzf apache-arrow-19.0.1.tar.gz
-    cd apache-arrow-19.0.1/cpp
-
-    mkdir -p build && cd build
-
-    cmake .. \
-        -DCMAKE_C_COMPILER="$gcc" \
-        -DCMAKE_CXX_COMPILER="$gxx" \
-        -DCMAKE_STAGING_PREFIX="$install_dir" \
-        -DCMAKE_INSTALL_PREFIX="$install_dir" \
-        -DCMAKE_PREFIX_PATH="/usr" \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DARROW_BUILD_SHARED=OFF \
-        -DARROW_BUILD_STATIC=ON \
-        -DARROW_COMPUTE=ON \
-        -DARROW_CSV=ON \
-        -DARROW_JSON=OFF \
-        -DARROW_PARQUET=ON \
-        -DARROW_DATASET=ON \
-        -DARROW_FLIGHT=ON \
-        -DARROW_FLIGHT_SQL=ON \
-        -DARROW_WITH_GRPC=ON \
-        -DARROW_WITH_UTF8PROC=OFF \
-        -DARROW_PROTOBUF_USE_SHARED=OFF \
-        -DARROW_gRPC_USE_SHARED=OFF \
-        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
-        -DCMAKE_C_FLAGS="-fPIC" \
-        -DCMAKE_CXX_FLAGS="-fPIC" \
-        -DARROW_SIMD_LEVEL=NONE \
-        -DARROW_RUNTIME_SIMD_LEVEL=NONE \
-        -DProtobuf_ROOT="/usr" \
-        -DgRPC_ROOT="/usr" \
-        -GNinja
-
-    ninja
-    ninja install
-}
-
 sudo rm -rf $library
 sudo rm -rf $install_dir
 mkdir -p $library
@@ -498,18 +441,13 @@ build_protobuf
 build_protobuf-c
 build_zlib
 
-if [ "$docker" == "true" ]; then
-    build_re2
-    build_arrow_docker
-else
-    build_grpc
-    build_bison
-    build_flex
-    build_boost
-    build_thrift
-    build_gflags
-    build_arrow
-fi
+build_grpc
+build_bison
+build_flex
+build_boost
+build_thrift
+build_gflags
+build_arrow
 
 build_zlog
 build_sqlite3
