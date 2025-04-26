@@ -441,7 +441,7 @@ function build_arrow_docker() {
         -DCMAKE_CXX_COMPILER="$gxx" \
         -DCMAKE_STAGING_PREFIX="$install_dir" \
         -DCMAKE_INSTALL_PREFIX="$install_dir" \
-        -DCMAKE_PREFIX_PATH="$install_dir;/usr" \
+        -DCMAKE_PREFIX_PATH="/usr" \
         -DCMAKE_BUILD_TYPE=Release \
         -DARROW_BUILD_SHARED=OFF \
         -DARROW_BUILD_STATIC=ON \
