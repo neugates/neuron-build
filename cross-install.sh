@@ -479,11 +479,11 @@ mkdir -p $install_dir/lib
 build_openssl 
 build_protobuf
 build_protobuf-c
+build_zlib
 
 if [ "$docker" == "true" ]; then
     build_arrow_docker
 else
-    build_zlib
     build_grpc
     build_bison
     build_flex
