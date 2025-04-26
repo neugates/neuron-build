@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         arch:
-          - [aarch64-linux-gnn, aarch64, /opt/externs/libs]
-          - [arm-linux-gnueabihf, armv4, /opt/externs/libs]
           - [x86_64-linux-gnu, x86_64, /usr/local]
 
     steps:
