@@ -102,7 +102,6 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
     $neuron_dir/build/plugins/libplugin-ekuiper.so \
     $neuron_dir/build/plugins/libplugin-aws-iot.so \
     $neuron_dir/build/plugins/libplugin-azure-iot.so \
-    $neuron_dir/build/plugins/libplugin-datalayers.so \
     $package_dir/plugins/
 
 if [ -f "$neuron_dir/build/plugins/libplugin-datalayers.so" ]; then
@@ -162,6 +161,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-ab5000.so \
         $neuron_modules_dir/build/plugins/libplugin-omron-cip.so \
         $neuron_modules_dir/build/plugins/libplugin-dnp3.so \
+		$neuron_modules_dir/build/plugins/libplugin-neuhub.so \
         $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
