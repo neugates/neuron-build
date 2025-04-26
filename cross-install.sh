@@ -428,6 +428,23 @@ function build_arrow() {
     ninja install
 }
 
+function build_re2() {
+    cd $library
+    wget https://github.com/google/re2/archive/refs/tags/2023-02-01.tar.gz
+    tar -zxf 2023-02-01.tar.gz
+    cd re2-2023-02-01
+
+    mkdir -p build && cd build
+    cmake .. \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+        -DCMAKE_INSTALL_PREFIX="/usr" \
+        -DBUILD_SHARED_LIBS=OFF
+
+    make -j$(nproc)
+    make install
+}
+
 function build_arrow_docker() {
     cd $library
     wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
@@ -482,6 +499,7 @@ build_protobuf-c
 build_zlib
 
 if [ "$docker" == "true" ]; then
+    build_re2
     build_arrow_docker
 else
     build_grpc
