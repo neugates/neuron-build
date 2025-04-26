@@ -12,8 +12,9 @@ gxx=?
 install_dir=?
 cross=false
 cp=false
+docker=false
 
-while getopts ":a:v:c:p:" OPT; do
+while getopts ":a:v:c:p:d:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -26,6 +27,9 @@ while getopts ":a:v:c:p:" OPT; do
             ;;
         p)
             cp=$OPTARG
+            ;;
+        d)
+            docker=$OPTARG
             ;;
     esac
 done
@@ -376,11 +380,68 @@ function build_arrow() {
 
     mkdir -p build && cd build
 
+    cmake_args=(
+        -DCMAKE_C_COMPILER="$gcc"
+        -DCMAKE_CXX_COMPILER="$gxx"
+        -DCMAKE_STAGING_PREFIX="$install_dir"
+        -DCMAKE_PREFIX_PATH="$install_dir"
+        -DCMAKE_BUILD_TYPE=Release
+        -DARROW_BUILD_SHARED=OFF
+        -DARROW_BUILD_STATIC=ON
+        -DARROW_COMPUTE=ON
+        -DARROW_CSV=ON
+        -DARROW_JSON=OFF
+        -DARROW_PARQUET=ON
+        -DARROW_DATASET=ON
+        -DARROW_FLIGHT=ON
+        -DARROW_FLIGHT_SQL=ON
+        -DARROW_WITH_GRPC=ON
+        -DARROW_WITH_UTF8PROC=OFF
+        -DARROW_PROTOBUF_USE_SHARED=OFF
+        -DARROW_gRPC_USE_SHARED=OFF
+        -DCMAKE_INSTALL_PREFIX="$install_dir"
+        -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
+        -DCMAKE_C_FLAGS="-fPIC"
+        -DCMAKE_CXX_FLAGS="-fPIC"
+        -DARROW_SIMD_LEVEL=NONE
+        -DARROW_RUNTIME_SIMD_LEVEL=NONE
+        -DProtobuf_ROOT="$install_dir"
+        -DgRPC_ROOT="$install_dir"
+        -DgRPC_DIR="$install_dir/lib/cmake/grpc"
+        -DARROW_GRPC_CPP_PLUGIN="/library/third_party/grpc_cpp_plugin"
+        -DPROTOBUF_PROTOC_EXECUTABLE="/home/neuron/test/libs/x86_64-buildroot-linux-gnu/bin/protoc"
+        -DPROTOBUF_INCLUDE_DIR="$install_dir/include"
+        -DPROTOBUF_LIBRARY="$install_dir/lib/libprotobuf.a"
+        -GNinja
+    )
+
+    if [ "$arch" != "x86_64" ]; then
+        cmake_args+=(
+            -DCMAKE_SYSTEM_PROCESSOR="$arch"
+            -DCMAKE_CROSSCOMPILING=TRUE
+        )
+    fi
+
+    cmake .. "${cmake_args[@]}"
+
+    ninja
+    ninja install
+}
+
+function build_arrow_docker() {
+    cd $library
+    wget https://github.com/apache/arrow/releases/download/apache-arrow-19.0.1/apache-arrow-19.0.1.tar.gz
+    tar -xzf apache-arrow-19.0.1.tar.gz
+    cd apache-arrow-19.0.1/cpp
+
+    mkdir -p build && cd build
+
     cmake .. \
-        -DCMAKE_C_COMPILER=$gcc \
-        -DCMAKE_CXX_COMPILER=$gxx \
-        -DCMAKE_STAGING_PREFIX=$install_dir \
-        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_C_COMPILER="$gcc" \
+        -DCMAKE_CXX_COMPILER="$gxx" \
+        -DCMAKE_STAGING_PREFIX="$install_dir" \
+        -DCMAKE_INSTALL_PREFIX="$install_dir" \
+        -DCMAKE_PREFIX_PATH="/usr" \
         -DCMAKE_BUILD_TYPE=Release \
         -DARROW_BUILD_SHARED=OFF \
         -DARROW_BUILD_STATIC=ON \
@@ -394,18 +455,14 @@ function build_arrow() {
         -DARROW_WITH_GRPC=ON \
         -DARROW_WITH_UTF8PROC=OFF \
         -DARROW_PROTOBUF_USE_SHARED=OFF \
-        -DProtobuf_ROOT=$install_dir \
         -DARROW_gRPC_USE_SHARED=OFF \
-        -DCMAKE_INSTALL_PREFIX=$install_dir \
         -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
         -DCMAKE_C_FLAGS="-fPIC" \
         -DCMAKE_CXX_FLAGS="-fPIC" \
         -DARROW_SIMD_LEVEL=NONE \
         -DARROW_RUNTIME_SIMD_LEVEL=NONE \
-        -DgRPC_ROOT=$install_dir \
-        -DgRPC_DIR=$install_dir/lib/cmake/grpc \
-        -DARROW_GRPC_CPP_PLUGIN=/library/third_party/grpc_cpp_plugin \
-        -DProtobuf_ROOT=$install_dir \
+        -DProtobuf_ROOT="/usr" \
+        -DgRPC_ROOT="/usr" \
         -GNinja
 
     ninja
@@ -423,14 +480,18 @@ build_openssl
 build_protobuf
 build_protobuf-c
 
-build_zlib
-build_grpc
-build_bison
-build_flex
-build_boost
-build_thrift
-build_gflags
-build_arrow
+if [ "$docker" == "true" ]; then
+    build_arrow_docker
+else
+    build_zlib
+    build_grpc
+    build_bison
+    build_flex
+    build_boost
+    build_thrift
+    build_gflags
+    build_arrow
+fi
 
 build_zlog
 build_sqlite3

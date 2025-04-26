@@ -18,10 +18,13 @@ RUN apt-get -y update && apt-get -y install \
 
 RUN apt-get -y install gcc g++ cmake
 
-RUN apt-get -y install ninja-build
+RUN apt-get -y install ninja-build libboost-dev libboost-filesystem-dev libboost-system-dev \
+    libgflags-dev libgoogle-glog-dev liblz4-dev libzstd-dev libbrotli-dev libbz2-dev \
+    liblzma-dev libutf8proc-dev rapidjson-dev libre2-dev libthrift-dev libgrpc-dev \
+    libprotobuf-dev protobuf-compiler protobuf-compiler-grpc
 
 COPY ./cross-install.sh /library/
 
 COPY ./third_party /library/third_party
 
-RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c true
+RUN /library/cross-install.sh -a $ARCH -v x86_64-linux-gnu -c true -d true
