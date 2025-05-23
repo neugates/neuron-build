@@ -4,7 +4,7 @@ set -e
 
 #x86_64-neuron-linux-musl
 home=/home/neuron
-branch=main
+branch=v2.12
 vendor=?
 arch=?
 gcc=?
