@@ -31,8 +31,8 @@ while getopts ":a:v:c:z:" OPT; do
 done
 
 if [ "$custom" == "zhzk" ]; then
-    gcc=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-gcc
-    gxx=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-g++
+    gcc=/opt/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/$vendor-gcc
+    gxx=/opt/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/$vendor-g++
 else
     case $cross in
         (true)  
