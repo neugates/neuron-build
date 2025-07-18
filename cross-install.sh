@@ -102,7 +102,7 @@ function compile_source_with_tag() {
 function build_openssl() {
     echo "Installing openssl (1.1.1)"
     if [ "$custom" == "zhzk" ]; then
-        compile_prefix=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/
+        compile_prefix=$vendor-
     else
         case $cross in
             (true)  
