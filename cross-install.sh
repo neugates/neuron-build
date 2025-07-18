@@ -101,12 +101,16 @@ function compile_source_with_tag() {
 
 function build_openssl() {
     echo "Installing openssl (1.1.1)"
-    case $cross in
-        (true)  
-            compile_prefix=$vendor-;;
-        (false) 
-            compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-;;
-    esac
+    if [ "$custom" == "zhzk" ]; then
+        compile_prefix=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-;;
+    else
+        case $cross in
+            (true)  
+                compile_prefix=$vendor-;;
+            (false) 
+                compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-;;
+        esac
+    fi
     cd $library
     git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
     cd openssl
