@@ -1,15 +1,15 @@
 #!/bin/bash
 
-set -e
+set -eu
 
 #x86_64-neuron-linux-musl
 home=/home/neuron
 branch=v2.11
-vendor=?
-arch=?
-gcc=?
-gxx=?
-install_dir=?
+vendor=""
+arch=""
+gcc=""
+gxx=""
+install_dir=""
 cross=false
 custom=""
 
@@ -30,36 +30,38 @@ while getopts ":a:v:c:z:" OPT; do
     esac
 done
 
-if [ "$custom" == "zhzk" ]; then
-    gcc=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-gcc;
-    gxx=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-g++;
+if [[ "$custom" = "zhzk" ]]; then
+    gcc=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/${vendor}-gcc
+    gxx=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/${vendor}-g++
 else
     case $cross in
-        (true)  
-            gcc=$vendor-gcc;
-            gxx=$vendor-g++;;
-        (false) 
-            gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc;
-            gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
+        true)
+            gcc=${vendor}-gcc
+            gxx=${vendor}-g++
+            ;;
+        false)
+            gcc=$home/buildroot/$vendor/output/host/bin/${vendor}-gcc
+            gxx=$home/buildroot/$vendor/output/host/bin/${vendor}-g++
+            ;;
     esac
 fi
 
 install_dir=$home/$branch/libs/$vendor/
 library=$home/$branch/library/$vendor/
 
-echo "arch: "$arch
-echo "vendor: "$vendor
-echo "gcc: "$gcc
-echo "g++: "$gxx
-echo "install dir: "$install_dir
-echo "library dir: "$library
+echo "arch: $arch"
+echo "vendor: $vendor"
+echo "gcc: $gcc"
+echo "g++: $gxx"
+echo "install dir: $install_dir"
+echo "library dir: $library"
 
-if [ $vendor == ? ];then
+if [[ -z "$vendor" ]]; then
     echo "need input vendor"
     exit 1
 fi
 
-if [ $arch == ? ];then
+if [[ -z "$arch" ]]; then
     echo "need input arch"
     exit 1
 fi
@@ -77,8 +79,7 @@ function compile_source() {
         -DCMAKE_STAGING_PREFIX=$install_dir \
         -DCMAKE_PREFIX_PATH=$install_dir \
         $3
-    # github-hosted runners has 2 core
-    make -j4 && make install
+    make -j$(nproc) && make install
 }
 
 # $1 repo
@@ -95,36 +96,41 @@ function compile_source_with_tag() {
         -DCMAKE_STAGING_PREFIX=$install_dir \
         -DCMAKE_PREFIX_PATH=$install_dir \
         $4
-    # github-hosted runners has 2 core
-    make -j4 && make install
+    make -j$(nproc) && make install
 }
 
 function build_openssl() {
     echo "Installing openssl (1.1.1)"
-    if [ "$custom" == "zhzk" ]; then
-        compile_prefix=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-;;
+    if [[ "$custom" = "zhzk" ]]; then
+        compile_prefix=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/${vendor}-
     else
         case $cross in
-            (true)  
-                compile_prefix=$vendor-;;
-            (false) 
-                compile_prefix=$home/buildroot/$vendor/output/host/bin/$vendor-;;
+            true)
+                compile_prefix=${vendor}-
+                ;;
+            false)
+                compile_prefix=$home/buildroot/$vendor/output/host/bin/${vendor}-
+                ;;
         esac
     fi
+
     cd $library
     git clone -b OpenSSL_1_1_1 https://github.com/openssl/openssl.git
     cd openssl
     mkdir -p $install_dir/openssl/ssl
+
     platform=linux-$arch
     if [[ $arch == "riscv64" ]]; then
-      platform=linux-generic64
+        platform=linux-generic64
     fi
+
     ./Configure $platform no-asm no-async shared \
         --prefix=$install_dir \
         --openssldir=$install_dir/openssl/ssl \
         --cross-compile-prefix=$compile_prefix
+
     make clean
-    make -j4
+    make -j$(nproc)
     make install_sw
     make clean
 }
