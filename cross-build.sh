@@ -81,7 +81,7 @@ function compile_source_with_tag() {
 	-DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake
 
     if [ "$custom" == "zhzk" ]; then
-        cmake_cmd="cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON -DDISABLE_WERROR=1\
+        cmake_cmd="cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
             -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
             -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
             -DCMAKE_C_COMPILER=$tool_dir/$vendor-gcc \
