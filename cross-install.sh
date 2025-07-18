@@ -11,8 +11,9 @@ gcc=?
 gxx=?
 install_dir=?
 cross=false
+custom=""
 
-while getopts ":a:v:c:" OPT; do
+while getopts ":a:v:c:z:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -23,17 +24,25 @@ while getopts ":a:v:c:" OPT; do
         c)
             cross=$OPTARG
             ;;
+        z)
+            custom=$OPTARG
+            ;;
     esac
 done
 
-case $cross in
-    (true)  
-        gcc=$vendor-gcc;
-        gxx=$vendor-g++;;
-    (false) 
-        gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc;
-        gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
-esac
+if [ "$custom" == "zhzk" ]; then
+    gcc=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-gcc;
+    gxx=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin/$vendor-g++;
+else
+    case $cross in
+        (true)  
+            gcc=$vendor-gcc;
+            gxx=$vendor-g++;;
+        (false) 
+            gcc=$home/buildroot/$vendor/output/host/bin/$vendor-gcc;
+            gxx=$home/buildroot/$vendor/output/host/bin/$vendor-g++;;
+    esac
+fi
 
 install_dir=$home/$branch/libs/$vendor/
 library=$home/$branch/library/$vendor/
