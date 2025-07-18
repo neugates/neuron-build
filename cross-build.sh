@@ -55,7 +55,7 @@ case $build_type in
 esac
 
 if [ "$custom" == "zhzk" ]; then
-    tool_dir=/opt/gcc-linaro-10.2.1-2021.01-x86_64_aarch64-linux-gnu/bin
+    tool_dir=/opt/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin
 else
     case $cross in
         (true)
