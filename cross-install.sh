@@ -155,6 +155,9 @@ function build_protobuf() {
     tar -xzf protobuf-cpp-3.20.1.tar.gz
     cd protobuf-3.20.1
 
+    sed -i 's/explicit constexpr ImplicitWeakMessage(ConstantInitialized)/explicit ImplicitWeakMessage(ConstantInitialized)/g' src/google/protobuf/implicit_weak_message.h
+    sed -i 's/constexpr ImplicitWeakMessageDefaultType()/ImplicitWeakMessageDefaultType()/g' src/google/protobuf/implicit_weak_message.cc
+
     ./configure --prefix=$install_dir CC=$gcc --host=$vendor --enable-shared=no CFLAGS=-fPIC CXXFLAGS=-fPIC
 
     make -j4
@@ -203,6 +206,10 @@ function build_grpc() {
     fi
 
     cd grpc
+
+    sed -i 's/explicit constexpr ImplicitWeakMessage(ConstantInitialized)/explicit ImplicitWeakMessage(ConstantInitialized)/g' third_party/protobuf/src/google/protobuf/implicit_weak_message.h
+    sed -i 's/constexpr ImplicitWeakMessageDefaultType()/ImplicitWeakMessageDefaultType()/g' third_party/protobuf/src/google/protobuf/implicit_weak_message.cc
+
     mkdir -p cmake/build && cd cmake/build
 
     local cmake_args="
