@@ -215,7 +215,7 @@ function build_grpc() {
     local cmake_args="
         -DCMAKE_C_COMPILER=$gcc
         -DCMAKE_CXX_COMPILER=$gxx
-        -DCMAKE_CXX_STANDARD=17
+        -DCMAKE_CXX_STANDARD=14
         -DCMAKE_STAGING_PREFIX=$install_dir
         -DCMAKE_PREFIX_PATH=$install_dir
         -DCMAKE_BUILD_TYPE=Release
