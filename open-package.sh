@@ -3,39 +3,22 @@
 set -e
 
 home=/home/neuron
-bdb=v2.12
-library=$home/$bdb/libs
+branch=v2.12
 vendor=?
 arch=?
-branch=?
-cross=false
-user=emqx
-smart=false
-clib=glibc
-build_type=Release
+version=?
+simulator=true
 
-while getopts ":a:v:b:c:u:s:l:d:" OPT; do
+while getopts ":a:v:o:d:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
             ;;
-        v)
+        o)
             vendor=$OPTARG
             ;;
-        b)
-            branch=$OPTARG
-            ;;
-        c)
-            cross=$OPTARG
-            ;;
-        u)
-            user=$OPTARG
-            ;;
-        s)
-            smart=$OPTARG
-            ;;
-        l)
-            clib=$OPTARG
+        v)
+            version=$OPTARG
             ;;
         d)
             build_type=$OPTARG
@@ -43,68 +26,70 @@ while getopts ":a:v:b:c:u:s:l:d:" OPT; do
     esac
 done
 
-case $build_type in
-    (Release)
-        neuron_dir=$home/$bdb/Program/$vendor;;
-    (Debug)
-        neuron_dir=$home/$bdb/Program_Debug/$vendor;; 
-esac
 
-case $cross in
-    (true)
-        tool_dir=/usr/bin;;
-    (false)
-        tool_dir=$home/buildroot_datalayers/$vendor/output/host/bin;;
-esac
+neuron_dir=$home/$branch/Program/$vendor/neuron
+package_dir=$home/$branch/Program/$vendor/package/neuron
 
-function compile_source_with_tag() {
-    local user=$1
-    local repo=$2
-    local branch=$3
+library=$home/$branch/libs/$vendor
+script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
 
-    cd $neuron_dir
-    git clone -b $branch git@github.com:${user}/${repo}.git
-    cd $repo
-    git submodule update --init
-    mkdir build && cd build
-    cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
-	-DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
-	-DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
- 	-DDISABLE_SIMULATOR=1 \
-	-DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake
 
-    case $smart in
-        (true)
-            cmake .. -DSMART_LINK=1 -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
-            -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
-            -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
-            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;;
-        (false)
-            cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
-            -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
-            -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
-            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;;
-    esac
+rm -rf $package_dir
 
-    case $clib in
-        (glibc)
-            ;;
-        (*)
-            cmake .. -DCMAKE_BUILD_TYPE=$build_type -DDISABLE_UT=ON \
-            -DTOOL_DIR=$tool_dir -DCOMPILER_PREFIX=$vendor \
-            -DCMAKE_SYSTEM_PROCESSOR=$arch -DLIBRARY_DIR=$library \
-            -DCLIB=\'\"$clib\"\' \
-            -DCMAKE_TOOLCHAIN_FILE=../cmake/cross.cmake;; 
-    esac
+mkdir -p $package_dir
+mkdir -p $package_dir/config
+mkdir -p $package_dir/plugins/schema
+mkdir -p $package_dir/logs
+mkdir -p $package_dir/persistence
+mkdir -p $package_dir/certs
 
-    make -j4 
 
-    if [ $repo == "neuron" ]; then
-    	sudo make install
-    fi
-}
+cp .gitkeep $package_dir/logs/
+cp .gitkeep $package_dir/persistence/
+cp .gitkeep $package_dir/certs/
 
-sudo rm -rf $neuron_dir/*
-mkdir -p $neuron_dir
-compile_source_with_tag $user neuron $branch
-compile_source_with_tag $user neuron-modules $branch
+cp $neuron_dir/LICENSE $package_dir/config
+
+cp $library/lib/libzlog.so.1.2 $package_dir/
+cp $library/lib/libssl.so.1.1 $package_dir/
+cp $library/lib/libcrypto.so.1.1 $package_dir/
+
+cp $neuron_dir/LICENSE $package_dir/
+cp $neuron_dir/build/libneuron-base.so $package_dir/
+
+cp $neuron_dir/build/neuron $package_dir/
+cp  $neuron_dir/build/config/neuron.json \
+    $neuron_dir/build/config/zlog.conf \
+    $neuron_dir/build/config/dev.conf \
+    $neuron_dir/build/config/*.sql \
+    $package_dir/config/
+
+cp $neuron_dir/default_plugins.json \
+    $package_dir/config/
+
+cp $neuron_dir/build/plugins/libplugin-mqtt.so \
+    $neuron_dir/build/plugins/libplugin-ekuiper.so \
+    $neuron_dir/build/plugins/libplugin-modbus-tcp.so  \
+    $neuron_dir/build/plugins/libplugin-modbus-rtu.so  \
+    $package_dir/plugins/
+
+if [ -f "$neuron_dir/build/plugins/libplugin-datalayers.so" ]; then
+    cp "$neuron_dir/build/plugins/libplugin-datalayers.so" "$package_dir/plugins/"
+fi
+
+cp $neuron_dir/build/plugins/schema/*.json \
+    $package_dir/plugins/schema/
+
+cp	$neuron_dir/build/simulator/modbus_simulator \
+    $package_dir/
+
+cp $home/dashboard/neuron-dashboard.zip $package_dir/
+cd $package_dir
+unzip neuron-dashboard.zip
+rm neuron-dashboard.zip
+
+cd $package_dir/..
+rm -rf neuron*.tar.gz
+
+tar czf neuron-$version-linux-$arch.tar.gz neuron
+echo "neuron-$version-linux-$arch.tar.gz"
