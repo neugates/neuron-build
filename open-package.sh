@@ -76,9 +76,8 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
 cp $neuron_dir/build/plugins/schema/*.json \
     $package_dir/plugins/schema/
 
-mkdir -p $package_dir/simulator
-cp	$neuron_dir/build/simulator/*_simulator \
-    $package_dir/simulator/
+cp	$neuron_dir/build/simulator/modbus_simulator \
+    $package_dir/
 
 cp $home/dashboard/neuron-dashboard.zip $package_dir/
 cd $package_dir
