@@ -27,8 +27,8 @@ while getopts ":a:v:o:d:" OPT; do
 done
 
 
-neuron_dir=$home/$branch/Program/$vendor/neuron;
-package_dir=$home/$branch/Program/$vendor/package/neuron;
+neuron_dir=$home/$branch/Program/$vendor/neuron
+package_dir=$home/$branch/Program/$vendor/package/neuron
 
 library=$home/$branch/libs/$vendor
 script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P  )"
@@ -94,5 +94,5 @@ rm neuron-dashboard.zip
 cd $package_dir/..
 rm -rf neuron*.tar.gz
 
-tar czf neuron-$version-linux-$arch.tar.gz neuron;
-echo "neuron-$version-linux-$arch.tar.gz";;
+tar czf neuron-$version-linux-$arch.tar.gz neuron
+echo "neuron-$version-linux-$arch.tar.gz"
