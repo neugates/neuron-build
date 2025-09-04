@@ -49,8 +49,6 @@ cp .gitkeep $package_dir/persistence/
 cp .gitkeep $package_dir/certs/
 
 cp $neuron_dir/LICENSE $package_dir/config
-cp $neuron_modules_dir/config/protobuf-LICENSE $package_dir/config/
-cp $neuron_modules_dir/config/protobuf-c-LICENSE $package_dir/config/
 
 cp $library/lib/libzlog.so.1.2 $package_dir/
 cp $library/lib/libssl.so.1.1 $package_dir/
