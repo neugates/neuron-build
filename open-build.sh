@@ -32,8 +32,8 @@ while getopts ":a:v:b:c:u:" OPT; do
     esac
 done
 
-neuron_dir=$home/$bdb/Program/$vendor;;
-tool_dir=$home/buildroot_datalayers/$vendor/output/host/bin;;
+neuron_dir=$home/$bdb/Program/$vendor
+tool_dir=$home/buildroot_datalayers/$vendor/output/host/bin
 
 function compile_source_with_tag() {
     local user=$1
