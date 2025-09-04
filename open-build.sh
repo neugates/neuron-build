@@ -33,7 +33,7 @@ while getopts ":a:v:b:c:u:" OPT; do
 done
 
 neuron_dir=$home/$bdb/Program/$vendor
-tool_dir=$home/$vendor/output/host/bin
+tool_dir=$home/buildroot/$vendor/output/host/bin
 
 function compile_source_with_tag() {
     local user=$1
