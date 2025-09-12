@@ -11,8 +11,9 @@ cnc=false
 custom=default
 build_type=Release
 simulator=false
+monitor=false
 
-while getopts ":a:v:o:c:n:d:s:" OPT; do
+while getopts ":a:v:o:c:n:d:s:m:" OPT; do
     case ${OPT} in
         a)
             arch=$OPTARG
@@ -34,6 +35,9 @@ while getopts ":a:v:o:c:n:d:s:" OPT; do
             ;;
         s)
             simulator=$OPTARG
+            ;;
+        m)
+            monitor=$OPTARG
             ;;
     esac
 done
@@ -178,6 +182,16 @@ case $cnc in
         python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-mitsubishi_cnc.so,libplugin-heidenhain_cnc.so,libplugin-knd.so";;
     (false)
         echo "no cnc";;
+esac 
+
+case $monitor in 
+    (true)
+        cp	$neuron_dir/build/plugins/libplugin-monitor.so \
+            $neuron_dir/build/plugins/libplugin-file.so \
+            $package_dir/plugins/;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-monitor.so";;
+    (false)
+        echo "no monitor";;
 esac 
 
 cp $neuron_modules_dir/build/plugins/focas/libfocas32.so.1 $package_dir/
