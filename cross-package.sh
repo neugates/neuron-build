@@ -63,11 +63,18 @@ rm -rf $package_dir
 
 mkdir -p $package_dir
 mkdir -p $package_dir/config
+mkdir -p $package_dir/plugins/tags
 mkdir -p $package_dir/plugins/schema
 mkdir -p $package_dir/logs
 mkdir -p $package_dir/persistence
 mkdir -p $package_dir/certs
 
+cp $neuron_modules_dir/config/tags/focas_cnc.json \
+    $neuron_modules_dir/config/tags/syntec_cnc.json \
+    $neuron_modules_dir/config/tags/heidenhain_cnc.json \
+    $neuron_modules_dir/config/tags/knd_cnc.json \
+    $neuron_modules_dir/config/tags/mitsubishi_cnc.json \
+    $package_dir/plugins/tags/
 
 cp .gitkeep $package_dir/logs/
 cp .gitkeep $package_dir/persistence/
