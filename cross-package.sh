@@ -104,7 +104,9 @@ cp $neuron_modules_dir/build/config/neuron-default.lic \
 
 cp $neuron_modules_dir/default_plugins.json \
     $neuron_modules_dir/build/config/opcua_cert.der \
-     $neuron_modules_dir/build/config/opcua_key.der \
+    $neuron_modules_dir/build/config/opcua_key.der \
+    $neuron_modules_dir/build/config/root_cert.pem \
+    $neuron_modules_dir/build/config/root_key.pem \
     $package_dir/config/
 
 cp $neuron_dir/build/plugins/libplugin-mqtt.so \
@@ -171,6 +173,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-omron-cip.so \
         $neuron_modules_dir/build/plugins/libplugin-dnp3.so \
 		$neuron_modules_dir/build/plugins/libplugin-neuhub.so \
+        $neuron_modules_dir/build/plugins/libplugin-opcua-server.so \
         $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
