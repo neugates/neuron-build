@@ -174,6 +174,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-dnp3.so \
 		$neuron_modules_dir/build/plugins/libplugin-neuhub.so \
         $neuron_modules_dir/build/plugins/libplugin-opcua-server.so \
+        $neuron_modules_dir/build/plugins/libplugin-snmp.so \
         $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
