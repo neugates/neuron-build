@@ -360,7 +360,7 @@ function build_gflags() {
 
 function build_zlib() {
     cd $library
-    wget https://zlib.net/zlib-1.3.1.tar.gz
+    wget https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz
     tar -xzf zlib-1.3.1.tar.gz
     cd zlib-1.3.1
 
