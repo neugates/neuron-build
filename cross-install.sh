@@ -180,6 +180,31 @@ function build_protobuf-c(){
     cp ./LICENSE $install_dir/protobuf-c-LICENSE 
 }
 
+function build_librdkafka() {
+    cd $library
+    git clone -b v2.6.1 https://github.com/confluentinc/librdkafka.git
+    cd librdkafka
+    mkdir build && cd build
+
+    cmake .. -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_CXX_COMPILER=$gxx \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_INSTALL_PREFIX=$install_dir \
+        -DRDKAFKA_BUILD_STATIC=OFF \
+        -DRDKAFKA_BUILD_EXAMPLES=OFF \
+        -DRDKAFKA_BUILD_TESTS=OFF \
+        -DWITH_SSL=ON \
+        -DWITH_ZLIB=ON \
+        -DWITH_SASL=OFF \
+        -DWITH_ZSTD=OFF \
+        -DWITH_CURL=OFF \
+        -DCMAKE_BUILD_TYPE=Release
+
+    make -j4
+    make install
+}
+
 function build_libxml2(){
     cd $library
     git clone -b v2.9.14 https://github.com/GNOME/libxml2
@@ -455,6 +480,8 @@ build_boost
 build_thrift
 build_gflags
 build_arrow
+
+build_librdkafka
 
 build_zlog
 build_sqlite3
