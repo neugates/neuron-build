@@ -87,6 +87,7 @@ cp $neuron_modules_dir/config/protobuf-c-LICENSE $package_dir/config/
 cp $library/lib/libzlog.so.1.2 $package_dir/
 cp $library/lib/libssl.so.1.1 $package_dir/
 cp $library/lib/libcrypto.so.1.1 $package_dir/
+cp $library/lib/librdkafka.so.1 $package_dir/
 
 cp $neuron_dir/LICENSE $package_dir/
 cp $neuron_dir/build/libneuron-base.so $package_dir/
@@ -113,6 +114,7 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
     $neuron_dir/build/plugins/libplugin-ekuiper.so \
     $neuron_dir/build/plugins/libplugin-aws-iot.so \
     $neuron_dir/build/plugins/libplugin-azure-iot.so \
+    $neuron_dir/build/plugins/libplugin-kafka.so \
     $package_dir/plugins/
 
 if [ -f "$neuron_dir/build/plugins/libplugin-datalayers.so" ]; then
