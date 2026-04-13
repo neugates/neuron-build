@@ -180,6 +180,62 @@ function build_protobuf-c(){
     cp ./LICENSE $install_dir/protobuf-c-LICENSE 
 }
 
+function build_cyrus_sasl() {
+    cd $library
+    git clone -b cyrus-sasl-2.1.28 https://github.com/cyrusimap/cyrus-sasl.git
+    cd cyrus-sasl
+    autoreconf -fi
+
+    ./configure --prefix=$install_dir \
+        --host=$vendor \
+        CC=$gcc \
+        --enable-shared \
+        --disable-static \
+        --disable-sample \
+        --disable-checkapop \
+        --disable-cram \
+        --disable-digest \
+        --disable-otp \
+        --disable-srp \
+        --disable-gssapi \
+        --disable-sql \
+        --enable-plain \
+        --enable-scram \
+        --enable-login \
+        --with-dblib=none \
+        --with-openssl=$install_dir \
+        --with-lib-subdir=lib \
+        --without-saslauthd \
+        --without-authdaemond \
+        CPPFLAGS="-I$install_dir/include" \
+        LDFLAGS="-L$install_dir/lib" \
+        ac_cv_lib_crypto_EVP_DigestInit=yes
+
+    make -j4
+    make install
+}
+
+function build_zstd() {
+    cd $library
+    git clone -b v1.5.6 https://github.com/facebook/zstd.git
+    cd zstd/build/cmake
+    mkdir builddir && cd builddir
+
+    cmake .. -DCMAKE_C_COMPILER=$gcc \
+        -DCMAKE_STAGING_PREFIX=$install_dir \
+        -DCMAKE_PREFIX_PATH=$install_dir \
+        -DCMAKE_INSTALL_PREFIX=$install_dir \
+        -DZSTD_BUILD_PROGRAMS=OFF \
+        -DZSTD_BUILD_TESTS=OFF \
+        -DZSTD_BUILD_SHARED=ON \
+        -DZSTD_BUILD_STATIC=OFF \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+
+    make -j4
+    make install
+}
+
 function build_librdkafka() {
     cd $library
     git clone -b v2.6.1 https://github.com/confluentinc/librdkafka.git
@@ -196,8 +252,8 @@ function build_librdkafka() {
         -DRDKAFKA_BUILD_TESTS=OFF \
         -DWITH_SSL=ON \
         -DWITH_ZLIB=ON \
-        -DWITH_SASL=OFF \
-        -DWITH_ZSTD=OFF \
+        -DWITH_SASL=ON \
+        -DWITH_ZSTD=ON \
         -DWITH_CURL=OFF \
         -DCMAKE_BUILD_TYPE=Release
 
@@ -481,6 +537,8 @@ build_thrift
 build_gflags
 build_arrow
 
+build_cyrus_sasl
+build_zstd
 build_librdkafka
 
 build_zlog
