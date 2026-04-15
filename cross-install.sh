@@ -88,6 +88,7 @@ function compile_source_with_tag() {
     cd $library
     git clone -b $3 https://github.com/$1 $2
     cd $2
+    git submodule update --init --recursive
     mkdir build && cd build
     cmake .. -DCMAKE_C_COMPILER=$gcc \
         -DCMAKE_CXX_COMPILER=$gxx \
@@ -549,6 +550,6 @@ compile_source neugates/jansson.git jansson "-DJANSSON_BUILD_DOCS=OFF -DJANSSON_
 compile_source_with_tag google/googletest.git googletest release-1.11.0
 compile_source_with_tag benmcollins/libjwt.git libjwt v1.13.1 "-DENABLE_PIC=ON -DBUILD_SHARED_LIBS=OFF"
 compile_source_with_tag ARMmbed/mbedtls.git mbedtls v2.16.12 "-DCMAKE_BUILD_TYPE=Release -DUSE_SHARED_MBEDTLS_LIBRARY=OFF -DENABLE_TESTING=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON"
-compile_source_with_tag neugates/open62541.git open62541 neuron-1.2.10 "-DBUILD_SHARED_LIBS=OFF -DUA_ENABLE_ENCRYPTION=ON -DUA_ENABLE_ENCRYPTION_OPENSSL=ON -DUA_ENABLE_AMALGAMATION=ON -DUA_BUILD_EXAMPLES=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DUA_LOGLEVEL=500 -DCMAKE_BUILD_TYPE=Release"
+compile_source_with_tag neugates/open62541.git open62541 neuron-1.2.10 "-DBUILD_SHARED_LIBS=OFF -DUA_ENABLE_ENCRYPTION=ON -DUA_ENABLE_ENCRYPTION_OPENSSL=ON -DUA_ENABLE_AMALGAMATION=ON -DUA_ENABLE_SUBSCRIPTIONS=ON -DUA_ENABLE_SUBSCRIPTIONS_ALARMS_CONDITIONS=ON -DUA_ENABLE_SUBSCRIPTIONS_EVENTS=ON -DUA_NAMESPACE_ZERO=FULL -DUA_BUILD_EXAMPLES=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DUA_LOGLEVEL=500 -DCMAKE_BUILD_TYPE=Release"
 compile_source_with_tag neugates/NanoSDK.git NanoSDK main "-DBUILD_SHARED_LIBS=OFF -DNNG_TESTS=OFF -DNNG_ENABLE_SQLITE=ON -DNNG_ENABLE_TLS=ON"
 compile_source_with_tag warmcat/libwebsockets.git libwebsockets v4.3.5 "-DLWS_WITH_SHARED=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DLWS_WITHOUT_TESTAPPS=ON"
