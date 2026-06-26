@@ -74,6 +74,8 @@ cp $neuron_modules_dir/config/tags/focas_cnc.json \
     $neuron_modules_dir/config/tags/heidenhain_cnc.json \
     $neuron_modules_dir/config/tags/knd_cnc.json \
     $neuron_modules_dir/config/tags/mitsubishi_cnc.json \
+    $neuron_modules_dir/config/tags/brother_cnc.json \
+    $neuron_modules_dir/config/tags/mazak_cnc.json \
     $package_dir/plugins/tags/
 
 cp .gitkeep $package_dir/logs/
