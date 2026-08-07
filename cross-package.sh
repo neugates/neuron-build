@@ -74,6 +74,8 @@ cp $neuron_modules_dir/config/tags/focas_cnc.json \
     $neuron_modules_dir/config/tags/heidenhain_cnc.json \
     $neuron_modules_dir/config/tags/knd_cnc.json \
     $neuron_modules_dir/config/tags/mitsubishi_cnc.json \
+    $neuron_modules_dir/config/tags/brother_cnc.json \
+    $neuron_modules_dir/config/tags/mazak_cnc.json \
     $package_dir/plugins/tags/
 
 cp .gitkeep $package_dir/logs/
@@ -199,8 +201,10 @@ case $cnc in
         cp	$neuron_modules_dir/build/plugins/libplugin-focas.so \
             $neuron_modules_dir/build/plugins/libplugin-heidenhain_cnc.so \
             $neuron_modules_dir/build/plugins/libplugin-knd.so \
+            $neuron_modules_dir/build/plugins/libplugin-brother.so \
+            $neuron_modules_dir/build/plugins/libplugin-mazak-udp.so \
             $package_dir/plugins/;
-        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-heidenhain_cnc.so,libplugin-knd.so";;
+        python3 update_default_plugins.py $package_dir/config/default_plugins.json "libplugin-focas.so,libplugin-heidenhain_cnc.so,libplugin-knd.so,libplugin-brother.so,libplugin-mazak-udp.so";;
     (false)
         echo "no cnc";;
 esac 
