@@ -530,13 +530,16 @@ build_protobuf
 build_protobuf-c
 build_zlib
 
-build_grpc
-build_bison
-build_flex
-build_boost
-build_thrift
-build_gflags
-build_arrow
+# Datalayers is not shipped in the NeuronEX package, so its native dependency
+# chain is no longer built by default. Keep these functions above for opt-in
+# legacy builds.
+# build_grpc
+# build_bison
+# build_flex
+# build_boost
+# build_thrift
+# build_gflags
+# build_arrow
 
 build_cyrus_sasl
 build_zstd
