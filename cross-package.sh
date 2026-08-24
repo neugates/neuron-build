@@ -110,8 +110,6 @@ cp $neuron_modules_dir/build/config/neuron-default.lic \
 cp $neuron_modules_dir/default_plugins.json \
     $neuron_modules_dir/build/config/opcua_cert.der \
     $neuron_modules_dir/build/config/opcua_key.der \
-    $neuron_modules_dir/build/config/root_cert.pem \
-    $neuron_modules_dir/build/config/root_key.pem \
     $package_dir/config/
 
 cp $neuron_dir/build/plugins/libplugin-mqtt.so \
