@@ -176,6 +176,7 @@ cp $neuron_modules_dir/build/plugins/libplugin-websocket.so \
         $neuron_modules_dir/build/plugins/libplugin-opcua-server.so \
         $neuron_modules_dir/build/plugins/libplugin-snmp.so \
         $neuron_modules_dir/build/plugins/libplugin-bacnet-scan.so \
+		$neuron_modules_dir/build/plugins/libplugin-iec104-ms.so \
         $package_dir/plugins/
 
 cp $neuron_modules_dir/build/plugins/schema/*.json \
