@@ -89,6 +89,7 @@ cp $neuron_modules_dir/config/protobuf-c-LICENSE $package_dir/config/
 cp $library/lib/libzlog.so.1.2 $package_dir/
 cp $library/lib/libssl.so.1.1 $package_dir/
 cp $library/lib/libcrypto.so.1.1 $package_dir/
+cp $library/lib/libopen62541.so.1 $package_dir/
 cp $library/lib/librdkafka.so.1 $package_dir/
 cp $library/lib/libzstd.so.1 $package_dir/
 cp $library/lib/libsasl2.so.3 $package_dir/

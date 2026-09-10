@@ -45,6 +45,8 @@ rules.append(mkdeb.FileMap(
     package_dir + '/liblicense.so', "/opt/neuron/"))
 rules.append(mkdeb.FileMap(
     package_dir + "/libzlog.so.1.2", "/opt/neuron/"))
+rules.append(mkdeb.FileMap(
+    package_dir + "/libopen62541.so.1", "/opt/neuron/"))
 
 mkdeb.copy_dir(package_dir + '/config', '/opt/neuron/')
 mkdeb.copy_dir(package_dir + '/plugins', '/opt/neuron/')
