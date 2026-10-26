@@ -117,6 +117,7 @@ cp $neuron_dir/build/plugins/libplugin-mqtt.so \
     $neuron_dir/build/plugins/libplugin-aws-iot.so \
     $neuron_dir/build/plugins/libplugin-azure-iot.so \
     $neuron_dir/build/plugins/libplugin-kafka.so \
+    $neuron_dir/build/plugins/libplugin-thingsneural.so \
     $package_dir/plugins/
 
 if [ -f "$neuron_dir/build/plugins/libplugin-datalayers.so" ]; then
